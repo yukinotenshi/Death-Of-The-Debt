@@ -9,10 +9,12 @@
 import VueRouter from 'vue-router';
 import Gameplay from './components/screens/Gameplay.vue';
 import RoomJoin from './components/screens/RoomJoin.vue';
+import LoginScreen from './components/screens/LoginScreen.vue';
 
 const routes = [
   {path: '/play', component: Gameplay},
   {path: '/room', component: RoomJoin},
+  {path: '/login', component: LoginScreen},
 ]
 
 const router =  new VueRouter({
