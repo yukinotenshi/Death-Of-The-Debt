@@ -11,7 +11,7 @@ import Gameplay from './components/screens/Gameplay.vue';
 import RoomJoin from './components/screens/RoomJoin.vue';
 
 const routes = [
-  {path: '/', component: Gameplay},
+  {path: '/play', component: Gameplay},
   {path: '/room', component: RoomJoin},
 ]
 

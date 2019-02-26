@@ -10,10 +10,21 @@
           <h2>Current Item</h2>
         </div>
       </div>
+      <div
+        id="gamescreen__catch"
+        v-if="catchMode === true"
+      >
+        <h1>Target detected!</h1>
+        <button id="catch">
+          Catch!
+        </button>
+      </div>
       <div id="gamescreen__bottom">
         <div>
-          <button>
-            Catch Mode
+          <button
+            @click="switchMode"
+          >
+            {{this.buttonName}}
           </button>
         </div>
       </div>
@@ -42,6 +53,22 @@ export default {
       console.error(error);
     }
   },
+  data() {
+    return {
+      catchMode: false,
+      buttonName: 'Catch Mode',
+    }
+  },
+  methods: {
+    switchMode() {
+      this.catchMode = !this.catchMode;
+      if (!this.catchMode) {
+        this.buttonName = 'Catch Mode';
+      } else {
+        this.buttonName = 'Observe Mode';
+      }
+    }
+  }
 }
 </script>
 
@@ -90,6 +117,26 @@ export default {
     position: fixed;
     bottom: 2rem;
     width: calc(100% - 4rem);
+  }
+
+  #gamescreen__catch {
+    width: calc(100% - 4rem);
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 10rem;
+
+    button {
+      width: 100%;
+      background-color: rgb(39, 39, 39);
+      font-size: 4rem;
+    }
+    h1 {
+      color: red;
+      margin-bottom: 1rem;
+    }
   }
 }
 

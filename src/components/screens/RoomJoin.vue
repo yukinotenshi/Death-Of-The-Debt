@@ -16,7 +16,7 @@
       <h2>Room Code:</h2>
       <h1>B73RNX</h1>
     </div>
-    <router-link to="/">
+    <router-link to="/play">
       <button>
         Start!
       </button>
@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       person: [
-        'Dichi Andyno', 'Gabu Bentara', 'Fahmi Ahmad', "Yuu", "Karina"
+        'Dichi Andyno', 'Gabu Bentara', 'Fahmi Ahmad', "Yuu", "Kar", "Bizzzzz"
       ]
     }
   }
@@ -54,7 +54,6 @@ export default {
   background-color: #D6D6D6;
   height: 55vh;
   overflow: auto;
-  padding-right: 15px;
 
   &::-webkit-scrollbar { 
     display: none;  // Safari and Chrome
