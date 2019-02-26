@@ -99,6 +99,7 @@ button {
   border: 0;
   padding: 2rem;
   font-size: 2rem;
+  font-weight: bold;
   color: white;
   border-radius: 10px;
 }

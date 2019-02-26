@@ -1,16 +1,18 @@
 <template>
   <div id="app">
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-    <Gameplay />
+    <router-view />
   </div>
 </template>
 
 <script>
 import VueRouter from 'vue-router';
-import Gameplay from './components/screens/Gameplay.vue'
+import Gameplay from './components/screens/Gameplay.vue';
+import RoomJoin from './components/screens/RoomJoin.vue';
 
 const routes = [
-  {path: '/', component: Gameplay}
+  {path: '/', component: Gameplay},
+  {path: '/room', component: RoomJoin},
 ]
 
 const router =  new VueRouter({
@@ -34,6 +36,11 @@ export default {
 body {
   margin: 0;
   padding: 0;
+}
+
+html, body {
+  height: 99% !important;
+  overflow: hidden !important;
 }
 
 #app {
