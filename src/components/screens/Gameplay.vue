@@ -44,7 +44,7 @@ export default {
       const center = {lat: -6.89060785, lng: 107.61032348};
       const google = await gmapsInit();
       const geocoder = new google.maps.Geocoder();
-      const map = new google.maps.Map(document.querySelector('#map'), {zoom: 18, center});
+      const map = new google.maps.Map(document.querySelector('#map'), {zoom: 18, center, disableDefaultUI: true});
       const styledMapType = new google.maps.StyledMapType(mapStyle);
 
       map.mapTypes.set('styled_map', styledMapType);
