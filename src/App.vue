@@ -6,24 +6,39 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import VueRouter from 'vue-router';
 import Gameplay from './components/screens/Gameplay.vue'
+
+const routes = [
+  {path: '/', component: Gameplay}
+]
+
+const router =  new VueRouter({
+  routes,
+  mode: 'history',
+  scrollBehavior (to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  }
+});
 
 export default {
   name: 'app',
+  router,
   components: {
-    HelloWorld,
     Gameplay
   }
 }
 </script>
 
 <style>
+body {
+  margin: 0;
+  padding: 0;
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
 }
 </style>
