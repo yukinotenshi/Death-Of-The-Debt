@@ -5,8 +5,10 @@
       <input type="text" v-model="username">
       <h3>Password</h3>
       <input type="password" v-model="password">
-      <router-link to="/room">
-        <button>Login</button>
+      <router-link :to="{name: 'room'}">
+        <button>
+          Login
+        </button>
       </router-link>
     </div>
   </v-container>

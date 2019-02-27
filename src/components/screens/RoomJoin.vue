@@ -16,7 +16,7 @@
       <h2>Room Code:</h2>
       <h1>B73RNX</h1>
     </div>
-    <router-link to="/play">
+    <router-link :to="{name: 'play'}">
       <button>
         Start!
       </button>
