@@ -12,14 +12,26 @@ import RoomJoin from './components/screens/RoomJoin.vue';
 import LoginScreen from './components/screens/LoginScreen.vue';
 
 const routes = [
-  {path: '/play', component: Gameplay},
-  {path: '/room', component: RoomJoin},
-  {path: '/login', component: LoginScreen},
+  {
+    path: '*',
+    name: 'login',
+    component: LoginScreen
+  },
+  {
+    path: '/play',
+    name: 'room',
+    component: RoomJoin
+  },
+  {
+    path: '*',
+    name: 'play',
+    component: Gameplay
+  }
 ]
 
 const router =  new VueRouter({
   routes,
-  mode: 'history',
+  mode: 'abstract',
   scrollBehavior (to, from, savedPosition) {
     return { x: 0, y: 0 }
   }
@@ -30,6 +42,9 @@ export default {
   router,
   components: {
     Gameplay
+  },
+  mounted() {
+    this.$router.replace('/') // added this
   }
 }
 </script>
