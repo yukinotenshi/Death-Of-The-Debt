@@ -5,7 +5,7 @@
       <input type="text" v-model="username">
       <h3>Password</h3>
       <input type="password" v-model="password">
-      <router-link :to="{name: 'room'}">
+      <router-link :to="{name: 'menu'}">
         <button>
           Login
         </button>
@@ -16,7 +16,13 @@
 
 <script>
 export default {
-  name: 'LoginScreen'
+  name: 'LoginScreen',
+  data() {
+    return {
+      username: "",
+      password: "",
+    }
+  }
 }
 </script>
 

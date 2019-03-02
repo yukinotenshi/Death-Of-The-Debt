@@ -10,6 +10,7 @@ import VueRouter from 'vue-router';
 import Gameplay from './components/screens/Gameplay.vue';
 import RoomJoin from './components/screens/RoomJoin.vue';
 import LoginScreen from './components/screens/LoginScreen.vue';
+import MainMenu from './components/screens/MainMenu.vue';
 
 const routes = [
   {
@@ -18,12 +19,17 @@ const routes = [
     component: LoginScreen
   },
   {
-    path: '/play',
+    path: '/menu',
+    name: 'menu',
+    component: MainMenu
+  },
+  {
+    path: '/room',
     name: 'room',
     component: RoomJoin
   },
   {
-    path: '*',
+    path: '/play',
     name: 'play',
     component: Gameplay
   }
