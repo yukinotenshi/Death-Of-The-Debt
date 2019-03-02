@@ -62,7 +62,7 @@ body {
 }
 
 html, body {
-  height: 99% !important;
+  height: 100% !important;
   overflow: hidden !important;
 }
 

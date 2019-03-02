@@ -1,17 +1,21 @@
 <template>
   <v-container fluid id="menu">
+    <closable-board
+      v-if="playOptions"
+      v-on:closeBoard="togglePlayOptions"
+      title="Choose"
+    />
     <div id="menu__logo">
       Logo
     </div>
     <div id="menu__buttons">
-      <router-link
-        class="menu__btn"
-        :to="{name: 'room'}"
-      >
-        <button>
+      <div class="menu__btn">
+        <button
+          @click="togglePlayOptions"
+        >
           Play
         </button>
-      </router-link>
+      </div>
       <router-link
         class="menu__btn"
         :to="{name: 'settings'}"
@@ -25,8 +29,23 @@
 </template>
 
 <script>
+import ClosableBoard from './../partials/utils/ClosableBoard';
+
 export default {
   name: 'MainMenu',
+  components: {
+    ClosableBoard,
+  },
+  data() {
+    return {
+      playOptions: false,
+    }
+  },
+  methods: {
+    togglePlayOptions() {
+      this.playOptions = !this.playOptions;
+    }
+  }
 }
 </script>
 
