@@ -1,12 +1,16 @@
 <template>
   <v-container fluid id="loginscreen">
     <div id="loginscreen__container">
+      <h1>Login</h1>
       <h3>Username</h3>
       <input type="text" v-model="username">
       <h3>Password</h3>
       <input type="password" v-model="password">
       <button @click="login">
         Login
+      </button>
+      <button @click="register">
+        Create Account
       </button>
     </div>
   </v-container>
@@ -45,6 +49,9 @@ export default {
           this.$router.push({name: 'menu'});
         }
       })
+    },
+    register() {
+      this.$router.push({ name: 'register' });
     }
   }
 }
