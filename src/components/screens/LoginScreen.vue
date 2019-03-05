@@ -5,11 +5,14 @@
       <input type="text" v-model="username">
       <h3>Password</h3>
       <input type="password" v-model="password">
-      <router-link :to="{name: 'menu'}">
-        <button>
+      <button @click="login">
+        Login
+      </button>
+      <!-- <router-link :to="{name: 'menu'}">
+        <button @click="login">
           Login
         </button>
-      </router-link>
+      </router-link> -->
     </div>
   </v-container>
 </template>
@@ -21,6 +24,28 @@ export default {
     return {
       username: "",
       password: "",
+    }
+  },
+  methods: {
+    login() {
+      let fetchData = {
+        method: 'POST',
+        body: JSON.stringify(
+          {
+            username: this.username,
+            password: this.password,
+          }
+        ),
+        headers: {
+          "Content-Type": "application/json",
+        }
+      };
+
+      fetch(`${this.$store.state.baseUrl}/user/login`, fetchData)
+      .then(response => response.json())
+      .then(response => {
+        this.$store.commit('setUserToken', response.data.access_token);
+      })
     }
   }
 }
