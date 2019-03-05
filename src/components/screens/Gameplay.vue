@@ -8,7 +8,7 @@
       <div id="gamescreen__top">
         <div>
           <h2>Remaining Time</h2>
-          <h1>09:13</h1>
+          <game-timer />
         </div>
         <div>
           <h2>Current Item</h2>
@@ -53,11 +53,13 @@
 import gmapsInit from './../../assets/js/gmaps';
 import mapStyle from './../../assets/js/mapStyle';
 import InventoryBoard from './../partials/gameplay/InventoryBoard';
+import GameTimer from './../partials/gameplay/GameTimer';
 
 export default {
   name: 'Gameplay',
   components: {
     InventoryBoard,
+    GameTimer,
   },
   async mounted() {
     try {
