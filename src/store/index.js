@@ -39,6 +39,10 @@ export default new Vuex.Store({
       state.room.room_id = data.room_id;
       state.room.is_owner = data.is_owner;
     },
+    setRoomMember(state, data) {
+      state.room.chasing_team = data.chasing_team;
+      state.room.hiding_team = data.hiding_team;
+    },
     addChasingTeam(state, username) {
       state.room.chasing_team.push(username);
     },

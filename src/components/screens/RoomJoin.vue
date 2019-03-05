@@ -42,7 +42,7 @@ export default {
   },
   created: function() {
     this.refreshData();
-    this.timer = setInterval(this.refreshData, 1000);
+    this.timer = setInterval(this.refreshData, 1);
   },
   methods: {
     refreshData() {
@@ -67,9 +67,32 @@ export default {
         else this.person = this.chasingTeam;
       })
     },
+
     startGame() {
       clearInterval(this.timer);
-      this.$router.push({name: 'play'});
+      const url = `${this.$store.state.baseUrl}/room/start`;
+      var fetchData = new Request(url, {
+        method: 'POST',
+        body: JSON.stringify({
+          "room_id": this.this.$store.state.room.room_id
+        }),
+        headers: {
+          "Authorization": `${this.$store.state.user.token}`,
+          "Content-Type": "application/json"
+        }
+      });
+
+      fetch(fetchData)
+      .then(response => response.json())
+      .then(response => {
+        if (response.status == 200) {
+          this.$store.commit('setRoom', {
+            chasing_team: this.chasingTeam,
+            hiding_team: this.hidingTeam
+          });
+          this.$router.push({ name: 'play' });
+        }
+      })
     }
   }
 }
