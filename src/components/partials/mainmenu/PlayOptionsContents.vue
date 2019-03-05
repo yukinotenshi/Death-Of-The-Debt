@@ -98,7 +98,8 @@ export default {
   width: 100%;
 
   .gap {
-    margin-top: 1rem;
+    width: 100%;
+    margin-top: 1vh;
     display: inline-block;
 
     h3 {
@@ -112,7 +113,8 @@ export default {
     border: 2px solid gray;
     border-radius: 20px;
     background-color: white;
-    padding: 0.5rem;
+    padding: 0.5vh;
+    width: 100%;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;    
     box-sizing: border-box;

@@ -23,8 +23,8 @@ button {
   cursor: pointer;
   background-color: grey;
   border: 0;
-  padding: 2rem;
-  font-size: 2rem;
+  padding: 2.5vh;
+  font-size: 3vh;
   font-weight: bold;
   color: white;
   width: 100%;
