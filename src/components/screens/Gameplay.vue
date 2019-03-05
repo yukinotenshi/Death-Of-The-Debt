@@ -107,7 +107,7 @@ export default {
     },
     updateMapCenter() {
       var geoSuccess = function (position) {
-        initialPos = {
+        var initialPos = {
           lat: position.coords.latitude,
           lng: position.coords.longitude
         };
