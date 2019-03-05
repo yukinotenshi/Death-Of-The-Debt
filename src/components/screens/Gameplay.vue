@@ -54,6 +54,7 @@ import gmapsInit from './../../assets/js/gmaps';
 import mapStyle from './../../assets/js/mapStyle';
 import InventoryBoard from './../partials/gameplay/InventoryBoard';
 import GameTimer from './../partials/gameplay/GameTimer';
+import init from './../../assets/js/gmaps';
 
 export default {
   name: 'Gameplay',
@@ -65,7 +66,7 @@ export default {
     try {
       const center = {lat: -6.89060785, lng: 107.61032348};
       const google = await gmapsInit();
-      this.map = new google.maps.Map(document.querySelector('#map'), {zoom: 18, center, disableDefaultUI: true});
+      this.map = new google.maps.Map(document.querySelector('#map'), {zoom: 22, center, disableDefaultUI: true});
       const styledMapType = new google.maps.StyledMapType(mapStyle);
 
       this.map.mapTypes.set('styled_map', styledMapType);
@@ -74,7 +75,7 @@ export default {
       console.error(error);
     };
 
-    this.timeMapRefresh = setInterval(this.updateMapCenter, 100);
+    this.timeMapRefresh = setInterval(this.updateMapCenter, 500);
     this.timeRequest = setInterval(this.requestData, 500);
   },
   data() {
@@ -87,7 +88,8 @@ export default {
       timeRequest: null,
       lat: 0,
       lon: 0,
-      intensity: 0.0
+      intensity: 0.0,
+      marker: null,
     }
   },
   methods: {
@@ -115,8 +117,33 @@ export default {
       };
       this.map.setCenter(initialPos);
       google.maps.event.trigger(this.map, 'resize');
-      this.lat = initialPos.lat;
-      this.lon = initialPos.lon;
+
+      if(this.marker) {
+        if(Math.abs(this.lat - initialPos.lat) > Number.EPSILON ||
+          Math.abs(this.lng - initialPos.lng) > Number.EPSILON) {
+          this.marker.setMap(null);
+          this.lat = initialPos.lat;
+          this.lng = initialPos.lng;
+
+          this.marker = new google.maps.Marker({
+            position: {
+              lat: initialPos.lat,
+              lng: initialPos.lng,
+            },
+            map: this.map,
+            title: 'Hello World!'
+          });
+        }
+      } else {
+        this.marker = new google.maps.Marker({
+          position: {
+            lat: initialPos.lat,
+            lng: initialPos.lng,
+          },
+          map: this.map,
+          title: 'Hello World!'
+        });
+      }
     },
     requestData() {
       let urlLocation = `${this.$store.state.baseUrl}/game/location`;
@@ -216,8 +243,8 @@ export default {
       cursor: pointer;
       background-color: grey;
       border: 0;
-      padding: 2rem;
-      font-size: 5vw;
+      padding: 4vh;
+      font-size: 3vh;
       font-weight: bold;
       color: white;
       border-radius: 10px;
@@ -227,8 +254,8 @@ export default {
       cursor: pointer;
       background-color: grey;
       border: 0;
-      padding: 2rem;
-      font-size: 5vw;
+      padding: 4vh;
+      font-size: 2.5vh;
       font-weight: bold;
       color: white;
       border-radius: 100px;
