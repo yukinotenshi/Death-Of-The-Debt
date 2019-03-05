@@ -9,6 +9,8 @@ export default new Vuex.Store({
   state: {
     user: {
       token: '',
+      id: '',
+      username: '',
     },
     baseUrl: config.baseUrl,
   },
@@ -19,8 +21,10 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    setUserToken(state, data) {
-      state.user.token = data;
+    setUser(state, data) {
+      state.user.token = data.access_token;
+      state.user.id = data.id;
+      state.user.username = data.username;
     }
   }
 })
