@@ -8,11 +8,6 @@
       <button @click="login">
         Login
       </button>
-      <!-- <router-link :to="{name: 'menu'}">
-        <button @click="login">
-          Login
-        </button>
-      </router-link> -->
     </div>
   </v-container>
 </template>

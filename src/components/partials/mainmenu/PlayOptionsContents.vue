@@ -18,7 +18,6 @@
 </template>
 
 <script>
-// import router from
 import GameButton from './../utils/GameButton.vue';
 
 export default {
@@ -33,7 +32,12 @@ export default {
   },
   methods: {
     gotoCreateRoom() {
-      this.$router.push({ name: 'room' });
+      this.$router.push({
+        name: 'room',
+        params: {
+          is_owner: true,
+        },
+      });
     },
     joinRoom() {
         const url = `${this.$store.state.baseUrl}/join`;

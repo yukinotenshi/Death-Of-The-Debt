@@ -16,22 +16,36 @@
       <h2>Room Code:</h2>
       <h1>B73RNX</h1>
     </div>
-    <router-link :to="{name: 'play'}">
+    <button
+      v-if="is_owner"
+      @click="startGame"
+    >
+      Start!
+    </button>
+    <!-- <router-link :to="{name: 'play'}">
       <button>
         Start!
       </button>
-    </router-link>
+    </router-link> -->
   </v-container>
 </template>
 
 <script>
 export default {
   name: 'RoomJoin',
+  props: {
+    is_owner: Boolean,
+  },
   data() {
     return {
       person: [
         'Dichi Andyno', 'Gabu Bentara', 'Fahmi Ahmad', "Yuu", "Kar", "Bizzzzz"
       ]
+    }
+  },
+  methods: {
+    startGame() {
+      this.$router.push({name: 'play'});
     }
   }
 }

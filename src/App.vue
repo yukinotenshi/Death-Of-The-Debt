@@ -32,7 +32,8 @@ const routes = [
   {
     path: '/room',
     name: 'room',
-    component: RoomJoin
+    component: RoomJoin,
+    props: true,
   },
   {
     path: '/play',
