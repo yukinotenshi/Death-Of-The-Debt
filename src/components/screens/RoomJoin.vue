@@ -70,7 +70,7 @@ export default {
 
     startGame() {
       clearInterval(this.timer);
-      const url = `${this.$store.state.baseUrl}/room/start`;
+      const url = `${this.$store.state.baseUrl}/game/start`;
       var fetchData = new Request(url, {
         method: 'POST',
         body: JSON.stringify({
@@ -96,6 +96,7 @@ export default {
     },
 
     startGameGuest() {
+      clearInterval(this.timer);
       this.$store.commit('setRoomMember', {
         chasing_team: this.chasingTeam,
         hiding_team: this.hidingTeam
