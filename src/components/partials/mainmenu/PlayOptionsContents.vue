@@ -36,7 +36,26 @@ export default {
       this.$router.push({ name: 'room' });
     },
     joinRoom() {
-      this.roomCode = "ahuahuahuahhauahuahuahuahuahauhauha";
+        const url = `${this.$store.state.baseUrl}/join`;
+        var fetchData = new Request(url, {
+          method: 'POST',
+          body: JSON.stringify({
+            "room_id": this.roomCode
+          }),
+          headers: {
+            "Authorization": `${this.$store.state.user.token}`,
+            "Content-Type": "application/json"
+          }
+        });
+
+        fetch(fetchData)
+        .then(response => response.json())
+        .then(response => {
+          if (response.status != 200) {
+            return;
+          }
+          this.$router.push("room");
+        })
     }
   }
 }
