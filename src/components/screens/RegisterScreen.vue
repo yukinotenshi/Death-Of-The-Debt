@@ -1,6 +1,7 @@
 <template>
   <v-container fluid id="registerscreen">
     <div id="loginscreen__container">
+      <h1>Register</h1>
       <h3>Username</h3>
       <input type="text" v-model="username">
       <h3>Password</h3>
