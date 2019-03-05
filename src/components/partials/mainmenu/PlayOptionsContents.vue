@@ -1,11 +1,7 @@
 <template>
   <v-container fluid>
-    <router-link :to="{name: 'room'}">
-      <game-button title="Create Room" @action="createRoom()"/>
-    </router-link>
-    <router-link :to="{name: 'room'}">
-      <game-button title="Join Room" @action="joinRoom()"/>
-    </router-link>
+    <game-button title="Hehehe" />
+    <game-button title="Hehehe" />
   </v-container>
 </template>
 
@@ -16,14 +12,6 @@ export default {
   name: 'PlayOptionsContents',
   components: {
     GameButton,
-  },
-  methods: {
-    createRoom() {
-      
-    },
-    joinRoom() {
-      
-    }
   },
 }
 </script>
