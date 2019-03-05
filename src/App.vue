@@ -38,7 +38,7 @@ const routes = [
 const router =  new VueRouter({
   routes,
   mode: 'abstract',
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior() {
     return { x: 0, y: 0 }
   }
 });
@@ -46,9 +46,6 @@ const router =  new VueRouter({
 export default {
   name: 'app',
   router,
-  components: {
-    Gameplay
-  },
   mounted() {
     this.$router.replace('/') // added this
   }
