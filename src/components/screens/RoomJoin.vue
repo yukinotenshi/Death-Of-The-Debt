@@ -34,14 +34,37 @@ export default {
   },
   data() {
     return {
-      person: [
-        'Dichi Andyno', 'Gabu Bentara', 'Fahmi Ahmad', "Yuu", "Kar", "Bizzzzz"
-      ]
+      person: [],
+      timer: ''
     }
   },
+  created: function() {
+    this.refreshData();
+    this.timer = setInterval(this.refreshData, 500);
+  },
   methods: {
+    refreshData() {
+      const url = `${this.$store.state.baseUrl}/room/${this.$store.state.room.room_id}`;
+      var fetchData = new Request(url, {
+        method: 'GET',
+        headers: {
+          "Authorization": `${this.$store.state.user.token}`,
+        }
+      });
+
+      fetch(fetchData)
+      .then(response => response.json())
+      .then(response => {
+        if (response.status != 200) {
+          console.log(response.message);
+          return;
+        }
+        this.person = response.data.chasing_team;
+      })
+    },
     startGame() {
       this.$router.push({name: 'play'});
+      clearInterval(this.timer);
     }
   }
 }

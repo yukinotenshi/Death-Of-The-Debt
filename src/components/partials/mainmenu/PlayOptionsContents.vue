@@ -58,26 +58,26 @@ export default {
       })
     },
     joinRoom() {
-        const url = `${this.$store.state.baseUrl}/room/join`;
-        var fetchData = new Request(url, {
-          method: 'POST',
-          body: JSON.stringify({
-            "room_id": this.roomCode
-          }),
-          headers: {
-            "Authorization": `${this.$store.state.user.token}`,
-            "Content-Type": "application/json"
-          }
-        });
+      const url = `${this.$store.state.baseUrl}/room/join`;
+      var fetchData = new Request(url, {
+        method: 'POST',
+        body: JSON.stringify({
+          "room_id": this.roomCode
+        }),
+        headers: {
+          "Authorization": `${this.$store.state.user.token}`,
+          "Content-Type": "application/json"
+        }
+      });
 
-        fetch(fetchData)
-        .then(response => response.json())
-        .then(response => {
-          if (response.status != 200) {
-            return;
-          }
-          this.$router.push("room");
-        })
+      fetch(fetchData)
+      .then(response => response.json())
+      .then(response => {
+        if (response.status != 200) {
+          return;
+        }
+        this.$router.push("room");
+      })
     }
   }
 }
