@@ -40,7 +40,7 @@ export default {
       });
     },
     joinRoom() {
-        const url = `${this.$store.state.baseUrl}/join`;
+        const url = `${this.$store.state.baseUrl}/room/join`;
         var fetchData = new Request(url, {
           method: 'POST',
           body: JSON.stringify({
