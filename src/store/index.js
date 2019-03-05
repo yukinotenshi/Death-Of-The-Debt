@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex from 'vuex';
 import createPersistedState from 'vuex-persistedstate'
 import config from './../config.json'
 
@@ -22,8 +22,11 @@ export default new Vuex.Store({
   },
   plugins: [createPersistedState()],
   getters: {
-    getIdByName(state, name) {
-      return state.profiles[name];
+    getUser(state) {
+      return state.user;
+    },
+    getRoom(state) {
+      return state.room;
     }
   },
   mutations: {
