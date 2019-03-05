@@ -67,11 +67,7 @@ export default {
     try {
       const center = {lat: -6.89060785, lng: 107.61032348};
       const google = await gmapsInit();
-<<<<<<< HEAD
-      this.map = new google.maps.Map(document.querySelector('#map'), {zoom: 25, center, disableDefaultUI: true});
-=======
       this.map = new google.maps.Map(document.querySelector('#map'), {zoom: 22, center, disableDefaultUI: true});
->>>>>>> 4458694d7fd920ff2f4692c6a009d85161e2c9e6
       const styledMapType = new google.maps.StyledMapType(mapStyle);
 
       this.map.mapTypes.set('styled_map', styledMapType);
@@ -95,9 +91,7 @@ export default {
       lng: 0,
       intensity: 0.0,
       marker: null,
-      overlay: {
-        
-      }
+      markerEnemy: null
     }
   },
   methods: {
@@ -139,7 +133,6 @@ export default {
               lng: initialPos.lng,
             },
             map: this.map,
-            title: 'Hello World!'
           });
         }
       } else {
@@ -149,7 +142,6 @@ export default {
             lng: initialPos.lng,
           },
           map: this.map,
-          title: 'Hello World!'
         });
       }
     },
@@ -177,26 +169,38 @@ export default {
       .then(response => response.json())
       .then(response => {
         if (response.status === 200) {
-<<<<<<< HEAD
-          intensityHandler(response);
-=======
           this.intensity = response.data.intensity;
-          console.log(this.intensity);
->>>>>>> 4458694d7fd920ff2f4692c6a009d85161e2c9e6
+          this.intensityHandler(response);
         }
       })
     },
     intensityHandler(object) {
-      switch(this.intensity) {
+      console.log(object.data.intensity);
+      switch(object.data.intensity) {
         case 0:
+          document.getElementById("overlay").style.backgroundColor = "#00FF0055";
           break;
         case 0.2:
+          document.getElementById("overlay").style.backgroundColor = "#FFFF0055";
           break;
         case 0.5:
+          document.getElementById("overlay").style.backgroundColor = "#FF880055";
           break;
         case 0.8:
+          document.getElementById("overlay").style.backgroundColor = "#CC000055";
           break;
         case 1:
+          document.getElementById("overlay").style.backgroundColor = "#FF000077";
+          if (this.markerEnemy) {
+            this.markerEnemy.setMap(null);
+          }
+          this.markerEnemy = new google.maps.Marker({
+            position: {
+              lat: object.data.player.lat,
+              lng: object.data.player.lng,
+            },
+            map: this.map,
+          });
       }
     }
   }
