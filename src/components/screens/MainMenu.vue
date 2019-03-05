@@ -12,19 +12,16 @@
     </div>
     <div id="menu__buttons">
       <div class="menu__btn">
-        <button
-          @click="togglePlayOptions"
-        >
-          Play
-        </button>
+        <game-button
+          v-on:action="togglePlayOptions"
+          title="Play"
+        />
       </div>
       <router-link
         class="menu__btn"
         :to="{name: 'settings'}"
       >
-        <button>
-          Options
-        </button>
+        <game-button title="Options" />
       </router-link>
     </div>
   </v-container>
@@ -38,7 +35,9 @@ import PlayOptionsContents from './../partials/mainmenu/PlayOptionsContents';
 export default {
   name: 'MainMenu',
   components: {
-    ClosableBoard, GameButton, PlayOptionsContents,
+    ClosableBoard,
+    GameButton,
+    PlayOptionsContents,
   },
   data() {
     return {
@@ -70,7 +69,7 @@ export default {
   text-align: center;
 
   .menu__btn {
-    margin: 1rem;
+    // margin: 1rem;
     text-decoration: none;
 
     button {

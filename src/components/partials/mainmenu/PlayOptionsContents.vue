@@ -1,11 +1,15 @@
 <template>
   <v-container fluid>
-    <game-button title="Hehehe" />
-    <game-button title="Hehehe" />
+    <game-button
+      v-on:action="gotoCreateRoom"
+      title="Create Room"
+    />
+    <game-button title="Join Room" />
   </v-container>
 </template>
 
 <script>
+// import router from
 import GameButton from './../utils/GameButton.vue';
 
 export default {
@@ -13,6 +17,11 @@ export default {
   components: {
     GameButton,
   },
+  methods: {
+    gotoCreateRoom() {
+      this.$router.push({ name: 'room' });
+    }
+  }
 }
 </script>
 
