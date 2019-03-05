@@ -45,7 +45,8 @@
         </div>
       </div>
     </div>
-    <div id="map"></div>
+    <div id="overlay" />
+    <div id="map" />
   </v-container>
 </template>
 
@@ -87,9 +88,12 @@ export default {
       timeMapRefresh: null,
       timeRequest: null,
       lat: 0,
-      lon: 0,
+      lng: 0,
       intensity: 0.0,
       marker: null,
+      overlay: {
+        
+      }
     }
   },
   methods: {
@@ -151,7 +155,7 @@ export default {
         method: 'POST',
         body: JSON.stringify({
           "lat": this.lat,
-          "lng": this.lon
+          "lng": this.lng
         }),
         headers: {
           "Authorization": `${this.$store.state.user.token}`,
@@ -170,6 +174,7 @@ export default {
       .then(response => {
         if (response.status === 200) {
           this.intensity = response.data.intensity;
+          console.log(this.intensity);
         }
       })
     }
@@ -186,6 +191,17 @@ export default {
   overflow: hidden;
   height: 100vh;
   width: 100vw;
+}
+
+#overlay {
+  position: absolute;
+  top: calc(50vh - 18vh);
+  left: calc(50vw - 18vh);
+  z-index: 98;
+  width: 36vh;
+  height: 36vh;
+  background: rgba(255, 0, 0, 0.288);
+  border-radius: 100vh;
 }
 
 #gamescreen {
