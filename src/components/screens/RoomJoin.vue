@@ -63,7 +63,7 @@ export default {
         }
         this.chasingTeam = response.data.chasing_team;
         this.hidingTeam = response.data.hiding_team;
-        if (this.hidingTeam.length != 0) this.startGame();
+        if (this.hidingTeam.length != 0) this.startGameGuest();
         else this.person = this.chasingTeam;
       })
     },
@@ -93,6 +93,14 @@ export default {
           this.$router.push({ name: 'play' });
         }
       })
+    },
+
+    startGameGuest() {
+      this.$store.commit('setRoomMember', {
+        chasing_team: this.chasingTeam,
+        hiding_team: this.hidingTeam
+      });
+      this.$router.push({ name: 'play' });
     }
   }
 }
