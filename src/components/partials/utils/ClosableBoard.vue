@@ -14,13 +14,7 @@
           </div>
         </div>
         <div class="closableboard__board__items">
-          <!-- <div
-            class="inventory__item"
-            v-for="item in items"
-            :key="item.id"
-          >
-            <h1>{{item.name}}</h1>
-          </div> -->
+          <slot/>
         </div>
       </div>
     </div>
