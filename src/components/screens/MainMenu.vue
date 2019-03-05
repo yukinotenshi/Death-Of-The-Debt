@@ -4,7 +4,9 @@
       v-if="playOptions"
       v-on:closeBoard="togglePlayOptions"
       title="Choose"
-    />
+    >
+      <component :is="childComponent" />
+    </closable-board>
     <div id="menu__logo">
       Logo
     </div>
@@ -30,15 +32,18 @@
 
 <script>
 import ClosableBoard from './../partials/utils/ClosableBoard';
+import GameButton from './../partials/utils/GameButton';
+import PlayOptionsContents from './../partials/mainmenu/PlayOptionsContents';
 
 export default {
   name: 'MainMenu',
   components: {
-    ClosableBoard,
+    ClosableBoard, GameButton, PlayOptionsContents,
   },
   data() {
     return {
       playOptions: false,
+      childComponent: PlayOptionsContents,
     }
   },
   methods: {
