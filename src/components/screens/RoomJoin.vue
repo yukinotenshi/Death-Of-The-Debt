@@ -14,7 +14,7 @@
     </div>
     <div id="roomjoin__code">
       <h2>Room Code:</h2>
-      <h1>B73RNX</h1>
+      <h1>{{room_id}}</h1>
     </div>
     <button
       v-if="is_owner"
@@ -22,11 +22,6 @@
     >
       Start!
     </button>
-    <!-- <router-link :to="{name: 'play'}">
-      <button>
-        Start!
-      </button>
-    </router-link> -->
   </v-container>
 </template>
 
@@ -35,6 +30,7 @@ export default {
   name: 'RoomJoin',
   props: {
     is_owner: Boolean,
+    room_id: String,
   },
   data() {
     return {

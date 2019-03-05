@@ -32,12 +32,30 @@ export default {
   },
   methods: {
     gotoCreateRoom() {
-      this.$router.push({
-        name: 'room',
-        params: {
-          is_owner: true,
-        },
-      });
+      const url = `${this.$store.state.baseUrl}/room/create`;
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          "Authorization": `${this.$store.state.user.token}`,
+          "Content-Type": "application/json"
+        }
+      })
+      .then(response => response.json())
+      .then(response => {
+        if(response.room_id !== '') {
+          this.$store.commit('setRoom', {
+            room_id: response.room_id,
+            is_owner: true,
+          });
+          this.$router.push({
+            name: 'room',
+            params: {
+              is_owner: true,
+              room_id: this.$store.state.room.room_id,
+            },
+          });
+        }
+      })
     },
     joinRoom() {
         const url = `${this.$store.state.baseUrl}/room/join`;
