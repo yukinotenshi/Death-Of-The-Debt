@@ -61,11 +61,11 @@ export default {
     InventoryBoard,
     GameTimer,
   },
-  created() {
+  async mounted() {
     try {
       const center = {lat: -6.89060785, lng: 107.61032348};
       const google = await gmapsInit();
-      this.map = new google.maps.Map(document.querySelector('#map'), {zoom: 18, center, disableDefaultUI: true});
+      this.map = new google.maps.Map(document.querySelector('#map'), {zoom: 25, center, disableDefaultUI: true});
       const styledMapType = new google.maps.StyledMapType(mapStyle);
 
       this.map.mapTypes.set('styled_map', styledMapType);
@@ -142,9 +142,22 @@ export default {
       .then(response => response.json())
       .then(response => {
         if (response.status === 200) {
-          this.intensity = response.data.intensity;
+          intensityHandler(response);
         }
       })
+    },
+    intensityHandler(object) {
+      switch(this.intensity) {
+        case 0:
+          break;
+        case 0.2:
+          break;
+        case 0.5:
+          break;
+        case 0.8:
+          break;
+        case 1:
+      }
     }
   }
 }
