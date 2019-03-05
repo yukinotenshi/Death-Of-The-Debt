@@ -8,7 +8,10 @@
       <component :is="childComponent" />
     </closable-board>
     <div id="menu__logo">
-      Logo
+      <img
+        src="./../../assets/img/logo.png"
+        alt="logo"
+      >
     </div>
     <div id="menu__buttons">
       <div class="menu__btn">
@@ -60,6 +63,14 @@ export default {
   align-items: center;
   justify-content: center;
   height: 100vh;
+}
+
+#menu__logo {
+  img {
+    width: 70vw;
+    height: auto;
+    margin-bottom: 5vh;
+  }
 }
 
 #menu__buttons {

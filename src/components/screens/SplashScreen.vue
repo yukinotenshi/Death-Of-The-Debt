@@ -1,6 +1,10 @@
 <template>
   <v-container fluid>
-    <h1>Hello!</h1>
+    <img
+      id="splash__logo"
+      src="./../../assets/img/logo.png"
+      alt="logo"
+    >
   </v-container>
 </template>
 
@@ -20,5 +24,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.container {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: url('./../../assets/img/splash/bg.jpg') no-repeat center center fixed;
 
+  #splash__logo {
+    margin: 10vh;
+    width: 70vw;
+    height: auto;
+  }
+}
 </style>
