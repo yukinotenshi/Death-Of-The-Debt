@@ -65,20 +65,29 @@ export default {
     try {
       const center = {lat: -6.89060785, lng: 107.61032348};
       const google = await gmapsInit();
-      const map = new google.maps.Map(document.querySelector('#map'), {zoom: 18, center, disableDefaultUI: true});
+      this.map = new google.maps.Map(document.querySelector('#map'), {zoom: 18, center, disableDefaultUI: true});
       const styledMapType = new google.maps.StyledMapType(mapStyle);
 
-      map.mapTypes.set('styled_map', styledMapType);
-      map.setMapTypeId('styled_map');
+      this.map.mapTypes.set('styled_map', styledMapType);
+      this.map.setMapTypeId('styled_map');
     } catch (error) {
       console.error(error);
-    }
+    };
+
+    this.timeMapRefresh = setInterval(this.updateMapCenter, 100);
+    this.timeRequest = setInterval(this.requestData, 500);
   },
   data() {
     return {
       isInventoryOpen: false,
       catchMode: false,
       buttonName: 'Catch Mode',
+      map: null,
+      timeMapRefresh: null,
+      timeRequest: null,
+      lat: 0,
+      lon: 0,
+      intensity: 0.0
     }
   },
   methods: {
@@ -95,6 +104,47 @@ export default {
     },
     closeInventory() {
       this.isInventoryOpen = false;
+    },
+    updateMapCenter() {
+      var geoSuccess = function (position) {
+        initialPos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        
+        this.map.setCenter(initialPos);
+        google.maps.event.trigger(this.map, 'resize');
+        this.lat = initialPos.lat;
+        this.lon = initialPos.lon;
+      };
+      navigator.geolocation.getCurrentPosition(geoSuccess);
+    },
+    requestData() {
+      const urlLocation = `${this.$store.state.baseUrl}/game/location`;
+      var postDataLocation = new Request(urlLocation, {
+        method: 'POST',
+        body: JSON.stringify({
+          "lat": this.lat,
+          "lng": this.lon
+        }),
+        headers: {
+          "Authorization": `${this.$store.state.user.token}`,
+          "Content-Type": "application/json",
+        }
+      });
+      var fetchDataIntensity = new Request(urlLocation, {
+        method: 'GET',
+        headers: { "Authorization": `${this.$store.state.user.token}` }
+      });
+
+      fetch(postDataLocation);
+      fetch(fetchDataIntensity)
+      .then(response => response.json())
+      .then(response => {
+        if (response.status === 200) {
+          this.intensity = response.data.intensity;
+        }
+      })
     }
   }
 }

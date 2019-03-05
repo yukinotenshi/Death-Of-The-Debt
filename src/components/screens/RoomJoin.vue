@@ -73,9 +73,6 @@ export default {
       const url = `${this.$store.state.baseUrl}/game/start`;
       var fetchData = new Request(url, {
         method: 'POST',
-        body: JSON.stringify({
-          "room_id": this.$store.state.room.room_id
-        }),
         headers: {
           "Authorization": `${this.$store.state.user.token}`,
           "Content-Type": "application/json"
