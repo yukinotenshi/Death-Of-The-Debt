@@ -1,92 +1,84 @@
 <template>
-  <v-container fluid id="mainmenu">
-    <div id="mainmenu__container">
-      <div id="logo__container">
-        <img src="./../../assets/title.png" id="logo">
+  <v-container fluid id="menu">
+    <closable-board
+      v-if="playOptions"
+      v-on:closeBoard="togglePlayOptions"
+      title="Choose"
+    />
+    <div id="menu__logo">
+      Logo
+    </div>
+    <div id="menu__buttons">
+      <div class="menu__btn">
+        <button
+          @click="togglePlayOptions"
+        >
+          Play
+        </button>
       </div>
-      <router-link :to="{name: 'room'}">
+      <router-link
+        class="menu__btn"
+        :to="{name: 'settings'}"
+      >
         <button>
-          Create Room
+          Options
         </button>
       </router-link>
-      <div id="joinroom">
-        <input type="text" v-model="code">
-        <router-link :to="{name: 'room'}">
-          <button>
-            Join Room
-          </button>
-        </router-link>
-      </div>
     </div>
   </v-container>
 </template>
 
 <script>
+import ClosableBoard from './../partials/utils/ClosableBoard';
+
 export default {
-  name: 'MainMenu'
+  name: 'MainMenu',
+  components: {
+    ClosableBoard,
+  },
+  data() {
+    return {
+      playOptions: false,
+    }
+  },
+  methods: {
+    togglePlayOptions() {
+      this.playOptions = !this.playOptions;
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-
-#logo__container {
-  text-align: center;
-}
-
-#logo {
-  max-width: 75%;
-}
-
-#joinroom {
+#menu {
   display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-  margin: 1rem 0;
-
-  input[type=text] {
-    margin-right: 1rem;
-  }
-
-  button {
-    min-width: 10rem;
-  }
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
-#loginscreen__container {
-  border-radius: 20px;
-  padding: 0.5rem;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+#menu__buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   text-align: center;
 
-  h3 {
-    margin: 0;
+  .menu__btn {
+    margin: 1rem;
+    text-decoration: none;
+
+    button {
+      cursor: pointer;
+      background-color: grey;
+      border: 0;
+      padding: 2rem;
+      font-size: 2rem;
+      font-weight: bold;
+      color: white;
+      width: 100%;
+      border-radius: 20px;
+    }
   }
 }
-
-input[type=text] {
-  font-size: 1.25rem;
-  border: 2px solid gray;
-  border-radius: 20px;
-  background-color: white;
-  padding: 1rem;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;    
-  box-sizing: border-box;
-}
-
-button {
-  cursor: pointer;
-  background-color: grey;
-  border: 0;
-  padding: 1rem;
-  font-size: 2rem;
-  font-weight: bold;
-  color: white;
-  width: 100%;
-  border-radius: 20px;
-}
-
 </style>

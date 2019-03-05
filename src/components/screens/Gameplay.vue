@@ -1,5 +1,9 @@
 <template>
   <v-container fluid class="page" id="gameplay">
+    <InventoryBoard
+      v-if="isInventoryOpen"
+      v-on:closeInventory="closeInventory"
+    />
     <div id="gamescreen">
       <div id="gamescreen__top">
         <div>
@@ -21,10 +25,22 @@
       </div>
       <div id="gamescreen__bottom">
         <div>
+
+        </div>
+        <div>
           <button
+            id="switch-button"
             @click="switchMode"
           >
             {{this.buttonName}}
+          </button>
+        </div>
+        <div>
+          <button
+            id="inventory-button"
+            @click="openInventory"
+          >
+            Inv
           </button>
         </div>
       </div>
@@ -36,9 +52,13 @@
 <script>
 import gmapsInit from './../../assets/js/gmaps';
 import mapStyle from './../../assets/js/mapStyle';
+import InventoryBoard from './../partials/gameplay/InventoryBoard';
 
 export default {
   name: 'Gameplay',
+  components: {
+    InventoryBoard,
+  },
   async mounted() {
     try {
       const center = {lat: -6.89060785, lng: 107.61032348};
@@ -55,6 +75,7 @@ export default {
   },
   data() {
     return {
+      isInventoryOpen: false,
       catchMode: false,
       buttonName: 'Catch Mode',
     }
@@ -67,6 +88,12 @@ export default {
       } else {
         this.buttonName = 'Observe Mode';
       }
+    },
+    openInventory() {
+      this.isInventoryOpen = true;
+    },
+    closeInventory() {
+      this.isInventoryOpen = false;
     }
   }
 }
@@ -117,6 +144,44 @@ export default {
     position: fixed;
     bottom: 2rem;
     width: calc(100% - 4rem);
+    
+    >div:nth-child(2) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    >div:first-child, >div:last-child {
+      flex-basis: 20%;
+      max-width: 20%
+    }
+
+    >div:nth-child(2) {
+      flex-basis: 60%;
+      max-width: 60%;
+    }
+
+    #switch-button {
+      cursor: pointer;
+      background-color: grey;
+      border: 0;
+      padding: 2rem;
+      font-size: 5vw;
+      font-weight: bold;
+      color: white;
+      border-radius: 10px;
+    }
+
+    #inventory-button {
+      cursor: pointer;
+      background-color: grey;
+      border: 0;
+      padding: 2rem;
+      font-size: 5vw;
+      font-weight: bold;
+      color: white;
+      border-radius: 100px;
+    }
   }
 
   #gamescreen__catch {
@@ -132,23 +197,17 @@ export default {
       width: 100%;
       background-color: rgb(39, 39, 39);
       font-size: 4rem;
+      border: 0;
+      padding: 2rem;
+      font-weight: bold;
+      color: white;
+      border-radius: 10px;
     }
     h1 {
       color: red;
       margin-bottom: 1rem;
     }
   }
-}
-
-button {
-  cursor: pointer;
-  background-color: grey;
-  border: 0;
-  padding: 2rem;
-  font-size: 2rem;
-  font-weight: bold;
-  color: white;
-  border-radius: 10px;
 }
 
 #map {
