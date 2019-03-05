@@ -45,7 +45,8 @@
         </div>
       </div>
     </div>
-    <div id="map"></div>
+    <div id="overlay" />
+    <div id="map" />
   </v-container>
 </template>
 
@@ -54,6 +55,7 @@ import gmapsInit from './../../assets/js/gmaps';
 import mapStyle from './../../assets/js/mapStyle';
 import InventoryBoard from './../partials/gameplay/InventoryBoard';
 import GameTimer from './../partials/gameplay/GameTimer';
+import init from './../../assets/js/gmaps';
 
 export default {
   name: 'Gameplay',
@@ -65,7 +67,11 @@ export default {
     try {
       const center = {lat: -6.89060785, lng: 107.61032348};
       const google = await gmapsInit();
+<<<<<<< HEAD
       this.map = new google.maps.Map(document.querySelector('#map'), {zoom: 25, center, disableDefaultUI: true});
+=======
+      this.map = new google.maps.Map(document.querySelector('#map'), {zoom: 22, center, disableDefaultUI: true});
+>>>>>>> 4458694d7fd920ff2f4692c6a009d85161e2c9e6
       const styledMapType = new google.maps.StyledMapType(mapStyle);
 
       this.map.mapTypes.set('styled_map', styledMapType);
@@ -74,7 +80,7 @@ export default {
       console.error(error);
     };
 
-    this.timeMapRefresh = setInterval(this.updateMapCenter, 100);
+    this.timeMapRefresh = setInterval(this.updateMapCenter, 500);
     this.timeRequest = setInterval(this.requestData, 500);
   },
   data() {
@@ -86,8 +92,12 @@ export default {
       timeMapRefresh: null,
       timeRequest: null,
       lat: 0,
-      lon: 0,
-      intensity: 0.0
+      lng: 0,
+      intensity: 0.0,
+      marker: null,
+      overlay: {
+        
+      }
     }
   },
   methods: {
@@ -115,8 +125,33 @@ export default {
       };
       this.map.setCenter(initialPos);
       google.maps.event.trigger(this.map, 'resize');
-      this.lat = initialPos.lat;
-      this.lon = initialPos.lon;
+
+      if(this.marker) {
+        if(Math.abs(this.lat - initialPos.lat) > Number.EPSILON ||
+          Math.abs(this.lng - initialPos.lng) > Number.EPSILON) {
+          this.marker.setMap(null);
+          this.lat = initialPos.lat;
+          this.lng = initialPos.lng;
+
+          this.marker = new google.maps.Marker({
+            position: {
+              lat: initialPos.lat,
+              lng: initialPos.lng,
+            },
+            map: this.map,
+            title: 'Hello World!'
+          });
+        }
+      } else {
+        this.marker = new google.maps.Marker({
+          position: {
+            lat: initialPos.lat,
+            lng: initialPos.lng,
+          },
+          map: this.map,
+          title: 'Hello World!'
+        });
+      }
     },
     requestData() {
       let urlLocation = `${this.$store.state.baseUrl}/game/location`;
@@ -124,7 +159,7 @@ export default {
         method: 'POST',
         body: JSON.stringify({
           "lat": this.lat,
-          "lng": this.lon
+          "lng": this.lng
         }),
         headers: {
           "Authorization": `${this.$store.state.user.token}`,
@@ -142,7 +177,12 @@ export default {
       .then(response => response.json())
       .then(response => {
         if (response.status === 200) {
+<<<<<<< HEAD
           intensityHandler(response);
+=======
+          this.intensity = response.data.intensity;
+          console.log(this.intensity);
+>>>>>>> 4458694d7fd920ff2f4692c6a009d85161e2c9e6
         }
       })
     },
@@ -172,6 +212,17 @@ export default {
   overflow: hidden;
   height: 100vh;
   width: 100vw;
+}
+
+#overlay {
+  position: absolute;
+  top: calc(50vh - 18vh);
+  left: calc(50vw - 18vh);
+  z-index: 98;
+  width: 36vh;
+  height: 36vh;
+  background: rgba(255, 0, 0, 0.288);
+  border-radius: 100vh;
 }
 
 #gamescreen {
@@ -229,8 +280,8 @@ export default {
       cursor: pointer;
       background-color: grey;
       border: 0;
-      padding: 2rem;
-      font-size: 5vw;
+      padding: 4vh;
+      font-size: 3vh;
       font-weight: bold;
       color: white;
       border-radius: 10px;
@@ -240,8 +291,8 @@ export default {
       cursor: pointer;
       background-color: grey;
       border: 0;
-      padding: 2rem;
-      font-size: 5vw;
+      padding: 4vh;
+      font-size: 2.5vh;
       font-weight: bold;
       color: white;
       border-radius: 100px;
