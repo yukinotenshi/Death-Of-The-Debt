@@ -88,8 +88,12 @@ export default {
       }
 
       .closableboard__board__items {
-        padding: 0.75rem;
+        padding: 2vh;
         display: flex;
+
+        >div {
+          width: 100%;
+        }
         
         .inventory__item {
           padding: 0.5rem;

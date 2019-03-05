@@ -106,13 +106,14 @@ export default {
 
 <style lang="scss" scoped>
 #roomjoin {
-  padding: 2rem;
+  padding: 3vh;
+  overflow: auto;
 }
 
 #roomjoin__list, #roomjoin__code {
   border: 2px solid gray;
   border-radius: 20px;
-  margin-bottom: 1rem;
+  margin-bottom: 2vh;
 }
 
 #roomjoin__list {
@@ -137,13 +138,17 @@ export default {
 
 #roomjoin__code {
   text-align: center;
-  padding: 2rem;
+  height: 10vh;
+  padding: 2vh;
 
   h1, h2 {
     margin: 0;
   }
+  h2 {
+    font-size: 3vh;
+  }
   h1 {
-    font-size: 3rem;
+    font-size: 5vh;
   }
 }
 

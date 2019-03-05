@@ -82,18 +82,6 @@ export default {
   .menu__btn {
     // margin: 1rem;
     text-decoration: none;
-
-    button {
-      cursor: pointer;
-      background-color: grey;
-      border: 0;
-      padding: 2rem;
-      font-size: 2rem;
-      font-weight: bold;
-      color: white;
-      width: 100%;
-      border-radius: 20px;
-    }
   }
 }
 </style>
