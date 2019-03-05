@@ -44,7 +44,10 @@ export default {
       fetch(`${this.$store.state.baseUrl}/user/login`, fetchData)
       .then(response => response.json())
       .then(response => {
-        this.$store.commit('setUserToken', response.data.access_token);
+        if(response.status === 200) {
+          this.$store.commit('setUser', response.data);
+          this.$router.push({name: 'menu'});
+        }
       })
     }
   }
