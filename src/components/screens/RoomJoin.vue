@@ -63,12 +63,13 @@ export default {
         }
         this.chasingTeam = response.data.chasing_team;
         this.hidingTeam = response.data.hiding_team;
-        this.person = this.chasingTeam.concat(this.hidingTeam);
+        if (this.hidingTeam.length != 0) this.startGame();
+        else this.person = this.chasingTeam;
       })
     },
     startGame() {
-      this.$router.push({name: 'play'});
       clearInterval(this.timer);
+      this.$router.push({name: 'play'});
     }
   }
 }
