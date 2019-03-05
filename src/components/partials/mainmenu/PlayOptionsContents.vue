@@ -73,10 +73,19 @@ export default {
       fetch(fetchData)
       .then(response => response.json())
       .then(response => {
-        if (response.status != 200) {
-          return;
+        if (response.status == 200) {
+          this.$store.commit('setRoom', {
+            room_id: this.roomCode,
+            is_owner: false,
+          });
+          this.$router.push({
+            name: 'room',
+            params: {
+              is_owner: false,
+              room_id: this.roomCode,
+            },
+          });
         }
-        this.$router.push("room");
       })
     }
   }
