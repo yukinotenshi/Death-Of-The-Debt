@@ -40,6 +40,7 @@ export default {
       .then(response => response.json())
       .then(response => {
         if(response.status === 200) {
+          this.$cookie.set('token', response.data.access_token);
           this.$store.commit('setUser', response.data);
           this.$router.push({name: 'menu'});
         }

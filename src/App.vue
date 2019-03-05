@@ -12,10 +12,16 @@ import RoomJoin from './components/screens/RoomJoin.vue';
 import LoginScreen from './components/screens/LoginScreen.vue';
 import MainMenu from './components/screens/MainMenu.vue';
 import RegisterScreen from './components/screens/RegisterScreen.vue';
+import SplashScreen from './components/screens/SplashScreen.vue';
 
 const routes = [
   {
     path: '*',
+    name: 'splash',
+    component: SplashScreen
+  },
+  {
+    path: '/login',
     name: 'login',
     component: LoginScreen
   },
