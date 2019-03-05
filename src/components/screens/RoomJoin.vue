@@ -34,13 +34,15 @@ export default {
   },
   data() {
     return {
-      person: [],
-      timer: ''
+      timer: '',
+      chasingTeam: [],
+      hidingTeam: [],
+      person: []
     }
   },
   created: function() {
     this.refreshData();
-    this.timer = setInterval(this.refreshData, 500);
+    this.timer = setInterval(this.refreshData, 1000);
   },
   methods: {
     refreshData() {
@@ -59,7 +61,9 @@ export default {
           console.log(response.message);
           return;
         }
-        this.person = response.data.chasing_team;
+        this.chasingTeam = response.data.chasing_team;
+        this.hidingTeam = response.data.hiding_team;
+        this.person = this.chasingTeam.concat(this.hidingTeam);
       })
     },
     startGame() {
