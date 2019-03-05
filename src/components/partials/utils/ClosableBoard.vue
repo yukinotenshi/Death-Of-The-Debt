@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="closableboard" @click="closeBoard">
+  <v-container fluid class="closableboard">
     <div class="closableboard__placeholder">
       <div class="closableboard__board">
         <div class="closableboard__board__header">
