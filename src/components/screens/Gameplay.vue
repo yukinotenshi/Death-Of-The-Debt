@@ -61,7 +61,7 @@ export default {
     InventoryBoard,
     GameTimer,
   },
-  async mounted() {
+  created() {
     try {
       const center = {lat: -6.89060785, lng: 107.61032348};
       const google = await gmapsInit();
