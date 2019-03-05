@@ -106,21 +106,20 @@ export default {
       this.isInventoryOpen = false;
     },
     updateMapCenter() {
-      var geoSuccess = function (position) {
-        var initialPos = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        
-        this.map.setCenter(initialPos);
-        google.maps.event.trigger(this.map, 'resize');
-        this.lat = initialPos.lat;
-        this.lon = initialPos.lon;
+      navigator.geolocation.getCurrentPosition(this.geoSuccess);
+    },
+    geoSuccess(position) {
+      var initialPos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
       };
-      navigator.geolocation.getCurrentPosition(geoSuccess);
+      this.map.setCenter(initialPos);
+      google.maps.event.trigger(this.map, 'resize');
+      this.lat = initialPos.lat;
+      this.lon = initialPos.lon;
     },
     requestData() {
-      const urlLocation = `${this.$store.state.baseUrl}/game/location`;
+      let urlLocation = `${this.$store.state.baseUrl}/game/location`;
       var postDataLocation = new Request(urlLocation, {
         method: 'POST',
         body: JSON.stringify({
@@ -132,6 +131,7 @@ export default {
           "Content-Type": "application/json",
         }
       });
+      urlLocation = `${this.$store.state.baseUrl}/game/intensity`;
       var fetchDataIntensity = new Request(urlLocation, {
         method: 'GET',
         headers: { "Authorization": `${this.$store.state.user.token}` }
