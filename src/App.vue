@@ -17,6 +17,11 @@ const routes = [
   {
     path: '*',
     name: 'login',
+    component: LoginScreen
+  },
+  {
+    path: '/register',
+    name: 'register',
     component: RegisterScreen
   },
   {
