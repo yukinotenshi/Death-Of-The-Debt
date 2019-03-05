@@ -42,7 +42,7 @@ export default {
   },
   created: function() {
     this.refreshData();
-    this.timer = setInterval(this.refreshData, 1);
+    this.timer = setInterval(this.refreshData, 500);
   },
   methods: {
     refreshData() {
@@ -74,7 +74,7 @@ export default {
       var fetchData = new Request(url, {
         method: 'POST',
         body: JSON.stringify({
-          "room_id": this.this.$store.state.room.room_id
+          "room_id": this.$store.state.room.room_id
         }),
         headers: {
           "Authorization": `${this.$store.state.user.token}`,
@@ -86,7 +86,7 @@ export default {
       .then(response => response.json())
       .then(response => {
         if (response.status == 200) {
-          this.$store.commit('setRoom', {
+          this.$store.commit('setRoomMember', {
             chasing_team: this.chasingTeam,
             hiding_team: this.hidingTeam
           });
