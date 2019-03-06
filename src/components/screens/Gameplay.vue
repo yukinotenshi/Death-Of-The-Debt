@@ -27,14 +27,7 @@
         <div>
 
         </div>
-        <div>
-          <button
-            id="switch-button"
-            @click="switchMode"
-          >
-            {{this.buttonName}}
-          </button>
-        </div>
+        <div />
         <div>
           <button
             id="inventory-button"
@@ -45,7 +38,7 @@
         </div>
       </div>
     </div>
-    <div id="overlay" />
+    <div id="overlay" v-if="team === 'chasing'" />
     <div id="map" />
   </v-container>
 </template>
@@ -172,32 +165,37 @@ export default {
       .then(response => response.json())
       .then(response => {
         if (response.status === 200) {
-          if (team === "chasing")
+          if (this.team === "chasing")
             this.intensityHandlerChasing(response.data.intensity);
           else
             this.intensityHandlerHiding(response.data.intensity);
         }
       })
     },
-    intensityHandlerChasing(object) {
+    intensityHandlerChasing(intensity) {
       if (this.markerEnemy) {
         this.markerEnemy.setMap(null);
       }
       switch(intensity) {
         case 0:
           document.getElementById("overlay").style.backgroundColor = "#00FF0055";
+          this.catchMode = false;
           break;
         case 0.2:
           document.getElementById("overlay").style.backgroundColor = "#FFFF0055";
+          this.catchMode = false;
           break;
         case 0.5:
           document.getElementById("overlay").style.backgroundColor = "#FF880055";
+          this.catchMode = false;
           break;
         case 0.8:
           document.getElementById("overlay").style.backgroundColor = "#CC000055";
+          this.catchMode = false;
           break;
         case 1:
           document.getElementById("overlay").style.backgroundColor = "#FF000077";
+          this.catchMode = true;
           this.markerEnemy = new google.maps.Marker({
             position: {
               lat: object.data.player.lat,
@@ -232,19 +230,19 @@ export default {
     gatherData() {
       var chasingTeam = this.$store.state.room.chasing_team;
       var name = this.$store.state.user.username;
-      if (playerInChasingTeam(name, chasingTeam)) this.team = "chasing";
+      if (this.playerInChasingTeam(name, chasingTeam)) this.team = "chasing";
       else this.team = "hiding"
     },
     playerInChasingTeam(name, arr) {
-      for (i in arr) {
-        if (name === arr[i].name) {
+      for (let i in arr) {
+        if (name === arr[i]) {
           return true;
         }
       }
       return false;
     },
     startVibration(vibrationDelay) {
-      this.timeVibration = setInterval(vibrate, vibrationDelay+250);
+      this.timeVibration = setInterval(this.vibrate, vibrationDelay+250);
     },
     cancelVibration() {
       clearInterval(this.timeVibration);
@@ -252,6 +250,9 @@ export default {
     },
     vibrate() {
       navigator.vibrate(250);
+    },
+    catch() {
+
     }
   }
 }

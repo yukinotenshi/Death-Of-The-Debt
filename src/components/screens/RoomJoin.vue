@@ -5,7 +5,7 @@
         <div
           class="roomjoin__person"
           v-for="p in person"
-          :key=p.name
+          :key=p
         >
           <h2>{{p}}</h2>
           <h3>lv 31</h3>
