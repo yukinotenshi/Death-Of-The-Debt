@@ -87,7 +87,13 @@ export default {
             chasing_team: this.chasingTeam,
             hiding_team: this.hidingTeam
           });
-          this.$router.push({ name: 'play' });
+          this.$router.push({
+            name: 'gacha',
+            params: {
+              chasingTeam: this.chasingTeam,
+              hidingTeam: this.hidingTeam,
+            }
+          });
         }
       })
     },

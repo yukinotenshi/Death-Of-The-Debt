@@ -13,6 +13,7 @@ import LoginScreen from './components/screens/LoginScreen.vue';
 import MainMenu from './components/screens/MainMenu.vue';
 import RegisterScreen from './components/screens/RegisterScreen.vue';
 import SplashScreen from './components/screens/SplashScreen.vue';
+import GameGachaScreen from './components/screens/GameGachaScreen.vue';
 
 const routes = [
   {
@@ -39,6 +40,12 @@ const routes = [
     path: '/room',
     name: 'room',
     component: RoomJoin,
+    props: true,
+  },
+  {
+    path: '/gacha',
+    name: 'gacha',
+    component: GameGachaScreen,
     props: true,
   },
   {
