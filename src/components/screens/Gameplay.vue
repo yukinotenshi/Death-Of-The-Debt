@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="page" id="gameplay">
-    <div id="death">
+    <div id="death" v-if="!alive">
       <h1>You're dead</h1>
       <!-- <router-link :to="">
         <button>
