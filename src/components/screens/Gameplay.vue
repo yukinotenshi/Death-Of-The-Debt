@@ -19,7 +19,10 @@
         v-if="catchMode === true"
       >
         <h1>Target detected!</h1>
-        <button id="catch">
+        <button
+          id="catch"
+          @click="catchHandler"
+        >
           Catch!
         </button>
       </div>
@@ -166,17 +169,17 @@ export default {
       .then(response => {
         if (response.status === 200) {
           if (this.team === "chasing")
-            this.intensityHandlerChasing(response.data.intensity);
+            this.intensityHandlerChasing(response);
           else
-            this.intensityHandlerHiding(response.data.intensity);
+            this.intensityHandlerHiding(response);
         }
       })
     },
-    intensityHandlerChasing(intensity) {
+    intensityHandlerChasing(object) {
       if (this.markerEnemy) {
         this.markerEnemy.setMap(null);
       }
-      switch(intensity) {
+      switch(object.data.intensity) {
         case 0:
           document.getElementById("overlay").style.backgroundColor = "#00FF0055";
           this.catchMode = false;
@@ -205,11 +208,11 @@ export default {
           });
       }
     },
-    intensityHandlerHiding(intensity) {
-      if (this.intensity === intensity) return;
+    intensityHandlerHiding(object) {
+      if (this.intensity === object.data.intensity) return;
       if (this.timeVibration) this.cancelVibration();
-      this.intensity = intensity;
-      switch(intensity) {
+      this.intensity = object.data.intensity;
+      switch(object.data.intensity) {
         case 0:
           this.startVibration(20000);
           break;
@@ -251,8 +254,13 @@ export default {
     vibrate() {
       navigator.vibrate(250);
     },
-    catch() {
-
+    catchHandler() {
+      const url = `${this.$store.state.baseUrl}/game/catch`;
+      let fetchData = new Request(url, {
+        method: 'POST',
+        headers: { "Authorization": `${this.$store.state.user.token}` }
+      });
+      fetch(fetchData);
     }
   }
 }

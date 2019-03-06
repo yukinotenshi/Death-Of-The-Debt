@@ -83,6 +83,8 @@ export default {
       .then(response => response.json())
       .then(response => {
         if (response.status == 200) {
+          this.chasingTeam = response.data.room.chasing_team;
+          this.hidingTeam = response.data.room.hiding_team;
           this.$store.commit('setRoomMember', {
             chasing_team: this.chasingTeam,
             hiding_team: this.hidingTeam
@@ -104,7 +106,13 @@ export default {
         chasing_team: this.chasingTeam,
         hiding_team: this.hidingTeam
       });
-      this.$router.push({ name: 'play' });
+      this.$router.push({
+        name: 'gacha',
+        params: {
+          chasingTeam: this.chasingTeam,
+          hidingTeam: this.hidingTeam,
+        }
+      });
     }
   }
 }
