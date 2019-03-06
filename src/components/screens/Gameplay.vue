@@ -75,6 +75,7 @@ export default {
     this.gatherData();
     this.timeMapRefresh = setInterval(this.updateMapCenter, 500);
     this.timeRequest = setInterval(this.requestData, 500);
+    this.timePlayerData = setInterval(this.getCurrentPlayerData, 500);
   },
   data() {
     return {
@@ -90,7 +91,8 @@ export default {
       markerEnemy: null,
       team: "",
       timeVibration: "",
-      intensity: 0
+      intensity: 0,
+      alive: true
     }
   },
   methods: {
@@ -261,6 +263,20 @@ export default {
         headers: { "Authorization": `${this.$store.state.user.token}` }
       });
       fetch(fetchData);
+    },
+    getCurrentPlayerData() {
+      const url = `${this.$store.state.baseUrl}/game/player`;
+      let fetchData = new Request(url, {
+        method: 'GET',
+        headers: { "Authorization": `${this.$store.state.user.token}` }
+      });
+      fetch(fetchData)
+      .then(response => response.json())
+      .then(response => {
+        if (response.status === 200) {
+          this.alive = response.data.alive;
+        }
+      })
     }
   }
 }
