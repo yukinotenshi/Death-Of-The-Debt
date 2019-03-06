@@ -5,6 +5,11 @@
       src="./../../assets/img/logo.png"
       alt="logo"
     >
+    <img
+      id="splash__chara"
+      src="./../../assets/img/splash/chara.png"
+      alt="logo"
+    >
   </v-container>
 </template>
 
@@ -36,6 +41,12 @@ export default {
 
   #splash__logo {
     margin: 10vh;
+    width: 70vw;
+    height: auto;
+  }
+
+  #splash__chara {
+    margin: 0;
     width: 70vw;
     height: auto;
   }

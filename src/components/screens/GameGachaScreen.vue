@@ -2,6 +2,7 @@
   <v-container id="gacha">
     <h1 v-if="isLoading">Gacha-ing your character...</h1>
     <div v-if="!isLoading">
+      <img :src="chara" alt="" id="chara">
       <h1>You are on {{status}} team!</h1>
       <div>
         <h1>Your team members:</h1>
@@ -31,6 +32,7 @@ export default {
       status: '',
       username: '',
       team: [],
+      chara: './../../assets/img/chara/pose/',
     }
   },
   mounted() {
@@ -43,12 +45,12 @@ export default {
     },
     setStatus() {
       this.username = this.$store.state.user.username;
-      console.log(this.hidingTeam, this.chasingTeam);
-      console.log(this.chasingTeam[0]);
+      
       for (let i in this.hidingTeam) {
         let p = this.hidingTeam[i];
         if(p === this.username) {
           this.status = 'hiding';
+          this.chara = 'https://files.catbox.moe/8qh7gj.png';
           this.team = this.hidingTeam;
           break;
         }
@@ -59,11 +61,15 @@ export default {
           let p = this.chasingTeam[i];
           if(p === this.username) {
             this.status = 'chasing';
+            this.chara = 'https://files.catbox.moe/3lgzyf.png';
             this.team = this.chasingTeam;
             break;
           }
         }
       }
+
+      // this.chara += (`${this.status}1.png`);
+      // this.chara = require(this.chara);
       this.startTimer();
     },
     startTimer() {
@@ -87,5 +93,10 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+#chara {
+  height: 40vh;
+  width: auto;
 }
 </style>

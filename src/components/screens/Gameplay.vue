@@ -136,11 +136,16 @@ export default {
           this.lat = initialPos.lat;
           this.lng = initialPos.lng;
 
+          let icon = '';
+          if(this.team === 'chasing') icon = 'https://files.catbox.moe/lrjyak.png';
+          else icon = 'https://files.catbox.moe/7pr4o1.png';
+
           this.marker = new google.maps.Marker({
             position: {
               lat: initialPos.lat,
               lng: initialPos.lng,
             },
+            icon: icon,
             map: this.map,
           });
         }

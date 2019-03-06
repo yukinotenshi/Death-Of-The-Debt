@@ -73,6 +73,8 @@ export default {
 </script>
 
 <style>
+@import url('./assets/css/style.scss');
+
 body {
   margin: 0;
   padding: 0;
