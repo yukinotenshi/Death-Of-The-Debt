@@ -251,10 +251,10 @@ export default {
     },
     cancelVibration() {
       clearInterval(this.timeVibration);
-      navigator.vibrator(0);
+      window.navigator.vibrator(0);
     },
     vibrate() {
-      navigator.vibrate(250);
+      window.navigator.vibrate(250);
     },
     catchHandler() {
       const url = `${this.$store.state.baseUrl}/game/catch`;
