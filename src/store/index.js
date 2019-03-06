@@ -27,6 +27,12 @@ export default new Vuex.Store({
     },
     getRoom(state) {
       return state.room;
+    },
+    getChasingTeam(state) {
+      return state.chasing_team;
+    },
+    getHidingTeam(state) {
+      return state.hiding_team;
     }
   },
   mutations: {

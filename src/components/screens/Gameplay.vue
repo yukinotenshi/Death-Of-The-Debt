@@ -76,6 +76,7 @@ export default {
       console.error(error);
     };
 
+    this.gatherData();
     this.timeMapRefresh = setInterval(this.updateMapCenter, 500);
     this.timeRequest = setInterval(this.requestData, 500);
   },
@@ -89,9 +90,11 @@ export default {
       timeRequest: null,
       lat: 0,
       lng: 0,
-      intensity: 0.0,
       marker: null,
-      markerEnemy: null
+      markerEnemy: null,
+      team: "",
+      timeVibration: "",
+      intensity: 0
     }
   },
   methods: {
@@ -169,14 +172,18 @@ export default {
       .then(response => response.json())
       .then(response => {
         if (response.status === 200) {
-          this.intensity = response.data.intensity;
-          this.intensityHandler(response);
+          if (team === "chasing")
+            this.intensityHandlerChasing(response.data.intensity);
+          else
+            this.intensityHandlerHiding(response.data.intensity);
         }
       })
     },
-    intensityHandler(object) {
-      console.log(object.data.intensity);
-      switch(object.data.intensity) {
+    intensityHandlerChasing(object) {
+      if (this.markerEnemy) {
+        this.markerEnemy.setMap(null);
+      }
+      switch(intensity) {
         case 0:
           document.getElementById("overlay").style.backgroundColor = "#00FF0055";
           break;
@@ -191,9 +198,6 @@ export default {
           break;
         case 1:
           document.getElementById("overlay").style.backgroundColor = "#FF000077";
-          if (this.markerEnemy) {
-            this.markerEnemy.setMap(null);
-          }
           this.markerEnemy = new google.maps.Marker({
             position: {
               lat: object.data.player.lat,
@@ -202,6 +206,52 @@ export default {
             map: this.map,
           });
       }
+    },
+    intensityHandlerHiding(intensity) {
+      if (this.intensity === intensity) return;
+      if (this.timeVibration) this.cancelVibration();
+      this.intensity = intensity;
+      switch(intensity) {
+        case 0:
+          this.startVibration(20000);
+          break;
+        case 0.2:
+          this.startVibration(5000);
+          break;
+        case 0.5:
+          this.startVibration(2000);
+          break;
+        case 0.8:
+          this.startVibration(1000);
+          break;
+        case 1:
+          this.startVibration(500);
+          break;
+      }
+    },
+    gatherData() {
+      var chasingTeam = this.$store.state.room.chasing_team;
+      var name = this.$store.state.user.username;
+      if (playerInChasingTeam(name, chasingTeam)) this.team = "chasing";
+      else this.team = "hiding"
+    },
+    playerInChasingTeam(name, arr) {
+      for (i in arr) {
+        if (name === arr[i].name) {
+          return true;
+        }
+      }
+      return false;
+    },
+    startVibration(vibrationDelay) {
+      this.timeVibration = setInterval(vibrate, vibrationDelay+250);
+    },
+    cancelVibration() {
+      clearInterval(this.timeVibration);
+      navigator.vibrator(0);
+    },
+    vibrate() {
+      navigator.vibrate(250);
     }
   }
 }
