@@ -1,5 +1,13 @@
 <template>
   <v-container fluid class="page" id="gameplay">
+    <div id="death" v-if="!alive">
+      <h1>You're dead</h1>
+      <!-- <router-link :to="">
+        <button>
+          Back to Menu
+        </button>
+      </router-link> -->
+    </div>
     <InventoryBoard
       v-if="isInventoryOpen"
       v-on:closeInventory="closeInventory"
@@ -128,11 +136,16 @@ export default {
           this.lat = initialPos.lat;
           this.lng = initialPos.lng;
 
+          let icon = '';
+          if(this.team === 'chasing') icon = 'https://files.catbox.moe/lrjyak.png';
+          else icon = 'https://files.catbox.moe/7pr4o1.png';
+
           this.marker = new google.maps.Marker({
             position: {
               lat: initialPos.lat,
               lng: initialPos.lng,
             },
+            icon: icon,
             map: this.map,
           });
         }
@@ -284,6 +297,21 @@ export default {
 
 <style lang="scss" scoped>
 @import 'src/assets/css/style.scss';
+
+#death {
+  background: rgba(105, 0, 0, 0.507);
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  z-index: 999;
+  color: white;
+  text-align: center;
+
+  h1 {
+    margin-top: 40vh;
+    font-size: 6vh;
+  }
+}
 
 #gameplay {
   margin: 0;
