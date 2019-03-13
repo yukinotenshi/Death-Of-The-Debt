@@ -251,7 +251,7 @@ export default {
     },
     cancelVibration() {
       clearInterval(this.timeVibration);
-      window.navigator.vibrator(0);
+      window.navigator.vibrate(0);
     },
     vibrate() {
       window.navigator.vibrate(250);
