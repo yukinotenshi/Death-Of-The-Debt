@@ -37,17 +37,21 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: url('./../../assets/img/splash/bg.jpg') no-repeat center center fixed;
+  background: url('./../../assets/img/splash/bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 
   #splash__logo {
     margin: 10vh;
+    margin-bottom: 0;
     width: 70vw;
     height: auto;
   }
 
   #splash__chara {
     margin: 0;
-    width: 70vw;
+    width: 75vw;
     height: auto;
   }
 }

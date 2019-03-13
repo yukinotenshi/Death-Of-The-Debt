@@ -40,12 +40,18 @@
         </div>
         <div />
         <div>
-          <button
+          <img
+            id="inventory-button"
+            src="./../../assets/img/icons/inventory.png"
+            alt="inventory"
+            @click="openInventory"
+          >
+          <!-- <button
             id="inventory-button"
             @click="openInventory"
           >
             Inv
-          </button>
+          </button> -->
         </div>
       </div>
     </div>
@@ -119,7 +125,7 @@ export default {
       this.isInventoryOpen = false;
     },
     updateMapCenter() {
-      navigator.geolocation.getCurrentPosition(this.geoSuccess);
+      navigator.geolocation.getCurrentPosition(this.geoSuccess, console.log, {maximumAge:10000, timeout:10000, enableHighAccuracy:true});
     },
     geoSuccess(position) {
       var initialPos = {
@@ -396,13 +402,12 @@ export default {
 
     #inventory-button {
       cursor: pointer;
-      background-color: grey;
-      border: 0;
-      padding: 4vh;
       font-size: 2.5vh;
       font-weight: bold;
       color: white;
-      border-radius: 100px;
+      width: 17vw;
+      height: auto;
+      padding-left: 4vw;
     }
   }
 
