@@ -15,7 +15,7 @@
     <div id="gamescreen">
       <div id="gamescreen__top">
         <div>
-          <h2>Remaining Time</h2>
+          <img src="./../../assets/img/panels/time.png" alt="">
           <game-timer />
         </div>
         <div>
@@ -341,7 +341,7 @@ export default {
 #gamescreen {
   position: absolute;
   z-index: 99;
-  padding: 2rem;
+  padding: 1rem;
   height: calc(100% - 4rem);
   width: calc(100% - 4rem);
 
@@ -354,9 +354,18 @@ export default {
     flex-direction: row;
     
     >div:first-child {
-      flex: 1 0 0;
-      h1 {
-        font-size: 4rem;
+      // flex: 1 0 0;
+      img {
+        width: 50vw;
+        height: auto;
+        position: absolute;
+        z-index: -1;
+      }
+      #timer {
+        z-index: 9999;
+        padding-top: 7.5vw;
+        padding-left: 23vw;
+        font-size: 4vw;
       }
     }
 
