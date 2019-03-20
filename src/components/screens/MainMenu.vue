@@ -15,17 +15,14 @@
       >
     </div>
     <div id="menu__buttons">
-      <router-link
+      <div
         class="menu__btn"
-        :to="{name: 'room'}"
+        @click="togglePlayOptions"
       >
-        <game-button title="Play" />
-      </router-link>
+        <game-button title="Play"/>
+      </div>
       <div class="menu__btn">
-        <game-button
-          title="Options"
-          @click = "togglePlayOptions"
-        />
+        <game-button title="Options"/>
       </div>
     </div>
     <div id="menu__logo">
