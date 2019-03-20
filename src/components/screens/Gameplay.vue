@@ -334,7 +334,7 @@ export default {
   z-index: 98;
   width: 36vh;
   height: 36vh;
-  background: rgba(255, 0, 0, 0.288);
+  background: rgba(255, 0, 0, 0);
   border-radius: 100vh;
 }
 

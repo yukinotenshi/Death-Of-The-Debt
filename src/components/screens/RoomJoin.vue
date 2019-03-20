@@ -37,7 +37,8 @@ export default {
       timer: '',
       chasingTeam: [],
       hidingTeam: [],
-      person: []
+      person: [],
+      character: '',
     }
   },
   created: function() {
@@ -85,6 +86,10 @@ export default {
         if (response.status == 200) {
           this.chasingTeam = response.data.room.chasing_team;
           this.hidingTeam = response.data.room.hiding_team;
+          this.character = this.getCharacterInPlayers(response.data.players);
+          this.$store.commit('setCharacter', {
+            character: this.character,
+          });
           this.$store.commit('setRoomMember', {
             chasing_team: this.chasingTeam,
             hiding_team: this.hidingTeam
@@ -102,17 +107,46 @@ export default {
 
     startGameGuest() {
       clearInterval(this.timer);
-      this.$store.commit('setRoomMember', {
-        chasing_team: this.chasingTeam,
-        hiding_team: this.hidingTeam
-      });
-      this.$router.push({
-        name: 'gacha',
-        params: {
-          chasingTeam: this.chasingTeam,
-          hidingTeam: this.hidingTeam,
+      const url = `${this.$store.state.baseUrl}/game/player`;
+      var fetchData = new Request(url, {
+        method: 'GET',
+        headers: {
+          "Authorization": `${this.$store.state.user.token}`,
         }
       });
+
+      fetch(fetchData)
+      .then(response => response.json())
+      .then(response => {
+        if (response.status == 200) {
+          this.character = response.data.character;
+          this.$store.commit('setRoomMember', {
+            chasing_team: this.chasingTeam,
+            hiding_team: this.hidingTeam
+          });
+          this.$store.commit('setCharacter', {
+            character: this.character,
+          });
+          this.$router.push({
+            name: 'gacha',
+            params: {
+              chasingTeam: this.chasingTeam,
+              hidingTeam: this.hidingTeam,
+              character: this.character,
+            }
+          });          
+        }
+      })
+    },
+
+    getCharacterInPlayers(playerList) {
+      for (i in playerList) {
+        if (playerList[i].username === this.$store.state.user.username) {
+          return playerList[i].character;
+        }
+      }
+
+      return '';
     }
   }
 }

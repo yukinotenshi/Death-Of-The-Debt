@@ -17,6 +17,7 @@ export default new Vuex.Store({
       hiding_team: [],
       is_owner: '',
       room_id: '',
+      character: '',
     },
     baseUrl: config.baseUrl,
   },
@@ -40,6 +41,9 @@ export default new Vuex.Store({
       state.user.token = data.access_token;
       state.user.id = data.id;
       state.user.username = data.username;
+    },
+    setCharacter(state, data) {
+      state.room.character = data.character;
     },
     setRoom(state, data) {
       state.room.room_id = data.room_id;
