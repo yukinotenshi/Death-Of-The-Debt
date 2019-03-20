@@ -15,18 +15,18 @@
       >
     </div>
     <div id="menu__buttons">
-      <div class="menu__btn">
-        <game-button
-          v-on:action="togglePlayOptions"
-          title="Play"
-        />
-      </div>
       <router-link
         class="menu__btn"
-        :to="{name: 'settings'}"
+        :to="{name: 'room'}"
       >
-        <game-button title="Options" />
+        <game-button title="Play" />
       </router-link>
+      <div class="menu__btn">
+        <game-button
+          title="Options"
+          @click = "togglePlayOptions"
+        />
+      </div>
     </div>
     <div id="menu__logo">
       <img
@@ -94,8 +94,8 @@ $yellow: #D2B24F;
   img {
     width: 60vw;
     height: auto;
-    margin-bottom: 20vh;
   }
+  bottom: 48vh;
 }
 
 #menu__buttons {
@@ -115,9 +115,17 @@ $yellow: #D2B24F;
       background-color: $yellow;
       width: 20vh;
       color: white;
+      transition-duration: 0.2s;
       -webkit-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.17);
       -moz-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.17);
       box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.17);
+
+      &:active {
+        color: black;
+        -webkit-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.09);
+        -moz-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.09);
+        box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.09);
+      }
     }
   }
 }
