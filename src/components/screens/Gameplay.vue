@@ -19,7 +19,8 @@
           <game-timer />
         </div>
         <div>
-          <h2>Current Item</h2>
+          <!-- <game-curr-item name="bell" /> -->
+          <img src="./../../assets/img/items/bell.png" alt="">
         </div>
       </div>
       <div
@@ -36,7 +37,8 @@
       </div>
       <div id="gamescreen__bottom">
         <div>
-
+          <h1 id="profile__lv">Lv.{{profile.level}}</h1>
+          <h1 id="profile__uname">{{profile.username}}</h1>
         </div>
         <div />
         <div>
@@ -65,6 +67,7 @@ import gmapsInit from './../../assets/js/gmaps';
 import mapStyle from './../../assets/js/mapStyle';
 import InventoryBoard from './../partials/gameplay/InventoryBoard';
 import GameTimer from './../partials/gameplay/GameTimer';
+import GameCurrItem from './../partials/gameplay/GameCurrItem';
 import init from './../../assets/js/gmaps';
 
 export default {
@@ -72,6 +75,7 @@ export default {
   components: {
     InventoryBoard,
     GameTimer,
+    GameCurrItem,
   },
   async mounted() {
     try {
@@ -87,12 +91,17 @@ export default {
     };
 
     this.gatherData();
+    this.setProfile();
     this.timeMapRefresh = setInterval(this.updateMapCenter, 500);
     this.timeRequest = setInterval(this.requestData, 500);
     this.timePlayerData = setInterval(this.getCurrentPlayerData, 500);
   },
   data() {
     return {
+      profile: {
+        level: '',
+        username: '',
+      },
       isInventoryOpen: false,
       catchMode: false,
       buttonName: 'Catch Mode',
@@ -117,6 +126,13 @@ export default {
       } else {
         this.buttonName = 'Observe Mode';
       }
+    },
+    setProfile() {
+      let user = this.$store.state.user;
+      this.profile = {
+        level: 10,
+        username: user.username,
+      };
     },
     openInventory() {
       this.isInventoryOpen = true;
@@ -354,7 +370,7 @@ export default {
     flex-direction: row;
     
     >div:first-child {
-      // flex: 1 0 0;
+      flex: 1 0 0;
       img {
         width: 50vw;
         height: auto;
@@ -372,6 +388,13 @@ export default {
     >div:last-child {
       flex: 1 0 0;
       text-align: right;
+
+      img {
+        margin-top: 4vw;
+        margin-left: 5vw;
+        width: 15vw;
+        height: auto;
+      }
     }
   }
 
@@ -396,6 +419,19 @@ export default {
     >div:nth-child(2) {
       flex-basis: 60%;
       max-width: 60%;
+    }
+
+    #profile__lv, #profile__uname {
+      color: rgb(112, 60, 0);
+      // outline: solid 1px rgb(173, 173, 173);
+    }
+
+    #profile__lv {
+      font-size: 5vw;
+    }
+
+    #profile__uname {
+      font-size: 6.5vw;
     }
 
     #switch-button {

@@ -156,13 +156,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$yellow: rgb(240, 206, 106);
+
 #roomjoin {
   padding: 3vh;
+  height: 100vh;
   overflow: auto;
+
+  background: url('./../../assets/img/backgrounds/home.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 #roomjoin__list, #roomjoin__code {
-  border: 2px solid gray;
+  background-color: #6E563C;
+  border: 0.3rem solid $yellow;
   border-radius: 20px;
   margin-bottom: 2vh;
 }
@@ -170,7 +179,6 @@ export default {
 #roomjoin__list {
   -ms-overflow-style: none;  // IE 10+
   overflow: -moz-scrollbars-none;  // Firefox
-  background-color: #D6D6D6;
   height: 55vh;
   overflow: auto;
 

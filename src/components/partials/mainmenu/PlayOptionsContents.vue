@@ -103,22 +103,39 @@ export default {
     display: inline-block;
 
     h3 {
+      color: white;
       display: inline;
       margin: 0 1rem;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.47);
     }
   }
 
   input[type=text] {
     font-size: 1.25rem;
-    border: 2px solid gray;
+    border: 2px solid #6E563C;
     border-radius: 20px;
     background-color: white;
-    padding: 0.5vh;
     width: 100%;
+    margin-top: 1vh;
+    padding: 1.5vh 3vh;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;    
     box-sizing: border-box;
-  }  
+  }
+
+  button {
+    background-color: #6E563C;
+    -webkit-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.17);
+    -moz-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.17);
+    box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.17);
+
+    &:active {
+      color: black;
+      -webkit-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.09);
+      -moz-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.09);
+      box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.09);
+    }
+  }
 }
 
 </style>

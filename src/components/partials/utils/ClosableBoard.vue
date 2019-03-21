@@ -36,6 +36,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$yellow: rgb(255, 214, 89);
+$brown: #E3AF5B;
+$darkbrown: #6E563C;
+
 .closableboard {
   position: absolute;
   z-index: 120;
@@ -48,14 +52,21 @@ export default {
 
   .closableboard__placeholder {
     padding: 1.2rem;
-    background-color: white;
     height: calc(60vh - 2.4rem);
     width: calc(85vw - 2.4rem);
+
+    background-color: $brown;
     border-radius: 20px;
+    border: 0.3rem solid $yellow;
+    -webkit-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.31);
+    -moz-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.31);
+    box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.31);
 
     .closableboard__board {
       h1 {
         text-align: center;
+        color: white;
+        text-shadow: 2px 2px 5px rgba(0,0,0,0.47);
       }
 
       .closableboard__board__header {
@@ -80,10 +91,17 @@ export default {
 
         button {
           cursor: pointer;
-          background: white;
-          border: 2px solid black;
+          background: $yellow;
+          border: 0.2rem solid $darkbrown;
           border-radius: 50px;
-          font-size: 1.5rem;
+          margin-left: 1vh;
+          font-size: 3.5vh;
+          font-weight: bold;
+          color: $darkbrown;
+
+          -webkit-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.2);
+          -moz-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.2);
+          box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.2);
         }
       }
 
