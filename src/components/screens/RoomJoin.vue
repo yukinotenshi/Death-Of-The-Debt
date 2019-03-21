@@ -13,7 +13,7 @@
       </div>
     </div>
     <div id="roomjoin__code">
-      <h2>Room Code:</h2>
+      <h2>Room Code</h2>
       <h1>{{room_id}}</h1>
     </div>
     <button
@@ -90,7 +90,6 @@ export default {
           this.$store.commit('setCharacter', {
             character: this.character,
           });
-          console.log(this.character);
           this.$store.commit('setRoomMember', {
             chasing_team: this.chasingTeam,
             hiding_team: this.hidingTeam
@@ -129,7 +128,6 @@ export default {
           this.$store.commit('setCharacter', {
             character: this.character,
           });
-          console.log(this.character);
           this.$router.push({
             name: 'gacha',
             params: {
@@ -201,12 +199,14 @@ $yellow: rgb(240, 206, 106);
   padding: 2vh;
 
   h1, h2 {
+    color: white;
     margin: 0;
   }
   h2 {
     font-size: 3vh;
   }
   h1 {
+    font-family: monospace;
     font-size: 5vh;
   }
 }
