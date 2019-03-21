@@ -115,7 +115,8 @@ export default {
       team: "",
       timeVibration: "",
       intensity: 0,
-      alive: true
+      alive: true,
+      character: '',
     }
   },
   methods: {
@@ -159,8 +160,10 @@ export default {
           this.lng = initialPos.lng;
 
           let icon = '';
-          if(this.team === 'chasing') icon = 'https://files.catbox.moe/lrjyak.png';
-          else icon = 'https://files.catbox.moe/7pr4o1.png';
+          if(this.character === 'Police') icon = 'https://files.catbox.moe/lrjyak.png';
+          else if (this.character === 'Trickster') icon = 'https://files.catbox.moe/7pr4o1.png';
+          else if (this.character === 'Debt Collector') icon = 'https://files.catbox.moe/abyybb.png';
+          else if (this.character === 'Drunk') icon = 'https://files.catbox.moe/ehnqd6.png';
 
           this.marker = new google.maps.Marker({
             position: {
@@ -272,6 +275,7 @@ export default {
       var name = this.$store.state.user.username;
       if (this.playerInChasingTeam(name, chasingTeam)) this.team = "chasing";
       else this.team = "hiding"
+      this.character = this.$store.state.room.character;
     },
     playerInChasingTeam(name, arr) {
       for (let i in arr) {
