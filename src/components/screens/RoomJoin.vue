@@ -213,7 +213,7 @@ $yellow: rgb(240, 206, 106);
 
 button {
   cursor: pointer;
-  background-color: grey;
+  background-color: #D2B24F;
   border: 0;
   padding: 2rem;
   font-size: 2rem;
@@ -221,5 +221,16 @@ button {
   color: white;
   width: 100%;
   border-radius: 20px;
+  -webkit-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.17);
+  -moz-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.17);
+  box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.17);
+  transition-duration: 0.2s;
+  
+  &:active {
+    color: black;
+    -webkit-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.09);
+    -moz-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.09);
+    box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.09);
+  }
 }
 </style>
