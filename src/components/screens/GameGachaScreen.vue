@@ -4,6 +4,7 @@
     <div v-if="!isLoading">
       <img :src="chara" alt="" id="chara">
       <h1>You are on {{status}} team!</h1>
+      <h2>{{character}}</h2>
       <div>
         <h1>Your team members:</h1>
         <h2
@@ -24,6 +25,7 @@ export default {
   props: {
     chasingTeam: Array,
     hidingTeam: Array,
+    character: String
   },
   data() {
     return {
@@ -50,7 +52,10 @@ export default {
         let p = this.hidingTeam[i];
         if(p === this.username) {
           this.status = 'hiding';
-          this.chara = 'https://files.catbox.moe/8qh7gj.png';
+          if (this.character === 'Drunk')
+            this.chara = 'https://files.catbox.moe/n6xy6k.png';
+          else if (this.character === 'Trickster')
+            this.chara = 'https://files.catbox.moe/8qh7gj.png';
           this.team = this.hidingTeam;
           break;
         }
@@ -61,7 +66,10 @@ export default {
           let p = this.chasingTeam[i];
           if(p === this.username) {
             this.status = 'chasing';
-            this.chara = 'https://files.catbox.moe/3lgzyf.png';
+            if (this.character === 'Police') 
+              this.chara = 'https://files.catbox.moe/3lgzyf.png';
+            else if (this.character === 'Debt Collector')
+              this.chara = 'https://files.catbox.moe/bn5spu.png';
             this.team = this.chasingTeam;
             break;
           }

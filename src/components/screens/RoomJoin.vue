@@ -90,6 +90,7 @@ export default {
           this.$store.commit('setCharacter', {
             character: this.character,
           });
+          console.log(this.character);
           this.$store.commit('setRoomMember', {
             chasing_team: this.chasingTeam,
             hiding_team: this.hidingTeam
@@ -99,6 +100,7 @@ export default {
             params: {
               chasingTeam: this.chasingTeam,
               hidingTeam: this.hidingTeam,
+              character: this.character,
             }
           });
         }
@@ -127,6 +129,7 @@ export default {
           this.$store.commit('setCharacter', {
             character: this.character,
           });
+          console.log(this.character);
           this.$router.push({
             name: 'gacha',
             params: {
@@ -140,7 +143,7 @@ export default {
     },
 
     getCharacterInPlayers(playerList) {
-      for (i in playerList) {
+      for (let i in playerList) {
         if (playerList[i].username === this.$store.state.user.username) {
           return playerList[i].character;
         }
