@@ -114,9 +114,12 @@ export default {
         } else if (response.status == 400) {
           this.isJoiningRoom = false;
           this.errorText = 'Room doesn\'t exist.';
+        } else if (response.status == 500) {
+          this.isJoiningRoom = false;
+          this.errorText = 'This user already joined to this room.';
         } else {
           this.isJoiningRoom = false;
-          this.errorText = 'Cannot create room. Please try again.';
+          this.errorText = 'Cannot join room. Please try again.';
         }
       })
       .catch(error => {
