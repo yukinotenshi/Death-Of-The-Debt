@@ -76,7 +76,8 @@ export default {
           this.isRegistering = false;
         }
         else if (response.status === 200) {
-          this.$store.commit('setUserToken', response.data.access_token);
+          this.$cookie.set('token', response.data.access_token);
+          this.$store.commit('setUser', response.data);
           this.$router.push("menu"); 
         } else {
           this.errorText = "Error on creating new account.";
