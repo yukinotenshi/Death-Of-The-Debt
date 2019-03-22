@@ -44,6 +44,7 @@ export default {
   created: function() {
     this.refreshData();
     this.timer = setInterval(this.refreshData, 500);
+    window.addEventListener('beforeunload', this.leaveRoom);
   },
   methods: {
     refreshData() {
@@ -148,6 +149,19 @@ export default {
       }
 
       return '';
+    },
+
+    leaveRoom() {
+      const url = `${this.$store.state.baseUrl}/room/leave`;
+      var fetchData = new Request(url, {
+        method: 'POST',
+        headers: {
+          "Authorization": `${this.$store.state.user.token}`,
+          "Content-Type": "application/json",
+        }
+      });
+
+      fetch(fetchData);
     }
   }
 }
