@@ -61,6 +61,9 @@ export default {
             this.$router.push("menu"); 
           } else this.errorText = "Error on creating new account";
         })
+        .catch(error => {
+          this.errorText = "Cannot fetch data from the server. Please check your internet connection.";
+        })
       }
     }
   }
