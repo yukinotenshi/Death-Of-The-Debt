@@ -99,7 +99,7 @@ export default {
       fetch(fetchData)
       .then(response => response.json())
       .then(response => {
-        if (response.status == 200) {
+        if (response.status === 200) {
           this.$store.commit('setRoom', {
             room_id: this.roomCode,
             is_owner: false,
@@ -111,10 +111,10 @@ export default {
               room_id: this.roomCode,
             },
           });
-        } else if (response.status == 400) {
+        } else if (response.status === 400) {
           this.isJoiningRoom = false;
           this.errorText = 'Room doesn\'t exist.';
-        } else if (response.status == 500) {
+        } else if (response.status === 500) {
           this.isJoiningRoom = false;
           this.errorText = 'This user already joined to this room.';
         } else {

@@ -58,11 +58,11 @@ export default {
         fetch(fetchData)
         .then(response => response.json())
         .then(response => {
-          if (response.status === 500) this.errorText = "Username has been taken";
+          if (response.status === 500) this.errorText = "Username has been taken.";
           else if (response.status === 200) {
             this.$store.commit('setUserToken', response.data.access_token);
             this.$router.push("menu"); 
-          } else this.errorText = "Error on creating new account";
+          } else this.errorText = "Error on creating new account.";
         })
         .catch(error => {
           this.errorText = "Cannot fetch data from the server. Please check your internet connection.";

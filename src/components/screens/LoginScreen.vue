@@ -6,6 +6,9 @@
       <input type="text" v-model="username">
       <h3>Password</h3>
       <input type="password" v-model="password">
+      <p>
+        {{ errorText }}
+      </p>
       <game-button title="Login" v-on:action="login"/>
       <hr/>
       <game-button title="Create Account" v-on:action="register"/>
@@ -25,10 +28,16 @@ export default {
     return {
       username: "",
       password: "",
+      errorText: "",
     }
   },
   methods: {
     login() {
+      if (this.username.length == 0 || this.password.length == 0) {
+        this.errorText = "Username or password cannot be blank.";
+        return;
+      } 
+
       let fetchData = {
         method: 'POST',
         body: JSON.stringify(
@@ -49,7 +58,14 @@ export default {
           this.$cookie.set('token', response.data.access_token);
           this.$store.commit('setUser', response.data);
           this.$router.push({name: 'menu'});
+        } else if(response.status === 404) {
+          this.errorText = 'Wrong username/password.';
+        } else {
+          this.errorText = 'Cannot login. Please try again.';
         }
+      })
+      .catch(error => {
+        this.errorText = 'Cannot fetch data from the server. Please check your internet connection.';
       })
     },
     register() {
@@ -100,6 +116,12 @@ $darkbrown: #6E563C;
     h3 {
       margin: 0 1rem;
       display: inline;
+    }
+
+    p {
+      color: brown;
+      margin: 10px 1rem;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.47);
     }
 
     hr {
