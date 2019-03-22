@@ -1,5 +1,11 @@
 <template>
   <v-container fluid id="registerscreen">
+    <transition name="fade">
+    <loading-overlay
+      v-if="isRegistering"
+      subtitle="Creating new account..."
+    />
+    </transition>
     <div id="registerscreen__container">
       <h1>Register</h1>
       <h3>Username</h3>
@@ -18,56 +24,70 @@
 
 <script>
 import GameButton from './../partials/utils/GameButton';
+import LoadingOverlay from './../partials/utils/LoadingOverlay';
 
 export default {
   name: 'RegisterScreen',
   components: {
     GameButton,
+    LoadingOverlay,
   },
   data() {
     return {
       username: "",
       password: "",
       passwordConfirm: "",
-      errorText: ""
+      errorText: "",
+      isRegistering: false,
     }
   },
   methods: {
     check() {
       if (this.username.length == 0) {
         this.errorText = "Username required";
+        return;
       } else if (this.password.length == 0) {
         this.errorText = "Password required";
+        return;
       } else if (this.password != this.passwordConfirm) {
         this.errorText = "Password do not match";
-      } else {
-        this.errorText = "";
-
-        const url = `${this.$store.state.baseUrl}/user/register`;
-        var fetchData = new Request(url, {
-          method: 'POST',
-          body: JSON.stringify({
-            "username": this.username,
-            "password": this.password
-          }),
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-
-        fetch(fetchData)
-        .then(response => response.json())
-        .then(response => {
-          if (response.status === 500) this.errorText = "Username has been taken.";
-          else if (response.status === 200) {
-            this.$store.commit('setUserToken', response.data.access_token);
-            this.$router.push("menu"); 
-          } else this.errorText = "Error on creating new account.";
-        })
-        .catch(error => {
-          this.errorText = "Cannot fetch data from the server. Please check your internet connection.";
-        })
+        return;
       }
+
+      this.errorText = "";
+      this.isRegistering = true;
+
+      const url = `${this.$store.state.baseUrl}/user/register`;
+      var fetchData = new Request(url, {
+        method: 'POST',
+        body: JSON.stringify({
+          "username": this.username,
+          "password": this.password
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      fetch(fetchData)
+      .then(response => response.json())
+      .then(response => {
+        if (response.status === 500) {
+          this.errorText = "Username has been taken.";
+          this.isRegistering = false;
+        }
+        else if (response.status === 200) {
+          this.$store.commit('setUserToken', response.data.access_token);
+          this.$router.push("menu"); 
+        } else {
+          this.errorText = "Error on creating new account.";
+          this.isRegistering = false;
+        }
+      })
+      .catch(error => {
+        this.errorText = "Cannot fetch data from the server. Please check your internet connection.";
+        this.isRegistering = false;
+      })
     }
   }
 }

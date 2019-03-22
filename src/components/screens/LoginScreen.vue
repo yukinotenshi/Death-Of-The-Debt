@@ -1,5 +1,11 @@
 <template>
   <v-container fluid id="loginscreen">
+    <transition name="fade">
+    <loading-overlay
+      v-if="isLoggingIn"
+      subtitle="Logging in..."
+    />
+    </transition>
     <div id="loginscreen__container">
       <h1>Login</h1>
       <h3>Username</h3>
@@ -18,17 +24,20 @@
 
 <script>
 import GameButton from './../partials/utils/GameButton';
+import LoadingOverlay from './../partials/utils/LoadingOverlay';
 
 export default {
   name: 'LoginScreen',
   components: {
     GameButton,
+    LoadingOverlay,
   },
   data() {
     return {
       username: "",
       password: "",
       errorText: "",
+      isLoggingIn: false,
     }
   },
   methods: {
@@ -36,7 +45,10 @@ export default {
       if (this.username.length == 0 || this.password.length == 0) {
         this.errorText = "Username or password cannot be blank.";
         return;
-      } 
+      }
+
+      this.errorText = "";
+      this.isLoggingIn = true;
 
       let fetchData = {
         method: 'POST',
@@ -60,12 +72,15 @@ export default {
           this.$router.push({name: 'menu'});
         } else if(response.status === 404) {
           this.errorText = 'Wrong username/password.';
+          this.isLoggingIn = false;
         } else {
           this.errorText = 'Cannot login. Please try again.';
+          this.isLoggingIn = false;
         }
       })
       .catch(error => {
         this.errorText = 'Cannot fetch data from the server. Please check your internet connection.';
+        this.isLoggingIn = false;
       })
     },
     register() {
