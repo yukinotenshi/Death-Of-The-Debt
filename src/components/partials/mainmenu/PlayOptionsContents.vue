@@ -1,47 +1,57 @@
 <template>
   <v-container fluid>
+    <transition name="fade">
+    <loading-overlay
+      v-if="isJoiningRoom"
+      subtitle="Joining Room..."
+    />
+    <loading-overlay
+      v-if="isCreatingRoom"
+      subtitle="Creating room..."
+    />
+    </transition>
     <div class="createroom">
+      <p>{{errorText}}</p>
       <game-button
         v-on:action="gotoCreateRoom"
         title="Create Room"
       />
       <hr/>
-      <div v-if="!isLoading">
-        <div class="gap">
-          <h3>Room Code</h3>
-          <input type="text" v-model="roomCode">
-        </div>
-        <p>{{errorText}}</p>
-        <game-button 
-          v-on:action="joinRoom"
-          title="Join Room"
-        />
+      <div class="gap">
+        <h3>Room Code</h3>
+        <input type="text" v-model="roomCode">
       </div>
-      <div v-else>
-        <img src="./../../../assets/img/icons/loading-spinner.svg">
-      </div>
+      <game-button 
+        v-on:action="joinRoom"
+        title="Join Room"
+      />
     </div>
   </v-container>
 </template>
 
 <script>
 import GameButton from './../utils/GameButton.vue';
+import LoadingOverlay from './../utils/LoadingOverlay';
 
 export default {
   name: 'PlayOptionsContents',
   components: {
     GameButton,
+    LoadingOverlay,
   },
   data() {
     return {
       roomCode : '',
       errorText: '',
-      isLoading : false
+      isJoiningRoom : false,
+      isCreatingRoom : false
     }
   },
   methods: {
     gotoCreateRoom() {
       const url = `${this.$store.state.baseUrl}/room/create`;
+      this.isCreatingRoom = true;
+      
       fetch(url, {
         method: 'POST',
         headers: {
@@ -63,7 +73,13 @@ export default {
               room_id: this.$store.state.room.room_id,
             },
           });
+        } else {
+          this.isCreatingRoom = false;
         }
+      })
+      .catch(error => {
+        this.isCreatingRoom = false;
+        this.errorText = 'Cannot fetch data from the server. Please check your internet connection.';
       })
     },
     joinRoom() {
@@ -78,7 +94,7 @@ export default {
           "Content-Type": "application/json"
         }
       });
-      this.isLoading = true;
+      this.isJoiningRoom = true;
 
       fetch(fetchData)
       .then(response => response.json())
@@ -95,10 +111,17 @@ export default {
               room_id: this.roomCode,
             },
           });
+        } else if (response.status == 400) {
+          this.isJoiningRoom = false;
+          this.errorText = 'Room doesn\'t exist.';
         } else {
-          this.isLoading = false;
-          this.errorText = 'Cannot join room';
+          this.isJoiningRoom = false;
+          this.errorText = 'Cannot create room. Please try again.';
         }
+      })
+      .catch(error => {
+        this.isJoiningRoom = false;
+        this.errorText = 'Cannot fetch data from the server. Please check your internet connection.';
       })
     }
   }
