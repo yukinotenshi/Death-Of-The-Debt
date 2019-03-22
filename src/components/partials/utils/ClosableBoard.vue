@@ -52,7 +52,8 @@ $darkbrown: #6E563C;
 
   .closableboard__placeholder {
     padding: 1.2rem;
-    height: calc(60vh - 2.4rem);
+    min-height: 60vh;
+    height: auto;
     width: calc(85vw - 2.4rem);
 
     background-color: $brown;

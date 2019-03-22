@@ -5,14 +5,21 @@
         v-on:action="gotoCreateRoom"
         title="Create Room"
       />
-      <div class="gap">
-        <h3>Room Code</h3>
-        <input type="text" v-model="roomCode">
+      <hr/>
+      <div v-if="!isLoading">
+        <div class="gap">
+          <h3>Room Code</h3>
+          <input type="text" v-model="roomCode">
+        </div>
+        <p>{{errorText}}</p>
+        <game-button 
+          v-on:action="joinRoom"
+          title="Join Room"
+        />
       </div>
-      <game-button 
-        v-on:action="joinRoom"
-        title="Join Room"
-      />
+      <div v-else>
+        <img src="./../../../assets/img/icons/loading-spinner.svg">
+      </div>
     </div>
   </v-container>
 </template>
@@ -27,7 +34,9 @@ export default {
   },
   data() {
     return {
-      roomCode : ''
+      roomCode : '',
+      errorText: '',
+      isLoading : false
     }
   },
   methods: {
@@ -69,6 +78,7 @@ export default {
           "Content-Type": "application/json"
         }
       });
+      this.isLoading = true;
 
       fetch(fetchData)
       .then(response => response.json())
@@ -85,6 +95,9 @@ export default {
               room_id: this.roomCode,
             },
           });
+        } else {
+          this.isLoading = false;
+          this.errorText = 'Cannot join room';
         }
       })
     }
@@ -108,6 +121,18 @@ export default {
       margin: 0 1rem;
       text-shadow: 2px 2px 5px rgba(0,0,0,0.47);
     }
+  }
+
+  p {
+    color: brown;
+    margin: 0 1rem;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.47);
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #6E563C;
   }
 
   input[type=text] {
