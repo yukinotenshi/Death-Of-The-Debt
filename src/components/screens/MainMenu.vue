@@ -6,7 +6,14 @@
       v-on:closeBoard="togglePlayOptions"
       title="Choose"
     >
-      <component :is="childComponent" />
+      <component :is="childComponent1" />
+    </closable-board>
+    <closable-board
+      v-if="options"
+      v-on:closeBoard="toggleOptions"
+      title="Options"
+    >
+      <component :is="childComponent2" />
     </closable-board>
     </transition>
     <div id="menu__chara">
@@ -23,7 +30,10 @@
       >
         <game-button title="Play"/>
       </div>
-      <div class="menu__btn">
+      <div
+        class="menu__btn"
+        @click="toggleOptions"
+      >
         <game-button title="Options"/>
       </div>
     </div>
@@ -40,6 +50,7 @@
 import ClosableBoard from './../partials/utils/ClosableBoard';
 import GameButton from './../partials/utils/GameButton';
 import PlayOptionsContents from './../partials/mainmenu/PlayOptionsContents';
+import OptionsContents from './../partials/mainmenu/OptionsContents';
 
 export default {
   name: 'MainMenu',
@@ -47,16 +58,22 @@ export default {
     ClosableBoard,
     GameButton,
     PlayOptionsContents,
+    OptionsContents,
   },
   data() {
     return {
       playOptions: false,
-      childComponent: PlayOptionsContents,
+      options: false,
+      childComponent1: PlayOptionsContents,
+      childComponent2: OptionsContents,
     }
   },
   methods: {
     togglePlayOptions() {
       this.playOptions = !this.playOptions;
+    },
+    toggleOptions() {
+      this.options = !this.options;
     }
   }
 }
