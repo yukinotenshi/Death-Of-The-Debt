@@ -54,7 +54,6 @@ export default {
         return;
       }
 
-      this.errorText = "";
       this.isRegistering = true;
 
       const url = `${this.$store.state.baseUrl}/user/register`;

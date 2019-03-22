@@ -47,7 +47,6 @@ export default {
         return;
       }
 
-      this.errorText = "";
       this.isLoggingIn = true;
 
       let fetchData = {
