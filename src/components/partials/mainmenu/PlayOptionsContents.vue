@@ -83,6 +83,10 @@ export default {
       })
     },
     joinRoom() {
+      if (roomCode.length === 0) {
+        this.errorText = 'Room code cannot be empty.';
+        return;
+      }
       const url = `${this.$store.state.baseUrl}/room/join`;
       var fetchData = new Request(url, {
         method: 'POST',
@@ -111,7 +115,7 @@ export default {
               room_id: this.roomCode,
             },
           });
-        } else if (response.status === 400) {
+        } else if (response.status === 404) {
           this.isJoiningRoom = false;
           this.errorText = 'Room doesn\'t exist.';
         } else if (response.status === 500) {
