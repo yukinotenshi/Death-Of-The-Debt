@@ -1,5 +1,6 @@
 <template>
   <v-container fluid id="menu">
+    <transition name="fade">
     <closable-board
       v-if="playOptions"
       v-on:closeBoard="togglePlayOptions"
@@ -7,6 +8,7 @@
     >
       <component :is="childComponent" />
     </closable-board>
+    </transition>
     <div id="menu__chara">
       <img
         id="splash__chara"
@@ -126,4 +128,13 @@ $yellow: #D2B24F;
     }
   }
 }
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.2s;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
 </style>
