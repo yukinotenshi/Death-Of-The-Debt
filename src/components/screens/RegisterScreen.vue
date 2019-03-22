@@ -1,6 +1,6 @@
 <template>
   <v-container fluid id="registerscreen">
-    <div id="loginscreen__container">
+    <div id="registerscreen__container">
       <h1>Register</h1>
       <h3>Username</h3>
       <input type="text" v-model="username">
@@ -11,16 +11,19 @@
       <p>
         {{ errorText }}
       </p>
-      <button v-on:click="check()">
-        Register
-      </button>
+      <game-button title="Register" v-on:action="check"/>
     </div>
   </v-container>
 </template>
 
 <script>
+import GameButton from './../partials/utils/GameButton';
+
 export default {
   name: 'RegisterScreen',
+  components: {
+    GameButton,
+  },
   data() {
     return {
       username: "",
@@ -71,44 +74,85 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$yellow: #FFD659;
+$darkyellow: #D2B24F;
+$brown: #E3AF5B;
+$darkbrown: #6E563C;
 
-#loginscreen__container {
-  border-radius: 20px;
-  padding: 0.5rem;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+#registerscreen {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
 
-  h3 {
-    margin: 0;
-  }
+  background: url('./../../assets/img/backgrounds/home.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 
-  input[type=text],
-  input[type=password] {
-    font-size: 1.25rem;
-    border: 2px solid gray;
+  #registerscreen__container {
+    padding: 1.2rem;
+    min-height: 60vh;
+    height: auto;
+    width: calc(85vw - 2.4rem);
+
+    background-color: $brown;
     border-radius: 20px;
-    background-color: white;
-    padding: 0.5rem;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;    
-    box-sizing: border-box;
-  }
-}
+    border: 0.3rem solid $yellow;
+    -webkit-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.31);
+    -moz-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.31);
+    box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.31);
 
-button {
-  cursor: pointer;
-  background-color: grey;
-  border: 0;
-  margin-top: 1rem;
-  padding: 2rem;
-  font-size: 2rem;
-  font-weight: bold;
-  color: white;
-  width: 100%;
-  border-radius: 20px;
+    h1, h3 {
+      color: white;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.47);
+    }
+    
+    h3 {
+      margin: 0 1rem;
+      display: inline;
+    }
+
+    p {
+      color: brown;
+      margin: 10px 1rem;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.47);
+    }
+
+    input[type=text],
+    input[type=password] {
+      width: 100%;
+      font-size: 1.25rem;
+      border: 2px solid $darkbrown;
+      border-radius: 20px;
+      background-color: white;
+      padding: 0.5rem;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;    
+      box-sizing: border-box;
+    }
+  }
+
+  button {
+    text-decoration: none;
+    background-color: $darkbrown;
+    width: 100%;
+    color: white;
+    transition-duration: 0.2s;
+    -webkit-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.17);
+    -moz-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.17);
+    box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.17);
+
+    &:active {
+      color: black;
+      -webkit-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.09);
+      -moz-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.09);
+      box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.09);
+    }
+  }
 }
 
 </style>

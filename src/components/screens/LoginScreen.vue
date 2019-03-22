@@ -6,19 +6,21 @@
       <input type="text" v-model="username">
       <h3>Password</h3>
       <input type="password" v-model="password">
-      <button @click="login">
-        Login
-      </button>
-      <button @click="register">
-        Create Account
-      </button>
+      <game-button title="Login" v-on:action="login"/>
+      <hr/>
+      <game-button title="Create Account" v-on:action="register"/>
     </div>
   </v-container>
 </template>
 
 <script>
+import GameButton from './../partials/utils/GameButton';
+
 export default {
   name: 'LoginScreen',
+  components: {
+    GameButton,
+  },
   data() {
     return {
       username: "",
@@ -58,44 +60,85 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$yellow: #FFD659;
+$darkyellow: #D2B24F;
+$brown: #E3AF5B;
+$darkbrown: #6E563C;
 
-#loginscreen__container {
-  border-radius: 20px;
-  padding: 0.5rem;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+#loginscreen {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-align: center;
 
-  h3 {
-    margin: 0;
-  }
+  background: url('./../../assets/img/backgrounds/home.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 
-  input[type=text],
-  input[type=password] {
-    font-size: 1.25rem;
-    border: 2px solid gray;
+  #loginscreen__container {
+    padding: 1.2rem;
+    min-height: 60vh;
+    height: auto;
+    width: calc(85vw - 2.4rem);
+
+    background-color: $brown;
     border-radius: 20px;
-    background-color: white;
-    padding: 0.5rem;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;    
-    box-sizing: border-box;
-  }
-}
+    border: 0.3rem solid $yellow;
+    -webkit-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.31);
+    -moz-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.31);
+    box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.31);
 
-button {
-  cursor: pointer;
-  background-color: grey;
-  border: 0;
-  margin-top: 1rem;
-  padding: 2rem;
-  font-size: 2rem;
-  font-weight: bold;
-  color: white;
-  width: 100%;
-  border-radius: 20px;
+    h1, h3 {
+      color: white;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.47);
+    }
+
+    h3 {
+      margin: 0 1rem;
+      display: inline;
+    }
+
+    hr {
+      height: 1px;
+      border: 0;
+      border-top: 1px solid #6E563C;
+    }
+
+    input[type=text],
+    input[type=password] {
+      width: 100%;
+      font-size: 1.25rem;
+      border: 2px solid $darkbrown;
+      border-radius: 20px;
+      background-color: white;
+      padding: 0.5rem;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;    
+      box-sizing: border-box;
+    }
+  }
+
+  button {
+    text-decoration: none;
+    background-color: $darkbrown;
+    width: 100%;
+    color: white;
+    transition-duration: 0.2s;
+    -webkit-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.17);
+    -moz-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.17);
+    box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.17);
+
+    &:active {
+      color: black;
+      -webkit-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.09);
+      -moz-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.09);
+      box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.09);
+    }
+  }
 }
 
 </style>

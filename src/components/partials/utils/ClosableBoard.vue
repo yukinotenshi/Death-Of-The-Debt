@@ -36,7 +36,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$yellow: rgb(255, 214, 89);
+$yellow: #FFD659;
 $brown: #E3AF5B;
 $darkbrown: #6E563C;
 
