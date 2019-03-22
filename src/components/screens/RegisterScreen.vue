@@ -31,10 +31,10 @@ export default {
   },
   methods: {
     check() {
-      if (this.username.length < 4) {
-        this.errorText = "Username length must be at least 4 characters long";
-      } else if (this.password.length < 8) {
-        this.errorText = "Password length must be at least 8 characters long";
+      if (this.username.length == 0) {
+        this.errorText = "Username required";
+      } else if (this.password.length == 0) {
+        this.errorText = "Password required";
       } else if (this.password != this.passwordConfirm) {
         this.errorText = "Password do not match";
       } else {
