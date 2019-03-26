@@ -10,21 +10,15 @@
 </template>
 
 <script>
-import GameButton from './../utils/GameButton.vue';
-import LoadingOverlay from './../utils/LoadingOverlay';
 
 export default {
-  name: 'PlayOptionsContents',
+  name: 'OptionsContents',
   components: {
     GameButton,
-    LoadingOverlay,
   },
   data() {
     return {
-      roomCode : '',
-      errorText: '',
-      isJoiningRoom : false,
-      isCreatingRoom : false
+      
     }
   },
   methods: {
