@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import GameButton from './../utils/GameButton.vue';
 
 export default {
   name: 'OptionsContents',
@@ -18,7 +19,7 @@ export default {
   },
   data() {
     return {
-      
+
     }
   },
   methods: {
