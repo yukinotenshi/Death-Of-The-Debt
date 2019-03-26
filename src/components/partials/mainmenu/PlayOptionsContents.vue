@@ -83,7 +83,7 @@ export default {
       })
     },
     joinRoom() {
-      if (roomCode.length === 0) {
+      if (this.roomCode.length === 0) {
         this.errorText = 'Room code cannot be empty.';
         return;
       }
