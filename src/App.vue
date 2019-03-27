@@ -73,7 +73,8 @@ export default {
 </script>
 
 <style>
-@import url('./assets/css/style.scss');
+@import url('assets/css/_base.scss');
+@import url('assets/css/style.scss');
 
 body {
   margin: 0;
@@ -86,7 +87,7 @@ html, body {
 }
 
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Ex Rounded', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

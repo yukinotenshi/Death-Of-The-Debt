@@ -20,15 +20,15 @@ export default {
 
 <style lang="scss" scoped>
 button {
+  font-family: 'Ex Rounded';
   cursor: pointer;
   background-color: grey;
-  border: 0;
+  border: rgb(61, 61, 61) solid 0.5vh;
   padding: 2.5vh;
   font-size: 3vh;
-  font-weight: bold;
   color: white;
   width: 100%;
-  border-radius: 20px;
+  border-radius: 2vh;
   margin-top: 1rem;
   margin-bottom: 1rem;
 }

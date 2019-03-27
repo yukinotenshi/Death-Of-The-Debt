@@ -36,7 +36,7 @@ export default {
   data() {
     return {
       isLoading: true,
-      second: 3000,
+      second: 3,
       status: '',
       username: '',
       team: [],
