@@ -42,7 +42,6 @@ export default {
   },
   created: function() {
     this.refreshData();
-    this.getPlayerData();
     this.timer = setInterval(this.refreshData, 500);
     window.addEventListener('beforeunload', this.leaveRoom);
   },
@@ -163,26 +162,6 @@ export default {
 
       fetch(fetchData);
     },
-
-    getPlayerData() {
-      const url = `${this.$store.state.baseUrl}/user/profile`;
-      var fetchData = new Request(url, {
-        method: 'GET',
-        headers: {
-          "Authorization": `${this.$store.state.user.token}`,
-        }
-      });
-
-      fetch(fetchData)
-      .then(response => response.json())
-      .then(response => {
-        if (response.status == 200) {
-          this.level = response.data.level;   
-        } else {
-          this.getPlayerData();
-        }
-      })
-    }
   }
 }
 </script>
