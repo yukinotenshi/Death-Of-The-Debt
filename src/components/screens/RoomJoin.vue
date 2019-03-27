@@ -33,6 +33,7 @@ export default {
   data() {
     return {
       timer: '',
+      level: 1,
       chasingTeam: [],
       hidingTeam: [],
       person: [],
@@ -41,6 +42,7 @@ export default {
   },
   created: function() {
     this.refreshData();
+    this.getPlayerData();
     this.timer = setInterval(this.refreshData, 500);
     window.addEventListener('beforeunload', this.leaveRoom);
   },
@@ -160,6 +162,26 @@ export default {
       });
 
       fetch(fetchData);
+    },
+
+    getPlayerData() {
+      const url = `${this.$store.state.baseUrl}/user/profile`;
+      var fetchData = new Request(url, {
+        method: 'GET',
+        headers: {
+          "Authorization": `${this.$store.state.user.token}`,
+        }
+      });
+
+      fetch(fetchData)
+      .then(response => response.json())
+      .then(response => {
+        if (response.status == 200) {
+          this.level = response.data.level;   
+        } else {
+          this.getPlayerData();
+        }
+      })
     }
   }
 }
@@ -191,8 +213,10 @@ $yellow: rgb(240, 206, 106);
   overflow: -moz-scrollbars-none;  // Firefox
   height: 55vh;
   overflow: auto;
+
   display: flex;
-  flex-flow: 'flex-wrap';
+  flex-wrap: wrap;
+  flex-direction: row;
 
   &::-webkit-scrollbar { 
     display: none;  // Safari and Chrome
@@ -202,9 +226,10 @@ $yellow: rgb(240, 206, 106);
     border: 2px solid gray;
     border-radius: 20px;
     background-color: white;
-    margin: 0.3rem;
-    flex-basis: 50%;
-    max-width: 50%;
+    margin: 0.3rem 0;
+    padding: 0.3rem;
+    flex-basis: 45%;
+    height: 100px;
   }
 }
 
