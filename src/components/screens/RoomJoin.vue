@@ -1,15 +1,13 @@
 <template>
   <v-container fluid id="roomjoin">
     <div id="roomjoin__list">
-      <div>
-        <div
-          class="roomjoin__person"
-          v-for="p in person"
-          :key=p
-        >
-          <h2>{{p}}</h2>
-          <h3>lv 31</h3>
-        </div>
+      <div
+        class="roomjoin__person"
+        v-for="p in person"
+        :key=p
+      >
+        <h2>{{p}}</h2>
+        <h3>lv 31</h3>
       </div>
     </div>
     <div id="roomjoin__code">
@@ -193,6 +191,8 @@ $yellow: rgb(240, 206, 106);
   overflow: -moz-scrollbars-none;  // Firefox
   height: 55vh;
   overflow: auto;
+  display: flex;
+  flex-flow: 'flex-wrap';
 
   &::-webkit-scrollbar { 
     display: none;  // Safari and Chrome
@@ -203,7 +203,8 @@ $yellow: rgb(240, 206, 106);
     border-radius: 20px;
     background-color: white;
     margin: 0.3rem;
-    padding: 0.5rem 3rem;
+    flex-basis: 50%;
+    max-width: 50%;
   }
 }
 
