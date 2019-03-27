@@ -8,10 +8,15 @@
         </button>
       </router-link> -->
     </div>
-    <InventoryBoard
-      v-if="isInventoryOpen"
-      v-on:closeInventory="closeInventory"
-    />
+    <transition name="fade">
+      <closable-board
+        v-if="isInventoryOpen"
+        v-on:closeBoard="closeInventory"
+        title="Inventory"
+      >
+        <component :is="childComponent" />
+      </closable-board>
+    </transition>
     <div id="gamescreen">
       <div id="gamescreen__top">
         <div>
@@ -63,6 +68,8 @@
 </template>
 
 <script>
+import ClosableBoard from './../partials/utils/ClosableBoard';
+import InventoryBoardContents from './../partials/gameplay/InventoryBoardContents';
 import gmapsInit from './../../assets/js/gmaps';
 import mapStyle from './../../assets/js/mapStyle';
 import InventoryBoard from './../partials/gameplay/InventoryBoard';
@@ -76,6 +83,8 @@ export default {
     InventoryBoard,
     GameTimer,
     GameCurrItem,
+    ClosableBoard,
+    InventoryBoardContents,
   },
   async mounted() {
     try {
@@ -98,6 +107,7 @@ export default {
   },
   data() {
     return {
+      childComponent: InventoryBoardContents,
       profile: {
         level: '',
         username: '',

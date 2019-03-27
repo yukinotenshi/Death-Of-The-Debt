@@ -1,20 +1,20 @@
 <template>
   <v-container fluid id="menu">
     <transition name="fade">
-    <closable-board
-      v-if="playOptions"
-      v-on:closeBoard="togglePlayOptions"
-      title="Choose"
-    >
-      <component :is="childComponent1" />
-    </closable-board>
-    <closable-board
-      v-if="options"
-      v-on:closeBoard="toggleOptions"
-      title="Options"
-    >
-      <component :is="childComponent2" />
-    </closable-board>
+      <closable-board
+        v-if="playOptions"
+        v-on:closeBoard="togglePlayOptions"
+        title="Choose"
+      >
+        <component :is="childComponent1" />
+      </closable-board>
+      <closable-board
+        v-if="options"
+        v-on:closeBoard="toggleOptions"
+        title="Options"
+      >
+        <component :is="childComponent2" />
+      </closable-board>
     </transition>
     <div id="menu__chara">
       <img
