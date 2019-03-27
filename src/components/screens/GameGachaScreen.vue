@@ -1,8 +1,14 @@
 <template>
   <v-container id="gacha">
-    <h1 v-if="isLoading">Gacha-ing your character...</h1>
-    <div v-if="!isLoading">
-      <img :src="chara" alt="" id="chara">
+    <!-- <h1 v-if="isLoading">Gacha-ing your character...</h1> -->
+    <div v-if="isLoading">
+      <h1>Gacha-ing your character...</h1>
+    </div>
+    <div v-if="!isLoading" id="result">
+      <div id="chara__placeholder">
+        <img src="../../assets/img/misc/light.png" alt="" id="light">
+        <img :src="chara" alt="" id="chara">
+      </div>
       <h1>You are on {{status}} team!</h1>
       <h2>{{character}}</h2>
       <div>
@@ -30,7 +36,7 @@ export default {
   data() {
     return {
       isLoading: true,
-      second: 3,
+      second: 3000,
       status: '',
       username: '',
       team: [],
@@ -96,15 +102,53 @@ export default {
 #gacha {
   height: 100vh;
   width: 100vw;
+  overflow: hidden;
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  background: url('./../../assets/img/backgrounds/home.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-#chara {
-  height: 40vh;
-  width: auto;
+#result {
+  h1, h2 {
+    color: white;
+  }
+  h1 {
+    font-size: 4vh;
+  }
+}
+
+#chara__placeholder {
+  display: flex;
+  height: 100vw;
+  justify-content: center;
+  align-items: center;
+
+  #chara {
+    position: absolute;
+    z-index: 999;
+    height: 40vh;
+    width: auto;
+  }
+
+  #light {
+    width: 200vw;
+    animation: rotation 2s infinite linear;
+  }
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
 }
 </style>
