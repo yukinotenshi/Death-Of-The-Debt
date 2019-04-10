@@ -8,7 +8,7 @@
         </button>
       </router-link> -->
     </div>
-    <transition name="fade">
+    <!-- <transition name="fade">
       <closable-board
         v-if="isInventoryOpen"
         v-on:closeBoard="closeInventory"
@@ -16,7 +16,7 @@
       >
         <component :is="childComponent" />
       </closable-board>
-    </transition>
+    </transition> -->
     <div id="gamescreen">
       <div id="gamescreen__top">
         <div>
@@ -51,7 +51,7 @@
             id="inventory-button"
             src="./../../assets/img/icons/inventory.png"
             alt="inventory"
-            @click="openInventory"
+            @click="castSkill"
           >
           <!-- <button
             id="inventory-button"
@@ -325,6 +325,18 @@ export default {
         if (response.status === 200) {
           this.alive = response.data.alive;
         }
+      })
+    },
+    castSkill() {
+      const url = `${this.$store.state.baseUrl}/skill/cast`;
+      let fetchData = new Request(url, {
+        method: 'POST',
+        headers: { "Authorization": `${this.$store.state.user.token}` }
+      });
+      fetch(fetchData)
+      .then(response => response.json())
+      .then(response => {
+        console.log(response);
       })
     }
   }
