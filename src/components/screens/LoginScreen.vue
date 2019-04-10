@@ -124,7 +124,7 @@ $darkbrown: #6E563C;
 
     h1, h3 {
       color: white;
-      text-shadow: 2px 2px 5px rgba(0,0,0,0.47);
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
     }
 
     h3 {
@@ -135,7 +135,7 @@ $darkbrown: #6E563C;
     p {
       color: brown;
       margin: 10px 1rem;
-      text-shadow: 2px 2px 5px rgba(0,0,0,0.47);
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
     }
 
     hr {
@@ -147,14 +147,18 @@ $darkbrown: #6E563C;
     input[type=text],
     input[type=password] {
       width: 100%;
-      font-size: 1.25rem;
+      font-family: 'Itim';
+      font-size: 3vh;
       border: 2px solid $darkbrown;
-      border-radius: 20px;
+      border-radius: 10px;
       background-color: white;
-      padding: 0.5rem;
+      padding: 1.2vh;
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;    
       box-sizing: border-box;
+      margin-bottom: 0.5vh;
+      margin-top: 0.5vh;
+      text-align: center;
     }
   }
 

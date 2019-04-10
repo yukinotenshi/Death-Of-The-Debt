@@ -87,7 +87,7 @@ html, body {
 }
 
 #app {
-  font-family: 'Ex Rounded', sans-serif;
+  font-family: 'Itim', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

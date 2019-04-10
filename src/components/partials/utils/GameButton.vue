@@ -20,7 +20,8 @@ export default {
 
 <style lang="scss" scoped>
 button {
-  font-family: 'Ex Rounded';
+  font-family: 'Itim';
+  font-weight: bold;
   cursor: pointer;
   background-color: grey;
   border: rgb(61, 61, 61) solid 0.5vh;

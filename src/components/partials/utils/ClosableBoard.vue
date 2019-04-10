@@ -74,6 +74,12 @@ $darkbrown: #6E563C;
         display: flex;
         flex-direction: row;
 
+        h1 {
+          font-family: 'Fredoka One';
+          // letter-spacing: 0.1rem;
+          font-weight: normal;
+        }
+
         >div {
           display: flex;
           justify-content: center;
