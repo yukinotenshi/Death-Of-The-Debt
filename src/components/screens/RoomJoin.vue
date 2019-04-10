@@ -4,10 +4,16 @@
       <div
         class="roomjoin__person"
         v-for="p in person"
-        :key=p
+        :key=p.username
       >
-        <h2>{{p}}</h2>
-        <h3>lv 31</h3>
+        <h2>{{p.username}}</h2>
+        <h3>Lv. {{p.level}}</h3>
+      </div>
+      <div
+        class="roomjoin__person-empty"
+        v-for="n in (maxPlayer-playerCount)"
+        :key=n
+      >
       </div>
     </div>
     <div id="roomjoin__code">
@@ -30,6 +36,11 @@ export default {
     is_owner: Boolean,
     room_id: String,
   },
+  computed : {
+    playerCount() {
+      return this.person.length;
+    }
+  },
   data() {
     return {
       timer: '',
@@ -38,6 +49,7 @@ export default {
       hidingTeam: [],
       person: [],
       character: '',
+      maxPlayer: 10,
     }
   },
   created: function() {
@@ -202,6 +214,15 @@ $yellow: rgb(240, 206, 106);
   }
 
   .roomjoin__person {
+    border: 2px solid gray;
+    border-radius: 20px;
+    background-color: green;
+    margin: 0.3rem 0;
+    padding: 0.3rem;
+    flex-basis: 45%;
+    height: 100px;
+  }
+  .roomjoin__person-empty {
     border: 2px solid gray;
     border-radius: 20px;
     background-color: white;
