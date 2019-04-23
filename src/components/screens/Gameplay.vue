@@ -10,7 +10,7 @@
     </div>
     <transition name="fade">
       <div id="beer-spill" v-if="beerSpilt">
-        <img id="beer" src="./../../assets/img/items/beer.gif" alt=""/>
+        <img id="beer" :src="beerSrc" alt=""/>
         <!-- <router-link :to="">
           <button>
             Back to Menu
@@ -133,6 +133,7 @@ export default {
       siren: null,
       markerIntel: [],
       beerSpilt: false,
+      beerSrc: "",
     }
   },
   methods: {
@@ -389,6 +390,7 @@ export default {
     },
     spillBeer(duration) {
       this.beerSpilt = true;
+      this.beerSrc = require("./../../assets/img/items/beer.gif") + '?' + Math.random();
 
       setTimeout(() => {
         this.beerSpilt = false;
