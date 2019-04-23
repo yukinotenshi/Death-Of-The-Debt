@@ -8,6 +8,16 @@
         </button>
       </router-link> -->
     </div>
+    <transition name="fade">
+      <div id="beer-spill" v-if="beerSpilt">
+        <img id="beer" src="./../../assets/img/items/beer.gif" alt=""/>
+        <!-- <router-link :to="">
+          <button>
+            Back to Menu
+          </button>
+        </router-link> -->
+      </div>
+    </transition>
     <div id="gamescreen">
       <div id="gamescreen__top">
         <div>
@@ -121,6 +131,8 @@ export default {
       character: '',
       currentSkillId: null,
       siren: null,
+      markerIntel: [],
+      beerSpilt: false,
     }
   },
   methods: {
@@ -148,6 +160,13 @@ export default {
     updateMapCenter() {
       navigator.geolocation.getCurrentPosition(this.geoSuccess, console.log, {maximumAge:10000, timeout:10000, enableHighAccuracy:true});
     },
+    getIcon(character) {
+      if(character === 'Police') return 'https://files.catbox.moe/lrjyak.png';
+      else if (character === 'Trickster') return 'https://files.catbox.moe/7pr4o1.png';
+      else if (character === 'Debt Collector') return 'https://files.catbox.moe/abyybb.png';
+      else if (character === 'Drunk') return 'https://files.catbox.moe/ehnqd6.png';
+      return null;
+    },
     geoSuccess(position) {
       var initialPos = {
         lat: position.coords.latitude,
@@ -163,11 +182,7 @@ export default {
           this.lat = initialPos.lat;
           this.lng = initialPos.lng;
 
-          let icon = '';
-          if(this.character === 'Police') icon = 'https://files.catbox.moe/lrjyak.png';
-          else if (this.character === 'Trickster') icon = 'https://files.catbox.moe/7pr4o1.png';
-          else if (this.character === 'Debt Collector') icon = 'https://files.catbox.moe/abyybb.png';
-          else if (this.character === 'Drunk') icon = 'https://files.catbox.moe/ehnqd6.png';
+          let icon = this.getIcon(this.character);
 
           this.marker = new google.maps.Marker({
             position: {
@@ -342,27 +357,66 @@ export default {
         method: 'POST',
         headers: { "Authorization": `${this.$store.state.user.token}` }
       });
-      fetch(fetchData);
+      fetch(fetchData)
+      .then(response => response.json())
+      .then(response => {
+        if (this.character === "Debt Collector") {
+          let playerList = response.active_skill.target;
+          let duration = response.active_skill.value;
+          this.callIntel(playerList, duration);
+          console.log(response)
+        }
+      })
     },
     skillHandler(activeSkill) {
       let name = this.$store.state.user.username;
-      // if (isNameInArr(name, activeSkill.target)) {
+      if (this.isNameInArr(name, activeSkill.target)) {
         let skillName = activeSkill.name;
         let value = activeSkill.value;
         if (skillName === "Sirine")
           this.playSiren(value);
         if (skillName === "Beer Throwing")
           this.spillBeer(value);
-      // }
+      }
     },
     playSiren(duration) {
       this.siren.play();
+
+      setTimeout(() => {
+        this.siren.pause();
+        this.siren.currentTime = 0;
+      }, duration*1000);
     },
     spillBeer(duration) {
+      this.beerSpilt = true;
 
+      setTimeout(() => {
+        this.beerSpilt = false;
+      }, duration*1000);
     },
-    callIntel(duration) {
+    callIntel(playerList, duration) {
+      this.map.setZoom(18);
+      for (let i in playerList) {
+        this.markerIntel[i] = new google.maps.Marker({
+          position: {
+            lat: playerList[i].lat,
+            lng: playerList[i].lng,
+          },
+          map: this.map,
+          icon: this.getIcon(playerList[i].character),
+        });
+      }
 
+      console.log(playerList);
+
+      setTimeout(() => {
+        let item = null;
+        while (this.markerIntel.length !== 0) {
+          item = this.markerIntel.pop();
+          item.setMap(null);
+        }
+        this.map.setZoom(22);
+      }, duration*1000);
     },
   }
 }
@@ -387,17 +441,15 @@ export default {
 }
 
 #beer-spill {
-  background: rgba(105, 0, 0, 0.507);
+  background: rgba(orange, 0.507);
   height: 100vh;
   width: 100vw;
   position: absolute;
   z-index: 1000;
-  color: white;
-  text-align: center;
 
-  h1 {
-    margin-top: 40vh;
-    font-size: 6vh;
+  img {
+    width: 100%;
+    height: 100%;
   }
 }
 
