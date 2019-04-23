@@ -104,6 +104,7 @@ export default {
     this.timeMapRefresh = setInterval(this.updateMapCenter, 500);
     this.timeRequest = setInterval(this.requestData, 500);
     this.timePlayerData = setInterval(this.getCurrentPlayerData, 500);
+    this.siren = new Audio(require('./../../assets/audio/siren.wav'));
   },
   data() {
     return {
@@ -127,7 +128,8 @@ export default {
       intensity: 0,
       alive: true,
       character: '',
-      activeSkillId: '',
+      currentSkillId: null,
+      siren: null,
     }
   },
   methods: {
@@ -213,7 +215,11 @@ export default {
         method: 'GET',
         headers: { "Authorization": `${this.$store.state.user.token}` }
       });
-
+      urlLocation = `${this.$store.state.baseUrl}/game/${this.$store.state.room.room_id}`;
+      var fetchDataStatus = new Request(urlLocation, {
+        method: 'GET',
+        headers: { "Authorization": `${this.$store.state.user.token}` }
+      });
       fetch(postDataLocation);
       fetch(fetchDataIntensity)
       .then(response => response.json())
@@ -223,6 +229,17 @@ export default {
             this.intensityHandlerChasing(response);
           else
             this.intensityHandlerHiding(response);
+        }
+      })
+      fetch(fetchDataStatus)
+      .then(response => response.json())
+      .then(response => {
+        if (response.status === 200) {
+          let activeSkill = response.data.active_skill;
+          if (activeSkill.hasOwnProperty('skill_id') && activeSkill.skill_id !== this.currentSkillId) {
+            this.currentSkillId = activeSkill.skill_id;
+            this.skillHandler(activeSkill);
+          }
         }
       })
     },
@@ -284,11 +301,11 @@ export default {
     gatherData() {
       var chasingTeam = this.$store.state.room.chasing_team;
       var name = this.$store.state.user.username;
-      if (this.playerInChasingTeam(name, chasingTeam)) this.team = "chasing";
+      if (this.isNameInArr(name, chasingTeam)) this.team = "chasing";
       else this.team = "hiding"
       this.character = this.$store.state.room.character;
     },
-    playerInChasingTeam(name, arr) {
+    isNameInArr(name, arr) {
       for (let i in arr) {
         if (name === arr[i].username) {
           return true;
@@ -339,7 +356,27 @@ export default {
       .then(response => {
         console.log(response);
       })
-    }
+    },
+    skillHandler(activeSkill) {
+      let name = this.$store.state.user.username;
+      // if (isNameInArr(name, activeSkill.target)) {
+        let skillName = activeSkill.name;
+        let value = activeSkill.value;
+        if (skillName === "Sirine")
+          this.playSiren(value);
+        if (skillName === "Beer Throwing")
+          this.spillBeer(value);
+      // }
+    },
+    playSiren(duration) {
+      this.siren.play();
+    },
+    spillBeer(duration) {
+
+    },
+    callIntel(duration) {
+
+    },
   }
 }
 </script>
@@ -353,6 +390,21 @@ export default {
   width: 100vw;
   position: absolute;
   z-index: 999;
+  color: white;
+  text-align: center;
+
+  h1 {
+    margin-top: 40vh;
+    font-size: 6vh;
+  }
+}
+
+#beer-spill {
+  background: rgba(105, 0, 0, 0.507);
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  z-index: 1000;
   color: white;
   text-align: center;
 
