@@ -268,16 +268,16 @@ export default {
           this.startVibration(20000);
           break;
         case 0.2:
-          this.startVibration(5000);
+          this.startVibration(2500);
           break;
         case 0.5:
-          this.startVibration(2000);
-          break;
-        case 0.8:
           this.startVibration(1000);
           break;
-        case 1:
+        case 0.8:
           this.startVibration(500);
+          break;
+        case 1:
+          this.startVibration(200);
           break;
       }
     },
