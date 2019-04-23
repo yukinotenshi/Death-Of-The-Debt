@@ -127,6 +127,7 @@ export default {
       intensity: 0,
       alive: true,
       character: '',
+      activeSkillId: '',
     }
   },
   methods: {
@@ -289,7 +290,7 @@ export default {
     },
     playerInChasingTeam(name, arr) {
       for (let i in arr) {
-        if (name === arr[i]) {
+        if (name === arr[i].username) {
           return true;
         }
       }
