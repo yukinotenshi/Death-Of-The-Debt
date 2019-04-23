@@ -8,15 +8,22 @@
         </button>
       </router-link> -->
     </div>
-    <!-- <transition name="fade">
-      <closable-board
+    <transition name="fade">
+      <div
+        v-if="skill.active"
+        id="game__skill"
+      >
+        <h2>Skill casted!</h2>
+        <h1>{{skill.type}}</h1>
+      </div>
+      <!-- <closable-board
         v-if="isInventoryOpen"
         v-on:closeBoard="closeInventory"
         title="Inventory"
       >
         <component :is="childComponent" />
-      </closable-board>
-    </transition> -->
+      </closable-board> -->
+    </transition>
     <div id="gamescreen">
       <div id="gamescreen__top">
         <div>
@@ -128,6 +135,10 @@ export default {
       alive: true,
       character: '',
       activeSkillId: '',
+      skill: {
+        active: false,
+        type: ''
+      },
     }
   },
   methods: {
@@ -338,6 +349,9 @@ export default {
       .then(response => response.json())
       .then(response => {
         console.log(response);
+        let skill = response.active_skill;
+        this.skill.active = true;
+        this.skill.type = skill.name;
       })
     }
   }
@@ -368,6 +382,20 @@ export default {
   overflow: hidden;
   height: 100vh;
   width: 100vw;
+}
+
+#game__skill {
+  position: absolute;
+  z-index: 999;
+  height: 100vh;
+  width: 100vw;
+  // background-color: red;
+
+  h2, h1 {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
 }
 
 #overlay {
