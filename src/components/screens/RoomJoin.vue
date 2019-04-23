@@ -6,8 +6,12 @@
         v-for="p in person"
         :key=p.username
       >
-        <h2>{{p.username}}</h2>
-        <h3>Lv. {{p.level}}</h3>
+        <div class="roomjoin__name-container">
+          <h2>{{p.username}}</h2>
+        </div>
+        <div class="roomjoin__level-container">
+          <h3>Lv. {{p.level}}</h3>
+        </div>
       </div>
       <div
         class="roomjoin__person-empty"
@@ -180,6 +184,7 @@ export default {
 
 <style lang="scss" scoped>
 $yellow: rgb(240, 206, 106);
+$darkbrown: rgb(102, 10, 10);
 
 #roomjoin {
   padding: 3vh;
@@ -190,6 +195,8 @@ $yellow: rgb(240, 206, 106);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+
+  text-shadow: 0 2px 5px rgba(0,0,0,0.47);
 }
 
 #roomjoin__list, #roomjoin__code {
@@ -213,22 +220,47 @@ $yellow: rgb(240, 206, 106);
     display: none;  // Safari and Chrome
   }
 
+  .roomjoin__person, .roomjoin__person-empty {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    flex-basis: 50%;
+  }
+
   .roomjoin__person {
-    border: 2px solid gray;
+    border: 3px solid rgb(126, 61, 23);
     border-radius: 20px;
-    background-color: green;
-    margin: 0.3rem 0;
-    padding: 0.3rem;
-    flex-basis: 45%;
+    background-color: rgb(165, 87, 42);
+    margin-top: 0.3rem;
     height: 100px;
+    overflow: hidden;
+
+    .roomjoin__name-container, .roomjoin__level-container {
+      background: brown;
+      border-top: 1px dashed $darkbrown;
+      border-bottom: 1px dashed $darkbrown;
+      margin: 0.75rem 0;
+      box-shadow: 0 0 0 3px brown, 0 3px 1px 2px #00000022;
+    }
+
+    .roomjoin__name-container {
+      width: 100%;
+    }
+    .roomjoin__level-container {
+      width: 50%;
+      border-radius: 0 10px 10px 0;
+      border-right: 1px dashed $darkbrown;
+    }
+    h2, h3 {
+      margin: 0 0.3rem;
+      color: white;
+    }
   }
   .roomjoin__person-empty {
-    border: 2px solid gray;
+    border: 2px solid #00000011;
     border-radius: 20px;
-    background-color: white;
+    background-color: #00000088;
     margin: 0.3rem 0;
-    padding: 0.3rem;
-    flex-basis: 45%;
     height: 100px;
   }
 }
