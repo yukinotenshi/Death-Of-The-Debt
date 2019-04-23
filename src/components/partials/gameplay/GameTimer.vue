@@ -10,8 +10,8 @@ export default {
   data() {
     return {
       timer: '',
-      minute: 10,
-      second: 0,
+      minute: 0,
+      second: 4,
       text: '',
     }
   },
@@ -33,6 +33,8 @@ export default {
           this.second--;
         }
       }
+      if(this.minute == 0 && this.second == 0)
+        this.$emit('timeup');
     },
     setText() {
       let min = (this.minute < 10 ? `0${this.minute}` : `${this.minute}`);

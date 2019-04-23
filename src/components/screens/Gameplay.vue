@@ -1,6 +1,9 @@
 <template>
   <v-container fluid class="page" id="gameplay">
-    <end-game />
+    <end-game
+      v-if="isEndGame"
+      :status="winnerData.amIWin"
+    />
     <div id="death" v-if="!alive">
       <h1>You're dead</h1>
       <!-- <router-link :to="">
@@ -29,7 +32,9 @@
       <div id="gamescreen__top">
         <div>
           <img src="./../../assets/img/panels/time.png" alt="">
-          <game-timer />
+          <game-timer
+            v-on:timeup="finishGame"
+          />
         </div>
         <div>
           <!-- <game-curr-item name="bell" /> -->
@@ -114,6 +119,7 @@ export default {
     this.timeMapRefresh = setInterval(this.updateMapCenter, 500);
     this.timeRequest = setInterval(this.requestData, 500);
     this.timePlayerData = setInterval(this.getCurrentPlayerData, 500);
+    this.timeEndGame = setInterval(this.getEndGame, 500);
   },
   data() {
     return {
@@ -136,12 +142,18 @@ export default {
       timeVibration: "",
       intensity: 0,
       alive: true,
+      teamId: '',
       character: '',
       activeSkillId: '',
       skill: {
         active: false,
         type: ''
       },
+      isEndGame: false,
+      winnerData: {
+        teamId: '',
+        amIWin: false
+      }
     }
   },
   methods: {
@@ -339,6 +351,22 @@ export default {
       .then(response => {
         if (response.status === 200) {
           this.alive = response.data.alive;
+          this.teamId = response.data.team_id;
+        }
+      })
+    },
+    getEndGame() {
+      const url = `${this.$store.state.baseUrl}/game/end`;
+      let fetchData = new Request(url, {
+        method: 'GET',
+        headers: { "Authorization": `${this.$store.state.user.token}` }
+      });
+      fetch(fetchData)
+      .then(response => response.json())
+      .then(response => {
+        if (response.status === 200) {
+          this.winnerData.teamId = response.data.winner;
+          console.log(response.data);
         }
       })
     },
@@ -356,6 +384,12 @@ export default {
         this.skill.active = true;
         this.skill.type = skill.name;
       })
+    },
+    finishGame() {
+      if (this.winnerData.teamId === this.teamId) {
+        this.winnerData.amIWin = true;
+      }
+      this.isEndGame = true;
     }
   }
 }
