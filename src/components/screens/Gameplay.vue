@@ -8,15 +8,6 @@
         </button>
       </router-link> -->
     </div>
-    <!-- <transition name="fade">
-      <closable-board
-        v-if="isInventoryOpen"
-        v-on:closeBoard="closeInventory"
-        title="Inventory"
-      >
-        <component :is="childComponent" />
-      </closable-board>
-    </transition> -->
     <div id="gamescreen">
       <div id="gamescreen__top">
         <div>
@@ -351,11 +342,7 @@ export default {
         method: 'POST',
         headers: { "Authorization": `${this.$store.state.user.token}` }
       });
-      fetch(fetchData)
-      .then(response => response.json())
-      .then(response => {
-        console.log(response);
-      })
+      fetch(fetchData);
     },
     skillHandler(activeSkill) {
       let name = this.$store.state.user.username;
@@ -420,6 +407,20 @@ export default {
   overflow: hidden;
   height: 100vh;
   width: 100vw;
+}
+
+#game__skill {
+  position: absolute;
+  z-index: 999;
+  height: 100vh;
+  width: 100vw;
+  // background-color: red;
+
+  h2, h1 {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
 }
 
 #overlay {
