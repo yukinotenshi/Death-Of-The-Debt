@@ -1,6 +1,9 @@
 <template>
   <v-container fluid id="roomjoin">
     <div id="roomjoin__list">
+      <div class="roomjoin__list-title">
+        <p>Player List: {{ playerCount }} of {{maxPlayer}}</p>
+      </div>
       <div
         class="roomjoin__person"
         v-for="p in person"
@@ -220,18 +223,30 @@ $darkbrown: rgb(102, 10, 10);
     display: none;  // Safari and Chrome
   }
 
+  .roomjoin__list-title {
+    color: white;
+    text-align: center;
+    flex-basis: 100%;
+    background-color: rgba($yellow, 0.33);
+
+    p {
+      margin: 0;
+    }
+  }
+
   .roomjoin__person, .roomjoin__person-empty {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     flex-basis: 50%;
+    margin-top: 0.3rem;
   }
 
   .roomjoin__person {
     border: 3px solid rgb(126, 61, 23);
+    border-left: 15px solid rgb(126, 61, 23);
     border-radius: 20px;
     background-color: rgb(165, 87, 42);
-    margin-top: 0.3rem;
     height: 100px;
     overflow: hidden;
 
@@ -260,7 +275,6 @@ $darkbrown: rgb(102, 10, 10);
     border: 2px solid #00000011;
     border-radius: 20px;
     background-color: #00000088;
-    margin: 0.3rem 0;
     height: 100px;
   }
 }
