@@ -13,6 +13,7 @@ export default {
       minute: 0,
       second: 4,
       text: '',
+      elapsed: 0,
     }
   },
   mounted() {
@@ -33,6 +34,8 @@ export default {
           this.second--;
         }
       }
+      this.elapsed++;
+      this.$emit('elapsed', this.elapsed);
       if(this.minute == 0 && this.second == 0)
         this.$emit('timeup');
     },

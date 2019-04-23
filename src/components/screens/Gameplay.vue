@@ -34,6 +34,7 @@
           <img src="./../../assets/img/panels/time.png" alt="">
           <game-timer
             v-on:timeup="finishGame"
+            v-on:elapsed="setElapsed"
           />
         </div>
         <div>
@@ -149,6 +150,7 @@ export default {
         active: false,
         type: ''
       },
+      elapsedTime: 0,
       isEndGame: false,
       winnerData: {
         teamId: '',
@@ -385,11 +387,31 @@ export default {
         this.skill.type = skill.name;
       })
     },
+    setElapsed(time) {
+      this.elapsedTime = time;
+    },
     finishGame() {
-      if (this.winnerData.teamId === this.teamId) {
-        this.winnerData.amIWin = true;
-      }
-      this.isEndGame = true;
+      const url = `${this.$store.state.baseUrl}/game/summary`;
+      const time = this.elapsedTime;
+      const body = { time };
+      console.log(body);
+      let fetchData = new Request(url, {
+        method: 'POST',
+        headers: {
+          "Authorization": `${this.$store.state.user.token}`,
+          "Content-Type": "application/json"  
+        },
+        body: JSON.stringify({ time })
+      });
+      fetch(fetchData)
+      .then(response => response.json())
+      .then(response => {
+        console.log(response);
+        // if (this.winnerData.teamId === this.teamId) {
+        //   this.winnerData.amIWin = true;
+        // }
+        // this.isEndGame = true;
+      })
     }
   }
 }
