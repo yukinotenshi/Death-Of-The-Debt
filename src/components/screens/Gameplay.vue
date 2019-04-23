@@ -1,5 +1,6 @@
 <template>
   <v-container fluid class="page" id="gameplay">
+    <end-game />
     <div id="death" v-if="!alive">
       <h1>You're dead</h1>
       <!-- <router-link :to="">
@@ -82,6 +83,7 @@ import mapStyle from './../../assets/js/mapStyle';
 import InventoryBoard from './../partials/gameplay/InventoryBoard';
 import GameTimer from './../partials/gameplay/GameTimer';
 import GameCurrItem from './../partials/gameplay/GameCurrItem';
+import EndGame from './../partials/gameplay/EndGame';
 import init from './../../assets/js/gmaps';
 
 export default {
@@ -92,6 +94,7 @@ export default {
     GameCurrItem,
     ClosableBoard,
     InventoryBoardContents,
+    EndGame
   },
   async mounted() {
     try {
