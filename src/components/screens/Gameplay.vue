@@ -50,7 +50,7 @@
         <div>
           <img
             id="inventory-button"
-            src="./../../assets/img/icons/inventory.png"
+            :src="skillSrc"
             alt="inventory"
             @click="castSkill"
           >
@@ -106,6 +106,7 @@ export default {
     this.timeRequest = setInterval(this.requestData, 500);
     this.timePlayerData = setInterval(this.getCurrentPlayerData, 500);
     this.siren = new Audio(require('./../../assets/audio/siren.wav'));
+    this.skillSrc = this.getSkillIcon(this.character);
   },
   data() {
     return {
@@ -134,6 +135,7 @@ export default {
       markerIntel: [],
       beerSpilt: false,
       beerSrc: "",
+      skillSrc: "",
     }
   },
   methods: {
@@ -160,6 +162,13 @@ export default {
     },
     updateMapCenter() {
       navigator.geolocation.getCurrentPosition(this.geoSuccess, console.log, {maximumAge:10000, timeout:10000, enableHighAccuracy:true});
+    },
+    getSkillIcon(character) {
+      if(character === 'Police') return require("./../../assets/img/icons/siren.png");
+      else if (character === 'Debt Collector') return require("./../../assets/img/icons/radar.png");
+      else if (character === 'Drunk') return require("./../../assets/img/icons/inventory.png");
+      else if (character === 'Trickster') return require("./../../assets/img/icons/inventory.png");
+      return null;
     },
     getIcon(character) {
       if(character === 'Police') return 'https://files.catbox.moe/lrjyak.png';
