@@ -13,20 +13,14 @@
       </router-link> -->
     </div>
     <transition name="fade">
-      <div
-        v-if="skill.active"
-        id="game__skill"
-      >
-        <h2>Skill casted!</h2>
-        <h1>{{skill.type}}</h1>
+      <div id="beer-spill" v-if="beerSpilt">
+        <img id="beer" :src="beerSrc" alt=""/>
+        <!-- <router-link :to="">
+          <button>
+            Back to Menu
+          </button>
+        </router-link> -->
       </div>
-      <!-- <closable-board
-        v-if="isInventoryOpen"
-        v-on:closeBoard="closeInventory"
-        title="Inventory"
-      >
-        <component :is="childComponent" />
-      </closable-board> -->
     </transition>
     <div id="gamescreen">
       <div id="gamescreen__top">
@@ -55,24 +49,14 @@
         </button>
       </div>
       <div id="gamescreen__bottom">
-        <div>
+        <div id="name-container">
           <h1 id="profile__lv">Lv.{{profile.level}}</h1>
           <h1 id="profile__uname">{{profile.username}}</h1>
         </div>
-        <div />
-        <div>
-          <img
-            id="inventory-button"
-            src="./../../assets/img/icons/inventory.png"
-            alt="inventory"
-            @click="castSkill"
-          >
-          <!-- <button
-            id="inventory-button"
-            @click="openInventory"
-          >
-            Inv
-          </button> -->
+        <div id="inventory-button" @click="castSkill" :style="{ backgroundImage : 'url(' + skillSrc + ')'}">
+          <div id="cooldown" v-if="!skillEnable">
+            {{cooldownSeconds}}
+          </div>
         </div>
       </div>
     </div>
@@ -121,6 +105,9 @@ export default {
     this.timeRequest = setInterval(this.requestData, 500);
     this.timePlayerData = setInterval(this.getCurrentPlayerData, 500);
     this.timeEndGame = setInterval(this.getEndGame, 500);
+    this.siren = new Audio(require('./../../assets/audio/siren.wav'));
+    this.setSkillIcon(this.character);
+    this.skillSrc = this.skillColor;
   },
   data() {
     return {
@@ -155,7 +142,18 @@ export default {
       winnerData: {
         teamId: '',
         amIWin: false
-      }
+      },
+      currentSkillId: null,
+      siren: null,
+      markerIntel: [],
+      beerSpilt: false,
+      beerSrc: "",
+      skillSrc: "",
+      skillColor: "",
+      skillBw: "",
+      skillEnable: true,
+      cooldownTimer: null,
+      cooldownSeconds: 0,
     }
   },
   methods: {
@@ -183,6 +181,31 @@ export default {
     updateMapCenter() {
       navigator.geolocation.getCurrentPosition(this.geoSuccess, console.log, {maximumAge:10000, timeout:10000, enableHighAccuracy:true});
     },
+    setSkillIcon(character) {
+      if(character === 'Police') {
+        this.skillColor = require("./../../assets/img/icons/siren.png");
+        this.skillBw = require("./../../assets/img/icons/siren_bw.png");
+      }
+      else if (character === 'Debt Collector') {
+        this.skillColor = require("./../../assets/img/icons/radar.png");
+        this.skillBw = require("./../../assets/img/icons/radar_bw.png");
+      }
+      else if (character === 'Drunk') {
+        this.skillColor = require("./../../assets/img/icons/inventory.png");
+        this.skillBw = require("./../../assets/img/icons/inventory.png");
+      }
+      else if (character === 'Trickster') {
+        this.skillColor = require("./../../assets/img/icons/inventory.png");
+        this.skillBw = require("./../../assets/img/icons/inventory.png");
+      }
+    },
+    getIcon(character) {
+      if(character === 'Police') return 'https://files.catbox.moe/lrjyak.png';
+      else if (character === 'Trickster') return 'https://files.catbox.moe/7pr4o1.png';
+      else if (character === 'Debt Collector') return 'https://files.catbox.moe/abyybb.png';
+      else if (character === 'Drunk') return 'https://files.catbox.moe/ehnqd6.png';
+      return null;
+    },
     geoSuccess(position) {
       var initialPos = {
         lat: position.coords.latitude,
@@ -198,11 +221,7 @@ export default {
           this.lat = initialPos.lat;
           this.lng = initialPos.lng;
 
-          let icon = '';
-          if(this.character === 'Police') icon = 'https://files.catbox.moe/lrjyak.png';
-          else if (this.character === 'Trickster') icon = 'https://files.catbox.moe/7pr4o1.png';
-          else if (this.character === 'Debt Collector') icon = 'https://files.catbox.moe/abyybb.png';
-          else if (this.character === 'Drunk') icon = 'https://files.catbox.moe/ehnqd6.png';
+          let icon = this.getIcon(this.character);
 
           this.marker = new google.maps.Marker({
             position: {
@@ -241,7 +260,11 @@ export default {
         method: 'GET',
         headers: { "Authorization": `${this.$store.state.user.token}` }
       });
-
+      urlLocation = `${this.$store.state.baseUrl}/game/${this.$store.state.room.room_id}`;
+      var fetchDataStatus = new Request(urlLocation, {
+        method: 'GET',
+        headers: { "Authorization": `${this.$store.state.user.token}` }
+      });
       fetch(postDataLocation);
       fetch(fetchDataIntensity)
       .then(response => response.json())
@@ -251,6 +274,17 @@ export default {
             this.intensityHandlerChasing(response);
           else
             this.intensityHandlerHiding(response);
+        }
+      })
+      fetch(fetchDataStatus)
+      .then(response => response.json())
+      .then(response => {
+        if (response.status === 200) {
+          let activeSkill = response.data.active_skill;
+          if (activeSkill.hasOwnProperty('skill_id') && activeSkill.skill_id !== this.currentSkillId) {
+            this.currentSkillId = activeSkill.skill_id;
+            this.skillHandler(activeSkill);
+          }
         }
       })
     },
@@ -312,11 +346,11 @@ export default {
     gatherData() {
       var chasingTeam = this.$store.state.room.chasing_team;
       var name = this.$store.state.user.username;
-      if (this.playerInChasingTeam(name, chasingTeam)) this.team = "chasing";
+      if (this.isNameInArr(name, chasingTeam)) this.team = "chasing";
       else this.team = "hiding"
       this.character = this.$store.state.room.character;
     },
-    playerInChasingTeam(name, arr) {
+    isNameInArr(name, arr) {
       for (let i in arr) {
         if (name === arr[i].username) {
           return true;
@@ -373,19 +407,30 @@ export default {
       })
     },
     castSkill() {
-      const url = `${this.$store.state.baseUrl}/skill/cast`;
-      let fetchData = new Request(url, {
-        method: 'POST',
-        headers: { "Authorization": `${this.$store.state.user.token}` }
-      });
-      fetch(fetchData)
-      .then(response => response.json())
-      .then(response => {
-        console.log(response);
-        let skill = response.active_skill;
-        this.skill.active = true;
-        this.skill.type = skill.name;
-      })
+      if (this.skillEnable) {
+        const url = `${this.$store.state.baseUrl}/skill/cast`;
+        let fetchData = new Request(url, {
+          method: 'POST',
+          headers: { "Authorization": `${this.$store.state.user.token}` }
+        });
+        fetch(fetchData)
+        .then(response => response.json())
+        .then(response => {
+          if (this.character === "Debt Collector") {
+            let playerList = response.active_skill.target;
+            let duration = response.active_skill.value;
+            this.callIntel(playerList, duration);
+            console.log(response)
+          }
+        });
+        this.skillEnable = false;
+        this.skillSrc = this.skillBw;
+
+        this.cooldownSeconds = 60;
+        this.cooldownTimer = setInterval(() => {
+          this.tickDown();
+        }, 1000);
+      }
     },
     setElapsed(time) {
       this.elapsedTime = time;
@@ -412,6 +457,63 @@ export default {
         // }
         // this.isEndGame = true;
       })
+    },
+    skillHandler(activeSkill) {
+      let name = this.$store.state.user.username;
+      if (this.isNameInArr(name, activeSkill.target)) {
+        let skillName = activeSkill.name;
+        let value = activeSkill.value;
+        if (skillName === "Sirine")
+          this.playSiren(value);
+        if (skillName === "Beer Throwing")
+          this.spillBeer(value);
+      }
+    },
+    playSiren(duration) {
+      this.siren.play();
+
+      setTimeout(() => {
+        this.siren.pause();
+        this.siren.currentTime = 0;
+      }, duration*1000);
+    },
+    spillBeer(duration) {
+      this.beerSpilt = true;
+      this.beerSrc = require("./../../assets/img/items/beer.gif") + '?' + Math.random();
+
+      setTimeout(() => {
+        this.beerSpilt = false;
+      }, duration*1000);
+    },
+    callIntel(playerList, duration) {
+      this.map.setZoom(18);
+      for (let i in playerList) {
+        this.markerIntel[i] = new google.maps.Marker({
+          position: {
+            lat: playerList[i].lat,
+            lng: playerList[i].lng,
+          },
+          map: this.map,
+          icon: this.getIcon(playerList[i].character),
+        });
+      }
+
+      setTimeout(() => {
+        let item = null;
+        while (this.markerIntel.length !== 0) {
+          item = this.markerIntel.pop();
+          item.setMap(null);
+        }
+        this.map.setZoom(22);
+      }, duration*1000);
+    },
+    tickDown() {
+      this.cooldownSeconds--;
+      if (this.cooldownSeconds === 0) {
+        this.skillEnable = true;
+        this.skillSrc = this.skillColor;
+        clearInterval(this.cooldownTimer);
+      }
     }
   }
 }
@@ -432,6 +534,19 @@ export default {
   h1 {
     margin-top: 40vh;
     font-size: 6vh;
+  }
+}
+
+#beer-spill {
+  background: rgba(orange, 0.507);
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  z-index: 1000;
+
+  img {
+    width: 100%;
+    height: 100%;
   }
 }
 
@@ -470,10 +585,10 @@ export default {
 
 #gamescreen {
   position: absolute;
-  z-index: 99;
   padding: 1rem;
-  height: calc(100% - 4rem);
-  width: calc(100% - 4rem);
+  z-index: 99;
+  height: calc(100%-1rem);
+  width: calc(100%-1rem);
 
   h1, h2 {
     margin: 0;
@@ -514,39 +629,28 @@ export default {
 
   #gamescreen__bottom {
     display: flex;
-    justify-content: center;
     position: fixed;
     bottom: 2rem;
-    width: calc(100% - 4rem);
-    
-    >div:nth-child(2) {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    width: 100%;
+
+    #name-container {
+      position: relative;
+      left: 0;
+      #profile__lv, #profile__uname {
+        color: rgb(112, 60, 0);
+        // outline: solid 1px rgb(173, 173, 173);
+      }
+      #profile__lv {
+        font-size: 5vw;
+      }  
+      #profile__uname {
+        font-size: 6.5vw;
+      }
     }
 
-    >div:first-child, >div:last-child {
-      flex-basis: 20%;
-      max-width: 20%
-    }
 
-    >div:nth-child(2) {
-      flex-basis: 60%;
-      max-width: 60%;
-    }
 
-    #profile__lv, #profile__uname {
-      color: rgb(112, 60, 0);
-      // outline: solid 1px rgb(173, 173, 173);
-    }
 
-    #profile__lv {
-      font-size: 5vw;
-    }
-
-    #profile__uname {
-      font-size: 6.5vw;
-    }
 
     #switch-button {
       cursor: pointer;
@@ -560,13 +664,28 @@ export default {
     }
 
     #inventory-button {
-      cursor: pointer;
+      cursor: normal;
+      border-style: none;
+      position: absolute;
+      right: 2rem;
       font-size: 2.5vh;
       font-weight: bold;
       color: white;
       width: 17vw;
-      height: auto;
-      padding-left: 4vw;
+      height: 17vw;
+      margin-left: 4vw;
+      background-size: cover;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #cooldown {
+      color: white;
+      font-size: 2rem;
+      text-align: center;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.47);
     }
   }
 
