@@ -1,25 +1,22 @@
 <template>
   <v-container fluid class="page" id="gameplay">
     <end-game
-      v-if="isEndGame"
+      v-if="isEndGame || !alive"
       :status="winnerData.amIWin"
+      :winnerTeam="team"
+      :summary="winnerData.summary"
     />
-    <div id="death" v-if="!alive">
-      <h1>You're dead</h1>
+    <!-- <div id="death" v-if="!alive">
+      <h1>You're dead</h1> -->
       <!-- <router-link :to="">
         <button>
           Back to Menu
         </button>
       </router-link> -->
-    </div>
+    <!-- </div> -->
     <transition name="fade">
       <div id="beer-spill" v-if="beerSpilt">
         <img id="beer" :src="beerSrc" alt=""/>
-        <!-- <router-link :to="">
-          <button>
-            Back to Menu
-          </button>
-        </router-link> -->
       </div>
     </transition>
     <div id="gamescreen">
@@ -31,10 +28,7 @@
             v-on:elapsed="setElapsed"
           />
         </div>
-        <div>
-          <!-- <game-curr-item name="bell" /> -->
-          <img src="./../../assets/img/items/bell.png" alt="">
-        </div>
+        <div />
       </div>
       <div
         id="gamescreen__catch"
@@ -141,7 +135,8 @@ export default {
       isEndGame: false,
       winnerData: {
         teamId: '',
-        amIWin: false
+        amIWin: false,
+        summary: {}
       },
       currentSkillId: null,
       siren: null,
@@ -438,8 +433,6 @@ export default {
     finishGame() {
       const url = `${this.$store.state.baseUrl}/game/summary`;
       const time = this.elapsedTime;
-      const body = { time };
-      console.log(body);
       let fetchData = new Request(url, {
         method: 'POST',
         headers: {
@@ -452,10 +445,15 @@ export default {
       .then(response => response.json())
       .then(response => {
         console.log(response);
-        // if (this.winnerData.teamId === this.teamId) {
-        //   this.winnerData.amIWin = true;
-        // }
-        // this.isEndGame = true;
+        this.winnerData.summary = response.data;
+        if (this.winnerData.teamId === this.teamId) {
+          this.winnerData.amIWin = true;
+        }
+        this.isEndGame = true;
+        clearInterval(this.timeMapRefresh);
+        clearInterval(this.timeRequest);
+        clearInterval(this.timePlayerData);
+        clearInterval(this.timeEndGame);
       })
     },
     skillHandler(activeSkill) {

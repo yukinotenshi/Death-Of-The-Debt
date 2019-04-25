@@ -36,8 +36,10 @@ export default {
       }
       this.elapsed++;
       this.$emit('elapsed', this.elapsed);
-      if(this.minute == 0 && this.second == 0)
+      if(this.minute == 0 && this.second == 0) {
         this.$emit('timeup');
+        clearInterval(this.timer);
+      }
     },
     setText() {
       let min = (this.minute < 10 ? `0${this.minute}` : `${this.minute}`);
