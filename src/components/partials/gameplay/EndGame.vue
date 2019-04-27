@@ -1,6 +1,7 @@
 <template>
   <v-container fluid id="endgame">
-    <h1 class="title">{{ title }}</h1>
+    <!-- <h1 class="title">{{ title }}</h1> -->
+    <img src="./../../../assets/img/texts/victory.png" alt="" class="title">
     <h2>{{ winnerTeam }} team wins!</h2>
     <div id="endgame__summary">
       <div class="item">
@@ -26,7 +27,9 @@ export default {
     }
   },
   created () {
-    this.title = this.status ? 'Victory!' : 'You Lose'
+    let src = './../../../assets/img/texts/victory.png'
+    this.status = require(src)
+    // this.title = this.status ? 'Victory!' : 'You Lose'
   }
 }
 </script>
@@ -41,6 +44,8 @@ export default {
 
   .title {
     margin: 0;
+    width: 80vw;
+    
   }
 }
 </style>

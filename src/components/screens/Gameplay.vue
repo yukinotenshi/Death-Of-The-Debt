@@ -60,38 +60,29 @@
 </template>
 
 <script>
-import ClosableBoard from './../partials/utils/ClosableBoard';
-import InventoryBoardContents from './../partials/gameplay/InventoryBoardContents';
 import gmapsInit from './../../assets/js/gmaps';
 import mapStyle from './../../assets/js/mapStyle';
-import InventoryBoard from './../partials/gameplay/InventoryBoard';
 import GameTimer from './../partials/gameplay/GameTimer';
-import GameCurrItem from './../partials/gameplay/GameCurrItem';
 import EndGame from './../partials/gameplay/EndGame';
-import init from './../../assets/js/gmaps';
 
 export default {
   name: 'Gameplay',
   components: {
-    InventoryBoard,
     GameTimer,
-    GameCurrItem,
-    ClosableBoard,
-    InventoryBoardContents,
     EndGame
   },
   async mounted() {
     try {
       const center = {lat: -6.89060785, lng: 107.61032348};
-      const google = await gmapsInit();
-      this.map = new google.maps.Map(document.querySelector('#map'), {zoom: 22, center, disableDefaultUI: true});
-      const styledMapType = new google.maps.StyledMapType(mapStyle);
+      this.google = await gmapsInit();
+      this.map = new this.google.maps.Map(document.querySelector('#map'), {zoom: 22, center, disableDefaultUI: true});
+      const styledMapType = new this.google.maps.StyledMapType(mapStyle);
 
       this.map.mapTypes.set('styled_map', styledMapType);
       this.map.setMapTypeId('styled_map');
     } catch (error) {
-      console.error(error);
-    };
+      throw(error);
+    }
 
     this.gatherData();
     this.setProfile();
@@ -105,7 +96,7 @@ export default {
   },
   data() {
     return {
-      childComponent: InventoryBoardContents,
+      google: null,
       profile: {
         level: '',
         username: '',
@@ -207,7 +198,7 @@ export default {
         lng: position.coords.longitude
       };
       this.map.setCenter(initialPos);
-      google.maps.event.trigger(this.map, 'resize');
+      this.google.maps.event.trigger(this.map, 'resize');
 
       if(this.marker) {
         if(Math.abs(this.lat - initialPos.lat) > Number.EPSILON ||
@@ -218,7 +209,7 @@ export default {
 
           let icon = this.getIcon(this.character);
 
-          this.marker = new google.maps.Marker({
+          this.marker = new this.google.maps.Marker({
             position: {
               lat: initialPos.lat,
               lng: initialPos.lng,
@@ -228,7 +219,7 @@ export default {
           });
         }
       } else {
-        this.marker = new google.maps.Marker({
+        this.marker = new this.google.maps.Marker({
           position: {
             lat: initialPos.lat,
             lng: initialPos.lng,
@@ -307,7 +298,7 @@ export default {
         case 1:
           document.getElementById("overlay").style.backgroundColor = "#FF000077";
           this.catchMode = true;
-          this.markerEnemy = new google.maps.Marker({
+          this.markerEnemy = new this.google.maps.Marker({
             position: {
               lat: object.data.player.lat,
               lng: object.data.player.lng,
@@ -397,7 +388,7 @@ export default {
       .then(response => {
         if (response.status === 200) {
           this.winnerData.teamId = response.data.winner;
-          console.log(response.data);
+          // console.log(response.data);
         }
       })
     },
@@ -415,7 +406,7 @@ export default {
             let playerList = response.active_skill.target;
             let duration = response.active_skill.value;
             this.callIntel(playerList, duration);
-            console.log(response)
+            // console.log(response)
           }
         });
         this.skillEnable = false;
@@ -444,7 +435,7 @@ export default {
       fetch(fetchData)
       .then(response => response.json())
       .then(response => {
-        console.log(response);
+        // console.log(response);
         this.winnerData.summary = response.data;
         if (this.winnerData.teamId === this.teamId) {
           this.winnerData.amIWin = true;
@@ -486,7 +477,7 @@ export default {
     callIntel(playerList, duration) {
       this.map.setZoom(18);
       for (let i in playerList) {
-        this.markerIntel[i] = new google.maps.Marker({
+        this.markerIntel[i] = new this.google.maps.Marker({
           position: {
             lat: playerList[i].lat,
             lng: playerList[i].lng,
