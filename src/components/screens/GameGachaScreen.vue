@@ -109,7 +109,7 @@ export default {
   justify-content: center;
   align-items: center;
 
-  background: url('./../../assets/img/backgrounds/home.jpg');
+  background: url('./../../assets/img/backgrounds/blue.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

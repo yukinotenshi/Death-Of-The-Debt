@@ -194,7 +194,7 @@ $darkbrown: rgb(102, 10, 10);
   height: 100vh;
   overflow: auto;
 
-  background: url('./../../assets/img/backgrounds/home.jpg');
+  background: url('./../../assets/img/backgrounds/blue.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

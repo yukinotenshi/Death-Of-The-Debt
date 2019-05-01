@@ -89,7 +89,7 @@ $yellow: #D2B24F;
   justify-content: center;
   height: 100vh;
 
-  background: url('./../../assets/img/backgrounds/home.jpg');
+  background: url('./../../assets/img/backgrounds/blue.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
