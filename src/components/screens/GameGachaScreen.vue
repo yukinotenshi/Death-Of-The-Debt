@@ -9,18 +9,28 @@
         <img src="../../assets/img/misc/light.png" alt="" id="light">
         <img :src="chara" alt="" id="chara">
       </div>
-      <h1>You are on {{status}} team!</h1>
-      <h2>{{character}}</h2>
-      <div>
-        <h1>Your team members:</h1>
-        <h2
-          v-for="t in team"
-          :key="t"
-        >
-          {{t}}
-        </h2>
+      <h1 id="provocative-text">
+        {{provocativeText}}
+      </h1>
+      <div id="panel__placeholder" v-if="enablePanel">
+        <div id="panel__container">
+          <div id="character-name">
+            <h2>{{character}}</h2>
+            <h4>~{{status}} Team~</h4>
+          </div>
+          <div>
+            <h3>Your team members:</h3>
+            <div
+              v-for="t in team"
+              class="name-list"
+              :key="t.username"
+            >
+              {{t.username}}
+            </div>
+          </div>
+          <h1>Game will start in {{second}}...</h1>
+        </div>
       </div>
-      <h1>Game will start in {{second}}...</h1>
     </div>
   </v-container>
 </template>
@@ -36,11 +46,13 @@ export default {
   data() {
     return {
       isLoading: true,
-      second: 3,
+      enablePanel: false,
+      second: 5,
       status: '',
       username: '',
       team: [],
-      chara: './../../assets/img/chara/pose/',
+      chara: '',
+      provocativeText: ''
     }
   },
   mounted() {
@@ -53,15 +65,16 @@ export default {
     },
     setStatus() {
       this.username = this.$store.state.user.username;
-      
+
       for (let i in this.hidingTeam) {
-        let p = this.hidingTeam[i];
+        let p = this.hidingTeam[i].username;
         if(p === this.username) {
-          this.status = 'hiding';
+          this.status = 'Hiding';
+          this.provocativeText = 'Hide from the chasing team!';
           if (this.character === 'Drunk')
-            this.chara = 'https://files.catbox.moe/n6xy6k.png';
+            this.chara = require("./../../assets/img/chara/pose/hiding2.png");
           else if (this.character === 'Trickster')
-            this.chara = 'https://files.catbox.moe/8qh7gj.png';
+            this.chara = require("./../../assets/img/chara/pose/hiding1.png");
           this.team = this.hidingTeam;
           break;
         }
@@ -69,22 +82,24 @@ export default {
 
       if(this.status === '') {
         for (let i in this.chasingTeam) {
-          let p = this.chasingTeam[i];
+          let p = this.chasingTeam[i].username;
           if(p === this.username) {
-            this.status = 'chasing';
+            this.status = 'Chasing';
+            this.provocativeText = 'Go chase all hiding team members!';
             if (this.character === 'Police') 
-              this.chara = 'https://files.catbox.moe/3lgzyf.png';
+              this.chara = require("./../../assets/img/chara/pose/chasing1.png");
             else if (this.character === 'Debt Collector')
-              this.chara = 'https://files.catbox.moe/bn5spu.png';
+              this.chara = require("./../../assets/img/chara/pose/chasing2.png");
             this.team = this.chasingTeam;
             break;
           }
         }
       }
 
-      // this.chara += (`${this.status}1.png`);
-      // this.chara = require(this.chara);
-      this.startTimer();
+      setTimeout(() => {
+        this.startTimer();
+        this.enablePanel = true;
+      }, 2000);
     },
     startTimer() {
       setInterval(() => {
@@ -99,6 +114,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$yellow: #FFD659;
+$darkyellow: #D2B24F;
+$brown: #E3AF5B;
+$darkbrown: rgb(102, 10, 10);
+$lightbrown: rgb(220, 50, 50);
+
 #gacha {
   height: 100vh;
   width: 100vw;
@@ -143,12 +164,107 @@ export default {
   }
 }
 
+#provocative-text {
+  z-index: 1000;
+  position: absolute;
+  width: 100vw;
+  left: 0;
+  opacity: 0;
+  top: 50vh;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.47);
+  animation: texthype 5s 1 linear;
+}
+
+#panel__placeholder {
+  width: 100vw;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  left: 0;
+  bottom: 0;
+  z-index: 1001;
+  animation: panelswoop 0.5s 1 cubic-bezier(0, 0.94, 0.57, 1);
+
+  #panel__container {
+    height: auto;
+    width: calc(85vw - 2.4rem);
+    overflow: hidden;
+    background-color: rgb(165, 87, 42);
+    border-radius: 20px 20px 0 0;
+    border: 0.3rem solid rgb(126, 61, 23);
+    border-bottom: 0;
+    -webkit-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.31);
+    -moz-box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.31);
+    box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.31);
+
+    #character-name {
+      background: brown;
+      border-top: 1px dashed $darkbrown;
+      border-bottom: 1px dashed $darkbrown;
+      margin: 0.75rem 0;
+      box-shadow: 0 0 0 3px brown, 0 3px 1px 2px #00000022;
+
+      h2, h4 {
+        margin: 0;
+      }
+
+      h4 {
+        background: $lightbrown;
+        color: $darkbrown;
+      }
+    }
+
+    .name-list {
+      background: $lightbrown;
+      border-top: 1px dashed $darkbrown;
+      border-bottom: 1px dashed $darkbrown;
+      margin: 0.75rem 0;
+      box-shadow: 0 0 0 3px $lightbrown, 0 3px 1px 2px #00000022;
+      color: $darkbrown;
+    }
+
+    h1, h3 {
+      color: white;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    }
+
+    h3 {
+      margin-bottom: 0;
+    }
+  }
+}
+
 @keyframes rotation {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(359deg);
+  }
+}
+
+@keyframes texthype {
+  0% {
+    transform: scale(5, 5);
+    opacity: 1;
+  }
+  5% {
+    transform: scale(1, 1);
+  }
+  100% {
+    transform: scale(0.8, 0.8);
+    opacity: 0;
+  }
+}
+
+@keyframes panelswoop {
+  from {
+    transform: translate(0, 100vw);
+  }
+  to {
+    transform: translate(0, 0);
   }
 }
 </style>

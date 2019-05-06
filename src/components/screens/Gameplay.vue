@@ -187,10 +187,10 @@ export default {
       }
     },
     getIcon(character) {
-      if(character === 'Police') return 'https://files.catbox.moe/lrjyak.png';
-      else if (character === 'Trickster') return 'https://files.catbox.moe/7pr4o1.png';
-      else if (character === 'Debt Collector') return 'https://files.catbox.moe/abyybb.png';
-      else if (character === 'Drunk') return 'https://files.catbox.moe/ehnqd6.png';
+      if(character === 'Police') return require("./../../assets/img/chara/head/chasing1small.png");
+      else if (character === 'Trickster') return require("./../../assets/img/chara/head/hiding1small.png");
+      else if (character === 'Debt Collector') return require("./../../assets/img/chara/head/chasing2small.png");
+      else if (character === 'Drunk') return require("./../../assets/img/chara/head/hiding2small.png");
       return null;
     },
     geoSuccess(position) {
