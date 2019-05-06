@@ -45,6 +45,7 @@
       <div id="gamescreen__bottom">
         <div id="name-container">
           <h1 id="profile__lv">Lv.{{profile.level}}</h1>
+          <h1 id="profile__lv">{{character}}</h1>
           <h1 id="profile__uname">{{profile.username}}</h1>
         </div>
         <div id="inventory-button" @click="castSkill" :style="{ backgroundImage : 'url(' + skillSrc + ')'}">
@@ -177,8 +178,8 @@ export default {
         this.skillBw = require("./../../assets/img/icons/radar_bw.png");
       }
       else if (character === 'Drunk') {
-        this.skillColor = require("./../../assets/img/icons/inventory.png");
-        this.skillBw = require("./../../assets/img/icons/inventory.png");
+        this.skillColor = require("./../../assets/img/icons/beer.png");
+        this.skillBw = require("./../../assets/img/icons/beer_bw.png");
       }
       else if (character === 'Trickster') {
         this.skillColor = require("./../../assets/img/icons/inventory.png");
