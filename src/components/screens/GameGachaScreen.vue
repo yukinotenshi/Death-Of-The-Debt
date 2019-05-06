@@ -1,8 +1,13 @@
 <template>
   <v-container id="gacha">
-    <!-- <h1 v-if="isLoading">Gacha-ing your character...</h1> -->
-    <div v-if="isLoading">
+    <div v-if="isLoading" id="loading">
+      <img src="../../assets/img/logo.png" alt="">
       <h1>Gacha-ing your character...</h1>
+      <div class="loading-bar">
+        <div
+          v-bind:style="{ width: (((loadingSecond/maxLoadingSecond) * 100)+'%') }"
+        />
+      </div>
     </div>
     <div v-if="!isLoading" id="result">
       <div id="chara__placeholder">
@@ -47,6 +52,8 @@ export default {
     return {
       isLoading: true,
       enablePanel: false,
+      maxLoadingSecond: 5,
+      loadingSecond: 0,
       second: 5,
       status: '',
       username: '',
@@ -56,7 +63,10 @@ export default {
     }
   },
   mounted() {
-    setTimeout(this.toggleLoading, 2000);
+    setInterval(() => {
+      this.loadingSecond++;
+    }, 1000);
+    setTimeout(this.toggleLoading, this.maxLoadingSecond*1000);
   },
   methods: {
     toggleLoading() {
@@ -134,6 +144,43 @@ $lightbrown: rgb(220, 50, 50);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+#loading {
+  img {
+    width: 80vw;
+    margin-bottom: 10vh;
+  }
+
+  h1 {
+    color: white;
+    font-size: 1.2rem;
+    padding: 0.3rem 0;
+    background-color: #FD4B74;
+    border-radius: 10px;
+    width: 70vw;
+    margin: 0;
+    margin-left: calc(30vw / 2);
+    margin-right: calc(30vw / 2);
+  }
+
+  .loading-bar {
+    width: 80vw;
+    margin: 0 10vw;
+    height: 2rem;
+    background-color: rgb(105, 77, 0);
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+
+    >div {
+      // width: 80%;
+      height: 1.5rem;
+      background-color: rgb(104, 173, 236);
+      border-radius: 50px;
+      margin: 0.25rem;
+    }
+  }
 }
 
 #result {

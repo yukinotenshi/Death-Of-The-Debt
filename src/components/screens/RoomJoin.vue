@@ -20,8 +20,7 @@
         class="roomjoin__person-empty"
         v-for="n in (maxPlayer-playerCount)"
         :key=n
-      >
-      </div>
+      />
     </div>
     <div id="roomjoin__code">
       <h2>Room Code</h2>
@@ -228,6 +227,7 @@ $darkbrown: rgb(102, 10, 10);
     text-align: center;
     flex-basis: 100%;
     background-color: rgba($yellow, 0.33);
+    padding: 0.3rem;
 
     p {
       margin: 0;
@@ -238,8 +238,10 @@ $darkbrown: rgb(102, 10, 10);
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
-    flex-basis: 50%;
+    flex-basis: calc(50% - 0.3rem);
     margin-top: 0.3rem;
+    margin-right: 0.15rem;
+    margin-left: 0.15rem;
   }
 
   .roomjoin__person {
