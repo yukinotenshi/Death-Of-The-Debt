@@ -11,6 +11,7 @@ export default new Vuex.Store({
       token: '',
       id: '',
       username: '',
+      level: '',
     },
     room: {
       chasing_team: [],
@@ -44,6 +45,9 @@ export default new Vuex.Store({
     },
     setCharacter(state, data) {
       state.room.character = data.character;
+    },
+    setLevel(state, level) {
+      state.user.level = level;
     },
     setRoom(state, data) {
       state.room.room_id = data.room_id;

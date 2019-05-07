@@ -39,7 +39,10 @@
         </button>
       </div>
       <div id="gamescreen__bottom">
-        <div id="name-container">
+        <div
+          id="name-container"
+          @click="showExtraInfo = true"
+        >
           <div class="profile__avatar-container">
             <img :src="avatarSrc"/>
 <!--             <h1 id="profile__lv">Lv.{{profile.level}}</h1>
@@ -62,6 +65,12 @@
       </div>
     </div>
     <div id="overlay" v-if="team === 'chasing'" />
+    <transition name="fade">
+      <inventory-board
+        v-if="showExtraInfo"
+        @closeInventory="showExtraInfo = false"
+      />
+    </transition>
     <div id="map" />
   </v-container>
 </template>
@@ -70,13 +79,15 @@
 import gmapsInit from './../../assets/js/gmaps';
 import mapStyle from './../../assets/js/mapStyle';
 import GameTimer from './../partials/gameplay/GameTimer';
+import InventoryBoard from './../partials/gameplay/InventoryBoard';
 import EndGame from './../partials/gameplay/EndGame';
 
 export default {
   name: 'Gameplay',
   components: {
     GameTimer,
-    EndGame
+    EndGame,
+    InventoryBoard
   },
   async mounted() {
     try {
@@ -150,6 +161,7 @@ export default {
       cooldownTimer: null,
       cooldownSeconds: 0,
       avatarSrc: "",
+      showExtraInfo: false
     }
   },
   methods: {
