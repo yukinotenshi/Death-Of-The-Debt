@@ -148,10 +148,10 @@ $brown: rgb(51, 30, 2);
           h1 {
             font-size: 4vh;
             margin: 0;
-            margin-right: 5vw;
           }
           i {
             font-size: 4vh;
+            margin-left: 5vw;
             color: rgb(30, 255, 30);
             text-shadow: 1px 1px 0 #fff,
               1px -1px 0 #fff,
@@ -170,7 +170,7 @@ $brown: rgb(51, 30, 2);
     >a>.back {
       margin-top: 5vh;
       width: 80%;
-      background-color: #12B3EF;
+      background-color: #D2B24F;
     }
   }
 }
