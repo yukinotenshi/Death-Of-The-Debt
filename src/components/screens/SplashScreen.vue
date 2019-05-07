@@ -103,6 +103,7 @@ export default {
         font-weight: normal; 
         margin: 0;
         width: 80vw;
+        animation: iconswoop3 6s 1 cubic-bezier(0, 0.94, 0.57, 1);
       }      
     }
   }
@@ -157,6 +158,21 @@ export default {
     transform: translate(100vw, 0);
   }
   60% {
+    transform: translate(0, 0);
+  }
+  80% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(-100vw, 0);
+  }
+}
+
+@keyframes iconswoop3 {
+  0% {
+    transform: translate(100vw, 0);
+  }
+  20% {
     transform: translate(0, 0);
   }
   80% {
