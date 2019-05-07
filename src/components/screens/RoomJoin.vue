@@ -104,10 +104,11 @@ export default {
         if (response.status == 200) {
           this.chasingTeam = response.data.room.chasing_team;
           this.hidingTeam = response.data.room.hiding_team;
-          this.character = this.getCharacterInPlayers(response.data.players);
+          this.setAttributesInPlayers(response.data.players);
           this.$store.commit('setCharacter', {
             character: this.character,
           });
+          this.$store.commit('setLevel', this.level);
           this.$store.commit('setRoomMember', {
             chasing_team: this.chasingTeam,
             hiding_team: this.hidingTeam
@@ -139,10 +140,12 @@ export default {
       .then(response => {
         if (response.status == 200) {
           this.character = response.data.character;
+          this.level = response.data.level;
           this.$store.commit('setRoomMember', {
             chasing_team: this.chasingTeam,
             hiding_team: this.hidingTeam
           });
+          this.$store.commit('setLevel', this.level);
           this.$store.commit('setCharacter', {
             character: this.character,
           });
@@ -158,14 +161,13 @@ export default {
       })
     },
 
-    getCharacterInPlayers(playerList) {
+    setAttributesInPlayers(playerList) {
       for (let i in playerList) {
         if (playerList[i].username === this.$store.state.user.username) {
-          return playerList[i].character;
+          this.character = playerList[i].character;
+          this.level = playerList[i].level;
         }
       }
-
-      return '';
     },
 
     leaveRoom() {

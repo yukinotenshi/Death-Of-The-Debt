@@ -1,10 +1,13 @@
 <template>
   <v-container fluid id="gameplay__inventory" @click="closeInventory">
     <div id="inventory-placeholder">
-      <div id="inventory-board">
+      <div id="inventory-board"> 
         <div id="inventory-board__header">
-          <div class="profile__avatar-container">
+          <div id="profile__avatar-container">
             <img :src="avatarSrc"/>     
+          </div>
+          <div id="profile__lv">
+            <span>Lv.{{level}}</span>
           </div>
           <button>×</button>
         </div>
@@ -35,6 +38,7 @@ export default {
   data() {
     return {
       items: [],
+      level: 0,
       status: '',
       character: '',
       avatarSrc: '',
@@ -42,6 +46,7 @@ export default {
   },
   mounted() {
     this.character = this.$store.state.room.character;
+    this.level = this.$store.state.user.level;
     this.getTeam();
     this.setAvatar(this.character);
   },
@@ -138,7 +143,16 @@ $lightbrown: rgb(220, 50, 50);
           font-family: 'Fredoka One';
         }
 
-        .profile__avatar-container {
+        #profile__lv {
+          span {
+            border-radius: 10px 10px 0 0;
+            background: $darkbrown;
+            color: white;
+            padding: 0 0.5rem;          
+          }
+        }
+
+        #profile__avatar-container {
           border-radius: 1000px;
           width: 25vw;
           height: 25vw;
