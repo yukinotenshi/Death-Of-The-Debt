@@ -429,9 +429,9 @@ export default {
       .then(response => {
         if (response.status === 200) {
           this.winnerData.teamId = response.data.winner;
-          if (this.team === 'chasing' && this.winnerData.teamId === this.teamId) {
+          if (this.team === 'chasing' && this.winnerData.teamId === this.teamId && this.teamId !== '') {
               this.finishGame();
-          } else if (this.team !== 'chasing' && this.winnerData.teamId !== this.teamId) {
+          } else if (this.team !== 'chasing' && this.winnerData.teamId !== this.teamId && this.teamId !== '') {
               this.finishGame();
           }
           console.log(response.data);
