@@ -2,7 +2,11 @@
   <v-container id="gacha">
     <div v-if="isLoading" id="loading">
       <img src="../../assets/img/logo.png" alt="">
-      <h1>Gacha-ing your character...</h1>
+      <div id="time">
+        <h2>Run! Hide from<br>your enemies!</h2>
+        <h1>{{ maxLoadingSecond - Math.trunc(loadingSecond) }}</h1>
+      </div>
+      <h1 id="title">Gacha-ing your character...</h1>
       <div class="loading-bar">
         <div
           v-bind:style="{ width: (((loadingSecond/maxLoadingSecond) * 100)+'%') }"
@@ -15,7 +19,7 @@
         <img :src="chara" alt="" id="chara">
       </div>
       <h1 id="provocative-text">
-        {{provocativeText}}
+        {{ provocativeText }}
       </h1>
       <div id="panel__placeholder" v-if="enablePanel">
         <div id="panel__container">
@@ -52,7 +56,7 @@ export default {
     return {
       isLoading: true,
       enablePanel: false,
-      maxLoadingSecond: 5,
+      maxLoadingSecond: 60,
       incLoadingSecond: 0.01,
       loadingSecond: 0,
       second: 5,
@@ -125,6 +129,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$one: 3px;
 $yellow: #FFD659;
 $darkyellow: #D2B24F;
 $brown: #E3AF5B;
@@ -150,12 +155,46 @@ $lightbrown: rgb(220, 50, 50);
 #loading {
   img {
     width: 80vw;
-    margin-bottom: 10vh;
+    margin-bottom: 5vh;
   }
 
-  h1 {
+  #time {
+    h2 {
+      font-size: 4vh;
+      line-height: 4vh;
+      margin: 2vh 0;
+      color: $yellow;
+      text-shadow:
+        2px 2px 0 $darkbrown,
+        2px -2px 0 $darkbrown,
+        -2px 2px 0 $darkbrown,
+        -2px -2px 0 $darkbrown,
+        2px 0px 0 $darkbrown,
+        2px 2px 0 $darkbrown,
+        -2px 0px 0 $darkbrown,
+        0px -2px 0 $darkbrown,
+        2px 2px 5px rgba(0,0,0,0.47);
+    }
+    h1 {
+      margin: 2vh 0;
+      color: $yellow;
+      font-size: 15vh;
+      text-shadow:
+        3px 3px 0 $darkbrown,
+        3px -3px 0 $darkbrown,
+        -3px 3px 0 $darkbrown,
+        -3px -3px 0 $darkbrown,
+        3px 0px 0 $darkbrown,
+        3px 3px 0 $darkbrown,
+        -3px 0px 0 $darkbrown,
+        0px -3px 0 $darkbrown,
+        2px 2px 5px rgba(0,0,0,0.47);
+    }
+  }
+
+  #title {
     color: white;
-    font-size: 1.2rem;
+    font-size: 2.5vh;
     padding: 0.3rem 0;
     background-color: #FD4B74;
     border-radius: 10px;
