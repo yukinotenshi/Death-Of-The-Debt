@@ -389,7 +389,7 @@ export default {
       .then(response => {
         if (response.status === 200) {
           this.winnerData.teamId = response.data.winner;
-          // console.log(response.data);
+          console.log(response.data);
         }
       })
     },
@@ -436,7 +436,7 @@ export default {
       fetch(fetchData)
       .then(response => response.json())
       .then(response => {
-        // console.log(response);
+        console.log(response);
         this.winnerData.summary = response.data;
         if (this.winnerData.teamId === this.teamId) {
           this.winnerData.amIWin = true;

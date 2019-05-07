@@ -53,6 +53,7 @@ export default {
       isLoading: true,
       enablePanel: false,
       maxLoadingSecond: 5,
+      incLoadingSecond: 0.01,
       loadingSecond: 0,
       second: 5,
       status: '',
@@ -64,8 +65,8 @@ export default {
   },
   mounted() {
     setInterval(() => {
-      this.loadingSecond++;
-    }, 1000);
+      this.loadingSecond += this.incLoadingSecond;
+    }, 10);
     setTimeout(this.toggleLoading, this.maxLoadingSecond*1000);
   },
   methods: {
