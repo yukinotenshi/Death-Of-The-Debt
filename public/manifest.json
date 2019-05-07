@@ -1,0 +1,21 @@
+{
+  "name": "Death of the Debt!",
+  "short_name": "DOTD",
+  "icons": [
+    {
+      "src": "./img/icons/android-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./img/icons/ms-icon-310x310.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait"
+}
