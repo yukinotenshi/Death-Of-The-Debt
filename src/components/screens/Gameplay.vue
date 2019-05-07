@@ -678,8 +678,7 @@ $darkbrown: rgb(102, 10, 10);
         background: $darkbrown;
 
         img {
-          max-height: 150%;
-          max-width: 150%;
+          width: 100%;
         }
 
         #profile__lv {
