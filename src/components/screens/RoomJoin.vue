@@ -325,4 +325,13 @@ button {
     box-shadow: 0px 6px 20px 0px rgba(0,0,0,0.09);
   }
 }
+
+@keyframes iconswoop {
+  from {
+    transform: translate(100vw, 0);
+  }
+  to {
+    transform: translate(0, 0);
+  }
+}
 </style>
