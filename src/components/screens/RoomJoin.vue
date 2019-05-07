@@ -82,8 +82,12 @@ export default {
       fetch(fetchData)
       .then(response => response.json())
       .then(response => {
+        if (response.status === 404) {
+            clearInterval(this.timer);
+            this.$router.push('/menu');
+            return;
+        }
         if (response.status != 200) {
-          console.log(response.message);
           return;
         }
         this.chasingTeam = response.data.chasing_team;
@@ -189,6 +193,7 @@ export default {
       let result = await fetch(fetchData);
       let data = await result.json();
       if (data.status === 200) {
+          clearInterval(this.timer);
           this.$router.push('/menu');
       }
     },
