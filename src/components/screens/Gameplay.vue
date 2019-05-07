@@ -81,7 +81,6 @@ import mapStyle from './../../assets/js/mapStyle';
 import GameTimer from './../partials/gameplay/GameTimer';
 import InventoryBoard from './../partials/gameplay/InventoryBoard';
 import EndGame from './../partials/gameplay/EndGame';
-
 export default {
   name: 'Gameplay',
   components: {
@@ -95,13 +94,11 @@ export default {
       this.google = await gmapsInit();
       this.map = new this.google.maps.Map(document.querySelector('#map'), {zoom: 22, center, disableDefaultUI: true});
       const styledMapType = new this.google.maps.StyledMapType(mapStyle);
-
       this.map.mapTypes.set('styled_map', styledMapType);
       this.map.setMapTypeId('styled_map');
     } catch (error) {
       throw(error);
     }
-
     this.gatherData();
     this.setProfile();
     this.timeMapRefresh = setInterval(this.updateMapCenter, 500);
@@ -235,16 +232,13 @@ export default {
       };
       this.map.setCenter(initialPos);
       this.google.maps.event.trigger(this.map, 'resize');
-
       if(this.marker) {
         if(Math.abs(this.lat - initialPos.lat) > Number.EPSILON ||
           Math.abs(this.lng - initialPos.lng) > Number.EPSILON) {
           this.marker.setMap(null);
           this.lat = initialPos.lat;
           this.lng = initialPos.lng;
-
           let icon = this.getIcon(this.character);
-
           this.marker = new this.google.maps.Marker({
             position: {
               lat: initialPos.lat,
@@ -457,7 +451,6 @@ export default {
         });
         this.skillEnable = false;
         this.skillSrc = this.skillBw;
-
         this.cooldownSeconds = 60;
         this.cooldownTimer = setInterval(() => {
           this.tickDown();
@@ -513,7 +506,6 @@ export default {
     },
     playSiren(duration) {
       this.siren.play();
-
       setTimeout(() => {
         this.siren.pause();
         this.siren.currentTime = 0;
@@ -522,7 +514,6 @@ export default {
     spillBeer(duration) {
       this.beerSpilt = true;
       this.beerSrc = require("./../../assets/img/items/beer.gif") + '?' + Math.random();
-
       setTimeout(() => {
         this.beerSpilt = false;
       }, duration*1000);
@@ -539,7 +530,6 @@ export default {
           icon: this.getIcon(playerList[i].character),
         });
       }
-
       setTimeout(() => {
         let item = null;
         while (this.markerIntel.length !== 0) {
@@ -564,7 +554,6 @@ export default {
 <style lang="scss" scoped>
 @import 'src/assets/css/style.scss';
 $darkbrown: rgb(102, 10, 10);
-
 #death {
   background: rgba(105, 0, 0, 0.507);
   height: 100vh;
@@ -573,7 +562,6 @@ $darkbrown: rgb(102, 10, 10);
   z-index: 999;
   color: white;
   text-align: center;
-
   h1 {
     margin-top: 40vh;
     margin-bottom: 2vh;
@@ -584,20 +572,17 @@ $darkbrown: rgb(102, 10, 10);
     line-height: 3.2vh;
   }
 }
-
 #beer-spill {
   background: rgba(orange, 0.507);
   height: 100vh;
   width: 100vw;
   position: absolute;
   z-index: 1000;
-
   img {
     width: 100%;
     height: 100%;
   }
 }
-
 #gameplay {
   margin: 0;
   padding: 0;
@@ -605,21 +590,18 @@ $darkbrown: rgb(102, 10, 10);
   height: 100vh;
   width: 100vw;
 }
-
 #game__skill {
   position: absolute;
   z-index: 999;
   height: 100vh;
   width: 100vw;
   // background-color: red;
-
   h2, h1 {
     text-align: center;
     margin: 0;
     padding: 0;
   }
 }
-
 #overlay {
   position: absolute;
   top: calc(50vh - 18vh);
@@ -630,18 +612,15 @@ $darkbrown: rgb(102, 10, 10);
   background: rgba(255, 0, 0, 0);
   border-radius: 100vh;
 }
-
 #gamescreen {
   position: absolute;
   padding: 1rem;
   z-index: 99;
   height: calc(100%-1rem);
   width: calc(100%-1rem);
-
   h1, h2 {
     margin: 0;
   }
-
   #gamescreen__top {
     display: flex;
     flex-direction: row;
@@ -661,11 +640,9 @@ $darkbrown: rgb(102, 10, 10);
         font-size: 4vw;
       }
     }
-
     >div:last-child {
       flex: 1 0 0;
       text-align: right;
-
       img {
         margin-top: 4vw;
         margin-left: 5vw;
@@ -674,38 +651,31 @@ $darkbrown: rgb(102, 10, 10);
       }
     }
   }
-
   #gamescreen__bottom {
     display: flex;
     position: fixed;
     bottom: 2rem;
     width: 100%;
-
     #name-container {
       position: relative;
       left: 0;
-
       #profile__lv, #profile__uname {
         color: rgb(112, 60, 0);
         // outline: solid 1px rgb(173, 173, 173);
       }
-
       .profile__avatar-container {
         border-radius: 1000px;
         width: 17vw;
         height: 17vw;
         overflow: hidden;
         background: $darkbrown;
-
         img {
           width: 100%;
         }
-
         #profile__lv {
           font-size: 3vw;
         }      
       }
-
       .profile__uname-container {
         position: absolute;
         bottom: -1rem;
@@ -716,18 +686,12 @@ $darkbrown: rgb(102, 10, 10);
         margin: 0.75rem 0;
         min-width: 17vw;
         box-shadow: 0 0 0 3px brown, 0 3px 1px 2px #00000022;
-
         #profile__uname {
           color: white;
           font-size: 4.5vw;
         }        
       }
     }
-
-
-
-
-
     #switch-button {
       cursor: pointer;
       background-color: grey;
@@ -738,7 +702,6 @@ $darkbrown: rgb(102, 10, 10);
       color: white;
       border-radius: 10px;
     }
-
     #inventory-button {
       cursor: normal;
       border-style: none;
@@ -756,7 +719,6 @@ $darkbrown: rgb(102, 10, 10);
       justify-content: center;
       align-items: center;
     }
-
     #cooldown {
       color: white;
       font-size: 2rem;
@@ -764,7 +726,6 @@ $darkbrown: rgb(102, 10, 10);
       text-shadow: 2px 2px 5px rgba(0,0,0,0.47);
     }
   }
-
   #gamescreen__catch {
     width: calc(100% - 4rem);
     display: flex;
@@ -773,7 +734,6 @@ $darkbrown: rgb(102, 10, 10);
     justify-content: center;
     position: fixed;
     bottom: 10rem;
-
     button {
       width: 100%;
       background-color: rgb(39, 39, 39);
@@ -790,7 +750,6 @@ $darkbrown: rgb(102, 10, 10);
     }
   }
 }
-
 #map {
   height: 100%;
   width: 100%;

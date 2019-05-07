@@ -32,5 +32,6 @@ button {
   border-radius: 2vh;
   margin-top: 1rem;
   margin-bottom: 1rem;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.47);
 }
 </style>
