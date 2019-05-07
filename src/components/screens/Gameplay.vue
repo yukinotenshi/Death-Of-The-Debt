@@ -40,9 +40,14 @@
       </div>
       <div id="gamescreen__bottom">
         <div id="name-container">
-          <h1 id="profile__lv">Lv.{{profile.level}}</h1>
-          <h1 id="profile__lv">{{character}}</h1>
-          <h1 id="profile__uname">{{profile.username}}</h1>
+          <div class="profile__avatar-container">
+            <img :src="avatarSrc"/>
+<!--             <h1 id="profile__lv">Lv.{{profile.level}}</h1>
+            <h1 id="profile__lv">{{character}}</h1>  -->           
+          </div>
+          <div class="profile__uname-container">
+            <h1 id="profile__uname">{{profile.username}}</h1>
+          </div>
         </div>
         <div
           id="inventory-button"
@@ -94,6 +99,7 @@ export default {
     this.timeEndGame = setInterval(this.getEndGame, 500);
     this.siren = new Audio(require('./../../assets/audio/siren.wav'));
     this.setSkillIcon(this.character);
+    this.setAvatar(this.character);
     this.skillSrc = this.skillColor;
   },
   data() {
@@ -143,6 +149,7 @@ export default {
       skillEnable: true,
       cooldownTimer: null,
       cooldownSeconds: 0,
+      avatarSrc: "",
     }
   },
   methods: {
@@ -169,6 +176,20 @@ export default {
     },
     updateMapCenter() {
       navigator.geolocation.getCurrentPosition(this.geoSuccess, console.log, {maximumAge:10000, timeout:10000, enableHighAccuracy:true});
+    },
+    setAvatar(character) {
+      if(character === 'Police') {
+        this.avatarSrc = require("./../../assets/img/chara/pose/chasing1.png");
+      }
+      else if (character === 'Debt Collector') {
+        this.avatarSrc = require("./../../assets/img/chara/pose/chasing2.png");
+      }
+      else if (character === 'Drunk') {
+        this.avatarSrc = require("./../../assets/img/chara/pose/hiding2.png");
+      }
+      else if (character === 'Trickster') {
+        this.avatarSrc = require("./../../assets/img/chara/pose/hiding1.png");
+      }
     },
     setSkillIcon(character) {
       if(character === 'Police') {
@@ -522,6 +543,7 @@ export default {
 
 <style lang="scss" scoped>
 @import 'src/assets/css/style.scss';
+$darkbrown: rgb(102, 10, 10);
 
 #death {
   background: rgba(105, 0, 0, 0.507);
@@ -642,15 +664,44 @@ export default {
     #name-container {
       position: relative;
       left: 0;
+
       #profile__lv, #profile__uname {
         color: rgb(112, 60, 0);
         // outline: solid 1px rgb(173, 173, 173);
       }
-      #profile__lv {
-        font-size: 5vw;
-      }  
-      #profile__uname {
-        font-size: 6.5vw;
+
+      .profile__avatar-container {
+        border-radius: 1000px;
+        width: 17vw;
+        height: 17vw;
+        overflow: hidden;
+        background: $darkbrown;
+
+        img {
+          max-height: 150%;
+          max-width: 150%;
+        }
+
+        #profile__lv {
+          font-size: 3vw;
+        }      
+      }
+
+      .profile__uname-container {
+        position: absolute;
+        bottom: -1rem;
+        padding: 0 0.5rem;
+        border-radius: 10px;
+        border: 1px dashed $darkbrown;
+        background: brown;
+        margin: 0.75rem 0;
+        min-width: 17vw;
+        box-shadow: 0 0 0 3px brown, 0 3px 1px 2px #00000022;
+
+        #profile__uname {
+          color: white;
+          font-size: 4.5vw;
+        }        
       }
     }
 
