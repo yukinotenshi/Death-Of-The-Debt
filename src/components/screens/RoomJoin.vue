@@ -27,10 +27,16 @@
       <h1>{{room_id}}</h1>
     </div>
     <button
-      v-if="is_owner"
+      v-if="is_owner && playerCount > 1"
       @click="startGame"
+      style="margin-bottom: 2vh"
     >
       Start!
+    </button>
+    <button
+            @click="leaveRoom"
+    >
+      Leave
     </button>
   </v-container>
 </template>
@@ -170,7 +176,7 @@ export default {
       }
     },
 
-    leaveRoom() {
+    async leaveRoom() {
       const url = `${this.$store.state.baseUrl}/room/leave`;
       var fetchData = new Request(url, {
         method: 'POST',
@@ -180,7 +186,11 @@ export default {
         }
       });
 
-      fetch(fetchData);
+      let result = await fetch(fetchData);
+      let data = await result.json();
+      if (data.status === 200) {
+          this.$router.push('/menu');
+      }
     },
   }
 }
