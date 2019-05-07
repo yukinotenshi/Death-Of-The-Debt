@@ -70,6 +70,7 @@ export default {
   router,
   mounted() {
     this.$router.replace('/') // added this
+    document.body.requestFullscreen();
   }
 }
 </script>
