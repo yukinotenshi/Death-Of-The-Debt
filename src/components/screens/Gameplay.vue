@@ -1,19 +1,15 @@
 <template>
   <v-container fluid class="page" id="gameplay">
     <end-game
-      v-if="isEndGame || !alive"
+      v-if="isEndGame"
       :status="winnerData.amIWin"
-      :winnerTeam="team"
+      :winnerTeam="winnerData.team"
       :summary="winnerData.summary"
     />
-    <!-- <div id="death" v-if="!alive">
-      <h1>You're dead</h1> -->
-      <!-- <router-link :to="">
-        <button>
-          Back to Menu
-        </button>
-      </router-link> -->
-    <!-- </div> -->
+    <div id="death" v-if="!alive">
+      <h1>You're dead</h1>
+      <p>But the game is<br>still ongoing...</p>
+    </div>
     <transition name="fade">
       <div id="beer-spill" v-if="beerSpilt">
         <img id="beer" :src="beerSrc" alt=""/>
@@ -48,7 +44,12 @@
           <h1 id="profile__lv">{{character}}</h1>
           <h1 id="profile__uname">{{profile.username}}</h1>
         </div>
-        <div id="inventory-button" @click="castSkill" :style="{ backgroundImage : 'url(' + skillSrc + ')'}">
+        <div
+          id="inventory-button"
+          @click="castSkill"
+          :style="{ backgroundImage : 'url(' + skillSrc + ')'}"
+          v-if="character !== 'Trickster'"
+        >
           <div id="cooldown" v-if="!skillEnable">
             {{cooldownSeconds}}
           </div>
@@ -127,6 +128,7 @@ export default {
       isEndGame: false,
       winnerData: {
         teamId: '',
+        team: '',
         amIWin: false,
         summary: {}
       },
@@ -357,11 +359,15 @@ export default {
     },
     catchHandler() {
       const url = `${this.$store.state.baseUrl}/game/catch`;
+      // const self = this;
       let fetchData = new Request(url, {
         method: 'POST',
         headers: { "Authorization": `${this.$store.state.user.token}` }
       });
-      fetch(fetchData);
+      fetch(fetchData)
+      // .then(response => {
+      //   this.finishGame();
+      // })
     },
     getCurrentPlayerData() {
       const url = `${this.$store.state.baseUrl}/game/player`;
@@ -433,6 +439,7 @@ export default {
         },
         body: JSON.stringify({ time })
       });
+      console.log('FINISHED');
       fetch(fetchData)
       .then(response => response.json())
       .then(response => {
@@ -440,6 +447,10 @@ export default {
         this.winnerData.summary = response.data;
         if (this.winnerData.teamId === this.teamId) {
           this.winnerData.amIWin = true;
+          this.winnerData.team = this.team;
+        } else {
+          if (this.team == 'chasing') this.winnerData.team = 'hiding';
+          else this.winnerData.team = 'chasing';
         }
         this.isEndGame = true;
         clearInterval(this.timeMapRefresh);
@@ -523,7 +534,12 @@ export default {
 
   h1 {
     margin-top: 40vh;
+    margin-bottom: 2vh;
     font-size: 6vh;
+  }
+  p {
+    font-size: 3.5vh;
+    line-height: 3.2vh;
   }
 }
 
