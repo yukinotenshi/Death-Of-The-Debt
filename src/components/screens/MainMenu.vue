@@ -88,6 +88,7 @@ $yellow: #D2B24F;
   align-items: center;
   justify-content: center;
   height: 100vh;
+  width: 100vw;
 
   background: url('./../../assets/img/backgrounds/blue.jpg');
   background-size: cover;

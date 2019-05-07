@@ -191,7 +191,9 @@ $darkbrown: rgb(102, 10, 10);
 #roomjoin {
   padding: 3vh;
   height: 100vh;
+  width: 100vw;
   overflow: auto;
+  box-sizing: border-box;
 
   background: url('./../../assets/img/backgrounds/blue.jpg');
   background-size: cover;

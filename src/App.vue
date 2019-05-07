@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
-    <router-view />
+    <transition name="fade">
+      <router-view class="router" />
+    </transition>
   </div>
 </template>
 
@@ -90,5 +92,9 @@ html, body {
   font-family: 'Itim', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.router {
+  position: fixed;
 }
 </style>
