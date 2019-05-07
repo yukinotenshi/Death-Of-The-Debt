@@ -302,24 +302,24 @@ export default {
       if (this.markerEnemy) {
         this.markerEnemy.setMap(null);
       }
-      switch(object.data.intensity) {
-        case 0:
+      switch(object.data.intensity.toString()) {
+        case '0':
           document.getElementById("overlay").style.backgroundColor = "#00FF0055";
           this.catchMode = false;
           break;
-        case 0.2:
+        case '0.2':
           document.getElementById("overlay").style.backgroundColor = "#FFFF0055";
           this.catchMode = false;
           break;
-        case 0.5:
+        case '0.5':
           document.getElementById("overlay").style.backgroundColor = "#FF880055";
           this.catchMode = false;
           break;
-        case 0.8:
+        case '0.8':
           document.getElementById("overlay").style.backgroundColor = "#CC000055";
           this.catchMode = false;
           break;
-        case 1:
+        case '1':
           document.getElementById("overlay").style.backgroundColor = "#FF000077";
           this.catchMode = true;
           this.markerEnemy = new this.google.maps.Marker({
@@ -328,6 +328,7 @@ export default {
               lng: object.data.player.lng,
             },
             map: this.map,
+            icon: this.getIcon(object.data.player.character)
           });
       }
     },
@@ -386,9 +387,9 @@ export default {
         headers: { "Authorization": `${this.$store.state.user.token}` }
       });
       fetch(fetchData)
-      // .then(response => {
-      //   this.finishGame();
-      // })
+       //.then(response => {
+       //  this.finishGame();
+       //})
     },
     getCurrentPlayerData() {
       const url = `${this.$store.state.baseUrl}/game/player`;
@@ -416,6 +417,11 @@ export default {
       .then(response => {
         if (response.status === 200) {
           this.winnerData.teamId = response.data.winner;
+          if (this.team === 'chasing' && this.winnerData.teamId === this.teamId) {
+              this.finishGame();
+          } else if (this.team !== 'chasing' && this.winnerData.teamId !== this.teamId) {
+              this.finishGame();
+          }
           console.log(response.data);
         }
       })
@@ -460,12 +466,14 @@ export default {
         },
         body: JSON.stringify({ time })
       });
+      console.log(time);
       console.log('FINISHED');
       fetch(fetchData)
       .then(response => response.json())
       .then(response => {
         console.log(response);
         this.winnerData.summary = response.data;
+        console.log(this.winnerData);
         if (this.winnerData.teamId === this.teamId) {
           this.winnerData.amIWin = true;
           this.winnerData.team = this.team;
