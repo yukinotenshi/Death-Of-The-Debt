@@ -70,6 +70,7 @@ export default {
   },
   methods: {
     togglePlayOptions() {
+      document.body.requestFullscreen();
       this.playOptions = !this.playOptions;
     },
     toggleOptions() {
