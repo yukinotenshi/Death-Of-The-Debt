@@ -56,10 +56,10 @@ export default {
     return {
       isLoading: true,
       enablePanel: false,
-      maxLoadingSecond: 1,
+      maxLoadingSecond: 5,
       incLoadingSecond: 0.01,
       loadingSecond: 0,
-      second: 1,
+      second: 5,
       status: '',
       username: '',
       team: [],

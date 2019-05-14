@@ -101,7 +101,8 @@ export default {
     }
     this.gatherData();
     this.setProfile();
-    this.timeMapRefresh = setInterval(this.updateMapCenter, 500);
+    //this.timeMapRefresh = setInterval(this.updateMapCenter, 1000);
+    this.updateMapCenter();
     this.timeRequest = setInterval(this.requestData, 500);
     this.timePlayerData = setInterval(this.getCurrentPlayerData, 500);
     this.timeEndGame = setInterval(this.getEndGame, 500);
@@ -184,7 +185,8 @@ export default {
       this.isInventoryOpen = false;
     },
     updateMapCenter() {
-      navigator.geolocation.getCurrentPosition(this.geoSuccess, console.log, {maximumAge:10000, timeout:10000, enableHighAccuracy:true});
+      //navigator.geolocation.getCurrentPosition(this.geoSuccess, console.log, {maximumAge:5000, timeout:5000, enableHighAccuracy:true});
+      navigator.geolocation.watchPosition(this.geoSuccess, console.log, {maximumAge:0, timeout:5000, enableHighAccuracy:false});
     },
     setAvatar(character) {
       if(character === 'Police') {
@@ -232,13 +234,14 @@ export default {
       };
       this.map.setCenter(initialPos);
       this.google.maps.event.trigger(this.map, 'resize');
+      let icon = this.getIcon(this.character);
+
       if(this.marker) {
         if(Math.abs(this.lat - initialPos.lat) > Number.EPSILON ||
           Math.abs(this.lng - initialPos.lng) > Number.EPSILON) {
           this.marker.setMap(null);
           this.lat = initialPos.lat;
           this.lng = initialPos.lng;
-          let icon = this.getIcon(this.character);
           this.marker = new this.google.maps.Marker({
             position: {
               lat: initialPos.lat,
@@ -254,6 +257,7 @@ export default {
             lat: initialPos.lat,
             lng: initialPos.lng,
           },
+          icon: icon,
           map: this.map,
         });
       }
@@ -487,10 +491,11 @@ export default {
           else this.winnerData.team = 'chasing';
         }
         this.isEndGame = true;
-        clearInterval(this.timeMapRefresh);
+        //clearInterval(this.timeMapRefresh);
         clearInterval(this.timeRequest);
         clearInterval(this.timePlayerData);
         clearInterval(this.timeEndGame);
+        clearInterval(this.timeVibration);
       })
     },
     skillHandler(activeSkill) {

@@ -10,8 +10,8 @@ export default {
   data() {
     return {
       timer: '',
-      minute: 0,
-      second: 3,
+      minute: 10,
+      second: 0,
       text: '',
       elapsed: 0,
     }
